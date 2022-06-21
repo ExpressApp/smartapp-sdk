@@ -1,0 +1,33 @@
+stages:
+  - linter
+  - publish
+
+default:
+  cache:
+    paths:
+      - node_modules
+  image: node:14
+  tags:
+    - docker
+    - web_client
+
+linter:
+  stage: linter
+  before_script:
+    - |
+      eval `ssh-agent -s` > /dev/null
+      chmod 600 ${SSH_PRIVATE_KEY}
+      ssh-add ${SSH_PRIVATE_KEY}
+      mkdir -p ~/.ssh
+      echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+  script:
+    - npm install
+    - npm run test:lint
+
+publish:
+  stage: publish
+  when: manual
+  script:
+    - npm config set -- '//gitlab.ccsteam.ru/api/v4/projects/621/packages/npm/:_authToken' "$CI_JOB_TOKEN"
+    - npm run-script build
+    - npm publish

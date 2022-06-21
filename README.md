@@ -1,1 +1,2 @@
-# smartapp-sdk
+# Smartapp Sdk
+

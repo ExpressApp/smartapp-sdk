@@ -1,0 +1,10 @@
+import bridge from '@unlimited/smartapp-bridge';
+import { EVENT_TYPES } from '../types';
+const bridgeSendReady = async () => {
+    return bridge?.sendClientEvent({
+        method: EVENT_TYPES.READY,
+        params: {},
+    });
+};
+export { bridgeSendReady };
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi9zcmMvbGliL2luZGV4LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLE9BQU8sTUFBTSxNQUFNLDRCQUE0QixDQUFBO0FBQy9DLE9BQU8sRUFBRSxXQUFXLEVBQUUsTUFBTSxVQUFVLENBQUE7QUFFdEMsTUFBTSxlQUFlLEdBQUcsS0FBSyxJQUFJLEVBQUU7SUFDakMsT0FBTyxNQUFNLEVBQUUsZUFBZSxDQUFDO1FBQzdCLE1BQU0sRUFBRSxXQUFXLENBQUMsS0FBSztRQUN6QixNQUFNLEVBQUUsRUFBRTtLQUNYLENBQUMsQ0FBQTtBQUNKLENBQUMsQ0FBQTtBQUVELE9BQU8sRUFDTCxlQUFlLEVBQ2hCLENBQUEifQ==
