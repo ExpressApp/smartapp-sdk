@@ -1,11 +1,12 @@
 import bridge from '@unlimited/smartapp-bridge'
 import { EVENT_TYPES } from '../types'
 
-const bridgeSendReady = async () => {
-  return bridge?.sendClientEvent({
+const bridgeSendReady = async ({ timeout }: { timeout?: number }) => {
+  const event = {
     method: EVENT_TYPES.READY,
     params: {},
-  })
+  }
+  return bridge?.sendClientEvent(timeout ? { ...event, timeout } : event)
 }
 
 export {

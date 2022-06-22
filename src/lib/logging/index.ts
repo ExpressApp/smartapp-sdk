@@ -1,16 +1,20 @@
 import bridge from '@unlimited/smartapp-bridge'
 import { bridgeSendReady } from '../index'
 
-const ready: () => Promise<boolean> = async () => {
-  const response = await bridgeSendReady() as unknown as {
-    payload: {
-      logsEnabled: boolean
-    }
+// TODO remove when logsEnabled and enableLogs are in Bridge
+type BridgeResponse = {
+  payload: {
+    logsEnabled: boolean
   }
-  const Bridge = bridge as unknown as {
-    enableLogs: Function
-  }
-  // TODO fix when enableLogs is present in bridge
+}
+
+type Bridge = {
+  enableLogs: Function
+}
+
+const ready: ({ timeout }: { timeout?: number }) => Promise<boolean> = async ({ timeout }) => {
+  const response = await bridgeSendReady({ timeout }) as unknown as BridgeResponse
+  const Bridge = bridge as unknown as Bridge
 
   const isLogsEnabled = response?.payload?.logsEnabled
 
