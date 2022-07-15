@@ -1,3 +1,4 @@
+import { SendMessage } from '../../types/contacts';
 declare const addContact: ({ phone, name }: {
     phone: string;
     name: string;
@@ -8,4 +9,5 @@ declare const getContact: ({ phone }: {
 declare const createPersonalChat: ({ huid }: {
     huid: string;
 }) => Promise<import("@unlimited/smartapp-bridge/build/main/types/eventEmitter").EmitterEventPayload | undefined>;
-export { addContact, getContact, createPersonalChat, };
+declare const sendMessage: ({ userHuid, groupChatId, messageBody, messageMeta }: SendMessage) => Promise<import("@unlimited/smartapp-bridge/build/main/types/eventEmitter").EmitterEventPayload> | undefined;
+export { addContact, getContact, createPersonalChat, sendMessage, };

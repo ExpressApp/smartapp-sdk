@@ -1040,6 +1040,7 @@
         EVENT_TYPES["ADD_CONTACT"] = "add_contact";
         EVENT_TYPES["GET_CONTACT"] = "get_contact";
         EVENT_TYPES["CREATE_PERSONAL_CHAT"] = "create_personal_chat";
+        EVENT_TYPES["SEND_MESSAGE"] = "send_message";
         EVENT_TYPES["NOTIFICATION"] = "notification";
     })(EVENT_TYPES || (EVENT_TYPES = {}));
 
@@ -1070,22 +1071,31 @@
             params: { huid },
         });
     };
-
-    const bridgeSendReady = async () => {
+    const sendMessage = ({ userHuid = null, groupChatId = null, messageBody = '', messageMeta = {} }) => {
         return bridge?.sendClientEvent({
-            method: EVENT_TYPES.READY,
-            params: {},
+            method: EVENT_TYPES.SEND_MESSAGE,
+            params: { userHuid, groupChatId, message: {
+                    body: messageBody,
+                    meta: messageMeta,
+                } },
         });
     };
 
-    const ready = async () => {
-        const response = await bridgeSendReady();
+    const bridgeSendReady = async (timeout) => {
+        const event = {
+            method: EVENT_TYPES.READY,
+            params: {},
+        };
+        return bridge?.sendClientEvent(timeout ? { ...event, timeout } : event);
+    };
+
+    const ready = async (timeout) => {
+        const response = await bridgeSendReady(timeout);
         const Bridge = bridge;
-        // TODO fix when enableLogs is present in bridge
         const isLogsEnabled = response?.payload?.logsEnabled;
         if (isLogsEnabled)
             Bridge?.enableLogs?.();
-        return new Promise(resolve => resolve(isLogsEnabled));
+        return response;
     };
 
     const onNotification = async (handleNotification) => {
@@ -1123,6 +1133,7 @@
     exports.onNotification = onNotification;
     exports.ready = ready;
     exports.routingChanged = routingChanged;
+    exports.sendMessage = sendMessage;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 

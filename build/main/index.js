@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.OfflinePluginRuntime = exports.onNotification = exports.createPersonalChat = exports.getContact = exports.addContact = exports.onBackPressed = exports.routingChanged = exports.ready = exports.Bridge = void 0;
+exports.OfflinePluginRuntime = exports.onNotification = exports.createPersonalChat = exports.sendMessage = exports.getContact = exports.addContact = exports.onBackPressed = exports.routingChanged = exports.ready = exports.Bridge = void 0;
 const smartapp_bridge_1 = __importDefault(require("@unlimited/smartapp-bridge"));
 exports.Bridge = smartapp_bridge_1.default;
 const OfflinePluginRuntime = __importStar(require("offline-plugin/runtime"));
@@ -35,6 +35,7 @@ const contacts_1 = require("./lib/contacts");
 Object.defineProperty(exports, "addContact", { enumerable: true, get: function () { return contacts_1.addContact; } });
 Object.defineProperty(exports, "createPersonalChat", { enumerable: true, get: function () { return contacts_1.createPersonalChat; } });
 Object.defineProperty(exports, "getContact", { enumerable: true, get: function () { return contacts_1.getContact; } });
+Object.defineProperty(exports, "sendMessage", { enumerable: true, get: function () { return contacts_1.sendMessage; } });
 const logging_1 = require("./lib/logging");
 Object.defineProperty(exports, "ready", { enumerable: true, get: function () { return logging_1.ready; } });
 const notification_1 = require("./lib/notification");
@@ -42,4 +43,4 @@ Object.defineProperty(exports, "onNotification", { enumerable: true, get: functi
 const routing_1 = require("./lib/routing");
 Object.defineProperty(exports, "onBackPressed", { enumerable: true, get: function () { return routing_1.onBackPressed; } });
 Object.defineProperty(exports, "routingChanged", { enumerable: true, get: function () { return routing_1.routingChanged; } });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi9zcmMvaW5kZXgudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQSxpRkFBK0M7QUFRN0MsaUJBUksseUJBQU0sQ0FRTDtBQVBSLDZFQUE4RDtBQWU1RCxvREFBb0I7QUFkdEIsNkNBQTJFO0FBVXpFLDJGQVZPLHFCQUFVLE9BVVA7QUFFVixtR0FabUIsNkJBQWtCLE9BWW5CO0FBRGxCLDJGQVh1QyxxQkFBVSxPQVd2QztBQVZaLDJDQUFxQztBQU1uQyxzRkFOTyxlQUFLLE9BTVA7QUFMUCxxREFBbUQ7QUFXakQsK0ZBWE8sNkJBQWMsT0FXUDtBQVZoQiwyQ0FBNkQ7QUFNM0QsOEZBTk8sdUJBQWEsT0FNUDtBQURiLCtGQUxzQix3QkFBYyxPQUt0QiJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi9zcmMvaW5kZXgudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQSxpRkFBK0M7QUFRN0MsaUJBUksseUJBQU0sQ0FRTDtBQVBSLDZFQUE4RDtBQWdCNUQsb0RBQW9CO0FBZnRCLDZDQUF3RjtBQVV0RiwyRkFWTyxxQkFBVSxPQVVQO0FBR1YsbUdBYm1CLDZCQUFrQixPQWFuQjtBQUZsQiwyRkFYdUMscUJBQVUsT0FXdkM7QUFDViw0RkFabUQsc0JBQVcsT0FZbkQ7QUFYYiwyQ0FBcUM7QUFNbkMsc0ZBTk8sZUFBSyxPQU1QO0FBTFAscURBQW1EO0FBWWpELCtGQVpPLDZCQUFjLE9BWVA7QUFYaEIsMkNBQTZEO0FBTTNELDhGQU5PLHVCQUFhLE9BTVA7QUFEYiwrRkFMc0Isd0JBQWMsT0FLdEIifQ==

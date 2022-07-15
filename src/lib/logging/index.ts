@@ -12,15 +12,14 @@ type Bridge = {
   enableLogs: Function
 }
 
-const ready: ({ timeout }: { timeout?: number }) => Promise<boolean> = async ({ timeout }) => {
-  const response = await bridgeSendReady({ timeout }) as unknown as BridgeResponse
+const ready = async (timeout?: number) => {
+  const response = await bridgeSendReady(timeout) as unknown as BridgeResponse
   const Bridge = bridge as unknown as Bridge
-
   const isLogsEnabled = response?.payload?.logsEnabled
 
   if (isLogsEnabled) Bridge?.enableLogs?.()
 
-  return new Promise(resolve => resolve(isLogsEnabled))
+  return response
 }
 
 export {
