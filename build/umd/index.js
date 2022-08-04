@@ -1081,6 +1081,11 @@
         });
     };
 
+    const useQuery = () => {
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        return Object.fromEntries(urlSearchParams.entries());
+    };
+
     const bridgeSendReady = async (timeout) => {
         const event = {
             method: EVENT_TYPES.READY,
@@ -1134,6 +1139,7 @@
     exports.ready = ready;
     exports.routingChanged = routingChanged;
     exports.sendMessage = sendMessage;
+    exports.useQuery = useQuery;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
