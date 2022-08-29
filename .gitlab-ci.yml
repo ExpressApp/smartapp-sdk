@@ -6,7 +6,7 @@ default:
   cache:
     paths:
       - node_modules
-  image: node:14
+  image: node:16
   tags:
     - docker
     - web_client
