@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ready = void 0;
-const smartapp_bridge_1 = __importDefault(require("@unlimited/smartapp-bridge"));
+const smartapp_bridge_1 = __importDefault(require("@expressms/smartapp-bridge"));
 const index_1 = require("../index");
 const ready = async (timeout) => {
     var _a, _b;

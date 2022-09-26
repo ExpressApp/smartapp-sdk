@@ -1,6 +1,6 @@
 {
-  "name": "@unlimited/smartapp-sdk",
-  "version": "1.0.4",
+  "name": "@expressms/smartapp-sdk",
+  "version": "1.0.5",
   "description": "Smartapp SDK",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -38,7 +38,7 @@
     "typescript": "^4.0.2"
   },
   "dependencies": {
-    "@unlimited/smartapp-bridge": "git+ssh://git@github.com:ExpressApp/smartapp-bridge.git",
+    "@expressms/smartapp-bridge": "^1.1.0",
     "webpack-manifest-plugin": "2.2.0",
     "workbox-cacheable-response": "^6.5.4",
     "workbox-expiration": "^6.5.4",

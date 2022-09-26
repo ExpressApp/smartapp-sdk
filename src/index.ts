@@ -1,9 +1,9 @@
-import Bridge from '@unlimited/smartapp-bridge'
+import Bridge from '@expressms/smartapp-bridge'
 import { addContact, createPersonalChat, getContact, sendMessage } from './lib/contacts'
 import { useQuery } from './lib/helpers/helpers'
 import { ready } from './lib/logging'
 import { onNotification } from './lib/notification'
-import { onBackPressed, routingChanged } from './lib/routing'
+import { exitSmartAppToCatalog, onBackPressed, openSmartApp, routingChanged } from './lib/routing'
 
 export {
   Bridge,
@@ -12,8 +12,10 @@ export {
   onBackPressed,
   addContact,
   getContact,
-  sendMessage,
   createPersonalChat,
   onNotification,
+  sendMessage,
+  openSmartApp,
+  exitSmartAppToCatalog,
   useQuery,
 }

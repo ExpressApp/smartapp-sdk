@@ -995,6 +995,9 @@
     var snakeCase_1 = snakeCase;
 
     /* eslint-disable @typescript-eslint/no-explicit-any */
+    const isUuid = (value) => {
+        return /[0-9a-fA-F-]{32}/.test(value);
+    };
     const snakeCaseToCamelCase = (data) => {
         if (Array.isArray(data))
             return data.map(snakeCaseToCamelCase);
@@ -1002,7 +1005,7 @@
             return data;
         return Object.keys(data).reduce((result, key) => {
             const value = snakeCaseToCamelCase(data[key]);
-            const keyValue = camelCase_1(key);
+            const keyValue = isUuid(key) ? key : camelCase_1(key);
             return { ...result, [keyValue]: value };
         }, {});
     };
@@ -1403,10 +1406,12 @@
         eventEmitter;
         hasCommunicationObject;
         logsEnabled;
+        isRenameParamsEnabled;
         constructor() {
             this.hasCommunicationObject = typeof window.express !== 'undefined' && !!window.express.handleSmartAppEvent;
             this.eventEmitter = new ExtendedEventEmitter();
             this.logsEnabled = false;
+            this.isRenameParamsEnabled = true;
             if (!this.hasCommunicationObject) {
                 log('No method "express.handleSmartAppEvent", cannot send message to Android');
                 return;
@@ -1421,11 +1426,13 @@
                     }, null, 2));
                 const { type, ...payload } = data;
                 const emitterType = ref || EVENT_TYPE.RECEIVE;
+                const eventFiles = this.isRenameParamsEnabled ?
+                    files?.map((file) => snakeCaseToCamelCase(file)) : files;
                 const event = {
                     ref,
                     type,
-                    payload: snakeCaseToCamelCase(payload),
-                    files: files?.map((file) => snakeCaseToCamelCase(file)),
+                    payload: this.isRenameParamsEnabled ? snakeCaseToCamelCase(payload) : payload,
+                    files: eventFiles,
                 };
                 this.eventEmitter.emit(emitterType, event);
             };
@@ -1454,10 +1461,12 @@
                 type: WEB_COMMAND_TYPE_RPC,
                 method,
                 handler,
-                payload: camelCaseToSnakeCase(params),
+                payload: this.isRenameParamsEnabled ? camelCaseToSnakeCase(params) : params,
                 guaranteed_delivery_required,
             };
-            const event = JSON.stringify(files ? { ...eventParams, files: files?.map((file) => camelCaseToSnakeCase(file)) } : eventParams);
+            const eventFiles = this.isRenameParamsEnabled ?
+                files?.map((file) => camelCaseToSnakeCase(file)) : files;
+            const event = JSON.stringify(files ? { ...eventParams, files: eventFiles } : eventParams);
             if (this.logsEnabled)
                 console.log('Bridge ~ Outgoing event', JSON.stringify(event, null, '  '));
             window.express.handleSmartAppEvent(event);
@@ -1541,12 +1550,35 @@
         disableLogs() {
             this.logsEnabled = false;
         }
+        /**
+         * Enabling renaming event params from camelCase to snake_case and vice versa
+         * ```js
+         * bridge
+         *    .enableRenameParams()
+         * ```
+         */
+        enableRenameParams() {
+            this.isRenameParamsEnabled = true;
+            console.log('Bridge ~ Enabled renaming event params from camelCase to snake_case and vice versa');
+        }
+        /**
+         * Enabling renaming event params from camelCase to snake_case and vice versa
+         * ```js
+         * bridge
+         *    .disableRenameParams()
+         * ```
+         */
+        disableRenameParams() {
+            this.isRenameParamsEnabled = false;
+            console.log('Bridge ~ Disabled renaming event params from camelCase to snake_case and vice versa');
+        }
     }
 
     class IosBridge {
         eventEmitter;
         hasCommunicationObject;
         logsEnabled;
+        isRenameParamsEnabled;
         constructor() {
             this.hasCommunicationObject =
                 window.webkit &&
@@ -1555,6 +1587,7 @@
                     !!window.webkit.messageHandlers.express.postMessage;
             this.eventEmitter = new ExtendedEventEmitter();
             this.logsEnabled = false;
+            this.isRenameParamsEnabled = true;
             if (!this.hasCommunicationObject) {
                 log('No method "express.postMessage", cannot send message to iOS');
                 return;
@@ -1569,11 +1602,13 @@
                     }, null, 2));
                 const { type, ...payload } = data;
                 const emitterType = ref || EVENT_TYPE.RECEIVE;
+                const eventFiles = this.isRenameParamsEnabled ?
+                    files?.map((file) => snakeCaseToCamelCase(file)) : files;
                 const event = {
                     ref,
                     type,
-                    payload: snakeCaseToCamelCase(payload),
-                    files: files?.map((file) => snakeCaseToCamelCase(file)),
+                    payload: this.isRenameParamsEnabled ? snakeCaseToCamelCase(payload) : payload,
+                    files: eventFiles,
                 };
                 this.eventEmitter.emit(emitterType, event);
             };
@@ -1602,10 +1637,12 @@
                 type: WEB_COMMAND_TYPE_RPC,
                 method,
                 handler,
-                payload: camelCaseToSnakeCase(params),
+                payload: this.isRenameParamsEnabled ? camelCaseToSnakeCase(params) : params,
                 guaranteed_delivery_required,
             };
-            const event = files ? { ...eventProps, files: files?.map((file) => camelCaseToSnakeCase(file)) } : eventProps;
+            const eventFiles = this.isRenameParamsEnabled ?
+                files?.map((file) => camelCaseToSnakeCase(file)) : files;
+            const event = files ? { ...eventProps, files: eventFiles } : eventProps;
             if (this.logsEnabled)
                 console.log('Bridge ~ Outgoing event', JSON.stringify(event, null, '  '));
             window.webkit.messageHandlers.express.postMessage(event);
@@ -1687,15 +1724,39 @@
         disableLogs() {
             this.logsEnabled = false;
         }
+        /**
+         * Enabling renaming event params from camelCase to snake_case and vice versa
+         * ```js
+         * bridge
+         *    .enableRenameParams()
+         * ```
+         */
+        enableRenameParams() {
+            this.isRenameParamsEnabled = true;
+            console.log('Bridge ~ Enabled renaming event params from camelCase to snake_case and vice versa');
+        }
+        /**
+         * Enabling renaming event params from camelCase to snake_case and vice versa
+         * ```js
+         * bridge
+         *    .disableRenameParams()
+         * ```
+         */
+        disableRenameParams() {
+            this.isRenameParamsEnabled = false;
+            console.log('Bridge ~ Disabled renaming event params from camelCase to snake_case and vice versa');
+        }
     }
 
     class WebBridge {
         eventEmitter;
         logsEnabled;
+        isRenameParamsEnabled;
         constructor() {
             this.eventEmitter = new ExtendedEventEmitter();
             this.addGlobalListener();
             this.logsEnabled = false;
+            this.isRenameParamsEnabled = true;
         }
         addGlobalListener() {
             window.addEventListener('message', (event) => {
@@ -1707,7 +1768,14 @@
                     console.log('Bridge ~ Incoming event', event.data);
                 const { ref, data: { type, ...payload }, files, } = event.data;
                 const emitterType = ref || EVENT_TYPE.RECEIVE;
-                this.eventEmitter.emit(emitterType, { ref, type, payload, files });
+                const eventFiles = this.isRenameParamsEnabled ?
+                    files?.map((file) => snakeCaseToCamelCase(file)) : files;
+                this.eventEmitter.emit(emitterType, {
+                    ref,
+                    type,
+                    payload: this.isRenameParamsEnabled ? snakeCaseToCamelCase(payload) : payload,
+                    files: eventFiles,
+                });
             });
         }
         /**
@@ -1727,8 +1795,17 @@
         }
         sendEvent({ handler, method, params, files, timeout = RESPONSE_TIMEOUT, guaranteed_delivery_required = false, }) {
             const ref = v4(); // UUID to detect express response.
-            const payload = { ref, type: WEB_COMMAND_TYPE_RPC, method, handler, payload: params, guaranteed_delivery_required };
-            const event = files ? { ...payload, files } : payload;
+            const payload = {
+                ref,
+                type: WEB_COMMAND_TYPE_RPC,
+                method,
+                handler,
+                payload: this.isRenameParamsEnabled ? camelCaseToSnakeCase(params) : params,
+                guaranteed_delivery_required,
+            };
+            const eventFiles = this.isRenameParamsEnabled ?
+                files?.map((file) => camelCaseToSnakeCase(file)) : files;
+            const event = files ? { ...payload, files: eventFiles } : payload;
             if (this.logsEnabled)
                 console.log('Bridge ~ Outgoing event', event);
             window.parent.postMessage({
@@ -1758,11 +1835,19 @@
          * @param method - Event type.
          * @param params
          * @param files
+         * @param is_rename_params_fields - boolean.
          * @param timeout - Timeout in ms.
          * @param guaranteed_delivery_required - boolean.
          */
-        sendBotEvent({ method, params, files, timeout, guaranteed_delivery_required }) {
-            return this.sendEvent({ handler: HANDLER.BOTX, method, params, files, timeout, guaranteed_delivery_required });
+        sendBotEvent({ method, params, files, timeout, guaranteed_delivery_required, }) {
+            return this.sendEvent({
+                handler: HANDLER.BOTX,
+                method,
+                params,
+                files,
+                timeout,
+                guaranteed_delivery_required,
+            });
         }
         /**
          * Send event and wait response from express client.
@@ -1819,9 +1904,31 @@
         disableLogs() {
             this.logsEnabled = false;
         }
+        /**
+         * Enabling renaming event params from camelCase to snake_case and vice versa
+         * ```js
+         * bridge
+         *    .enableRenameParams()
+         * ```
+         */
+        enableRenameParams() {
+            this.isRenameParamsEnabled = true;
+            console.log('Bridge ~ Enabled renaming event params from camelCase to snake_case and vice versa');
+        }
+        /**
+         * Enabling renaming event params from camelCase to snake_case and vice versa
+         * ```js
+         * bridge
+         *    .disableRenameParams()
+         * ```
+         */
+        disableRenameParams() {
+            this.isRenameParamsEnabled = false;
+            console.log('Bridge ~ Disabled renaming event params from camelCase to snake_case and vice versa');
+        }
     }
 
-    const LIB_VERSION = "1.0.7";
+    const LIB_VERSION = "1.1.0";
 
     const getBridge = () => {
         if (process.env.NODE_ENV === 'test')
@@ -1843,17 +1950,18 @@
     };
     var bridge = getBridge();
 
-    var EVENT_TYPES;
-    (function (EVENT_TYPES) {
-        EVENT_TYPES["READY"] = "ready";
-        EVENT_TYPES["ROUTING_CHANGED"] = "routing_changes";
-        EVENT_TYPES["BACK_PRESSED"] = "back_pressed";
-        EVENT_TYPES["ADD_CONTACT"] = "add_contact";
-        EVENT_TYPES["GET_CONTACT"] = "get_contact";
-        EVENT_TYPES["CREATE_PERSONAL_CHAT"] = "create_personal_chat";
-        EVENT_TYPES["SEND_MESSAGE"] = "send_message";
-        EVENT_TYPES["NOTIFICATION"] = "notification";
-    })(EVENT_TYPES || (EVENT_TYPES = {}));
+    var METHODS;
+    (function (METHODS) {
+        METHODS["READY"] = "ready";
+        METHODS["ROUTING_CHANGED"] = "routing_changes";
+        METHODS["BACK_PRESSED"] = "back_pressed";
+        METHODS["ADD_CONTACT"] = "add_contact";
+        METHODS["GET_CONTACT"] = "get_contact";
+        METHODS["CREATE_PERSONAL_CHAT"] = "create_personal_chat";
+        METHODS["SEND_MESSAGE"] = "send_message";
+        METHODS["NOTIFICATION"] = "notification";
+        METHODS["OPEN_SMART_APP"] = "open_smart_app";
+    })(METHODS || (METHODS = {}));
 
     var LOCATION;
     (function (LOCATION) {
@@ -1863,7 +1971,7 @@
 
     const addContact = async ({ phone, name }) => {
         return bridge?.sendClientEvent({
-            method: EVENT_TYPES.ADD_CONTACT,
+            method: METHODS.ADD_CONTACT,
             params: {
                 phone,
                 name,
@@ -1872,19 +1980,19 @@
     };
     const getContact = async ({ phone }) => {
         return bridge?.sendClientEvent({
-            method: EVENT_TYPES.GET_CONTACT,
+            method: METHODS.GET_CONTACT,
             params: { phone },
         });
     };
     const createPersonalChat = async ({ huid }) => {
         return bridge?.sendClientEvent({
-            method: EVENT_TYPES.CREATE_PERSONAL_CHAT,
+            method: METHODS.CREATE_PERSONAL_CHAT,
             params: { huid },
         });
     };
     const sendMessage = ({ userHuid = null, groupChatId = null, messageBody = '', messageMeta = {} }) => {
         return bridge?.sendClientEvent({
-            method: EVENT_TYPES.SEND_MESSAGE,
+            method: METHODS.SEND_MESSAGE,
             params: { userHuid, groupChatId, message: {
                     body: messageBody,
                     meta: messageMeta,
@@ -1899,7 +2007,7 @@
 
     const bridgeSendReady = async (timeout) => {
         const event = {
-            method: EVENT_TYPES.READY,
+            method: METHODS.READY,
             params: {},
         };
         return bridge?.sendClientEvent(timeout ? { ...event, timeout } : event);
@@ -1916,18 +2024,18 @@
 
     const onNotification = async (handleNotification) => {
         const response = await bridge?.sendClientEvent({
-            method: EVENT_TYPES.NOTIFICATION,
+            method: METHODS.NOTIFICATION,
             params: {},
         });
         return bridge?.onReceive((event) => {
-            if (event.type === EVENT_TYPES.NOTIFICATION)
+            if (event.type === METHODS.NOTIFICATION)
                 handleNotification(response);
         });
     };
 
     const routingChanged = async (isRoot) => {
         return bridge?.sendClientEvent({
-            method: EVENT_TYPES.ROUTING_CHANGED,
+            method: METHODS.ROUTING_CHANGED,
             params: {
                 location: isRoot ? LOCATION.ROOT : LOCATION.NESTED,
             },
@@ -1935,17 +2043,36 @@
     };
     const onBackPressed = async (handleBackPressed) => {
         return bridge?.onReceive((event) => {
-            if (event.type === EVENT_TYPES.BACK_PRESSED)
+            if (event.type === METHODS.BACK_PRESSED)
                 handleBackPressed();
+        });
+    };
+    const openSmartApp = async (appId, meta) => {
+        return bridge?.sendClientEvent({
+            method: METHODS.OPEN_SMART_APP,
+            params: {
+                appId,
+                meta,
+            }
+        });
+    };
+    const exitSmartAppToCatalog = async () => {
+        return bridge?.sendClientEvent({
+            method: METHODS.OPEN_SMART_APP,
+            params: {
+                appId: ''
+            }
         });
     };
 
     exports.Bridge = bridge;
     exports.addContact = addContact;
     exports.createPersonalChat = createPersonalChat;
+    exports.exitSmartAppToCatalog = exitSmartAppToCatalog;
     exports.getContact = getContact;
     exports.onBackPressed = onBackPressed;
     exports.onNotification = onNotification;
+    exports.openSmartApp = openSmartApp;
     exports.ready = ready;
     exports.routingChanged = routingChanged;
     exports.sendMessage = sendMessage;

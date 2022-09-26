@@ -1,9 +1,9 @@
-import bridge from '@unlimited/smartapp-bridge'
-import { EVENT_TYPES, LOCATION } from '../../types'
+import bridge from '@expressms/smartapp-bridge'
+import { LOCATION, METHODS } from '../../types'
 
 const routingChanged = async (isRoot: boolean) => {
   return bridge?.sendClientEvent({
-    method: EVENT_TYPES.ROUTING_CHANGED,
+    method: METHODS.ROUTING_CHANGED,
     params: {
       location: isRoot ? LOCATION.ROOT : LOCATION.NESTED,
     },
@@ -13,11 +13,32 @@ const routingChanged = async (isRoot: boolean) => {
 
 const onBackPressed = async (handleBackPressed: Function) => {
   return bridge?.onReceive((event) => {
-    if (event.type === EVENT_TYPES.BACK_PRESSED) handleBackPressed()
+    if (event.type === METHODS.BACK_PRESSED) handleBackPressed()
+  })
+}
+
+const openSmartApp = async (appId: string, meta?: never) => {
+  return bridge?.sendClientEvent({
+    method: METHODS.OPEN_SMART_APP,
+    params: {
+      appId,
+      meta,
+    }
+  })
+}
+
+const exitSmartAppToCatalog = async () => {
+  return bridge?.sendClientEvent({
+    method: METHODS.OPEN_SMART_APP,
+    params: {
+      appId: ''
+    }
   })
 }
 
 export {
   routingChanged,
   onBackPressed,
+  openSmartApp,
+  exitSmartAppToCatalog,
 }

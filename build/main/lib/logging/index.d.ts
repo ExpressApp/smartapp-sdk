@@ -3,5 +3,5 @@ declare type BridgeResponse = {
         logsEnabled: boolean;
     };
 };
-declare const ready: (timeout?: number | undefined) => Promise<BridgeResponse>;
+declare const ready: (timeout?: number) => Promise<BridgeResponse>;
 export { ready };
