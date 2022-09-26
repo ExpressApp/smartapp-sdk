@@ -1,4 +1,4 @@
-export enum EVENT_TYPES {
+export enum METHODS {
   READY = 'ready',
   ROUTING_CHANGED = 'routing_changes',
   BACK_PRESSED = 'back_pressed',
@@ -7,4 +7,5 @@ export enum EVENT_TYPES {
   CREATE_PERSONAL_CHAT = 'create_personal_chat',
   SEND_MESSAGE = 'send_message',
   NOTIFICATION = 'notification',
+  OPEN_SMART_APP = 'open_smart_app',
 }

@@ -1,4 +1,4 @@
-import bridge from '@unlimited/smartapp-bridge'
+import bridge from '@expressms/smartapp-bridge'
 import { bridgeSendReady } from '../index'
 
 // TODO remove when logsEnabled and enableLogs are in Bridge

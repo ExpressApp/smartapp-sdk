@@ -1,9 +1,9 @@
-import bridge from '@unlimited/smartapp-bridge'
-import { EVENT_TYPES } from '../types'
+import bridge from '@expressms/smartapp-bridge'
+import { METHODS } from '../types'
 
 const bridgeSendReady = async (timeout?: number) => {
   const event = {
-    method: EVENT_TYPES.READY,
+    method: METHODS.READY,
     params: {},
   }
   return bridge?.sendClientEvent(timeout ? { ...event, timeout } : event)

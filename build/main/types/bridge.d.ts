@@ -1,4 +1,4 @@
-export declare enum EVENT_TYPES {
+export declare enum METHODS {
     READY = "ready",
     ROUTING_CHANGED = "routing_changes",
     BACK_PRESSED = "back_pressed",
@@ -6,5 +6,6 @@ export declare enum EVENT_TYPES {
     GET_CONTACT = "get_contact",
     CREATE_PERSONAL_CHAT = "create_personal_chat",
     SEND_MESSAGE = "send_message",
-    NOTIFICATION = "notification"
+    NOTIFICATION = "notification",
+    OPEN_SMART_APP = "open_smart_app"
 }

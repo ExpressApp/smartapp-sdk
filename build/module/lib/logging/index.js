@@ -1,4 +1,4 @@
-import bridge from '@unlimited/smartapp-bridge';
+import bridge from '@expressms/smartapp-bridge';
 import { bridgeSendReady } from '../index';
 const ready = async (timeout) => {
     const response = await bridgeSendReady(timeout);
