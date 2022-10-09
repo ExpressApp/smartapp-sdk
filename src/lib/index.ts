@@ -1,7 +1,10 @@
-import bridge from '@expressms/smartapp-bridge'
-import { METHODS } from '../types'
+import bridge from "@expressms/smartapp-bridge"
+import { METHODS } from "../types"
 
-const bridgeSendReady = async (timeout?: number) => {
+/**
+ * @param timeout
+ */
+const bridgeSendReady = (timeout?: number) => {
   const event = {
     method: METHODS.READY,
     params: {},
@@ -10,5 +13,5 @@ const bridgeSendReady = async (timeout?: number) => {
 }
 
 export {
-  bridgeSendReady
+  bridgeSendReady,
 }
