@@ -1953,7 +1953,7 @@
     var METHODS;
     (function (METHODS) {
         METHODS["READY"] = "ready";
-        METHODS["ROUTING_CHANGED"] = "routing_changes";
+        METHODS["ROUTING_CHANGED"] = "routing_changed";
         METHODS["BACK_PRESSED"] = "back_pressed";
         METHODS["ADD_CONTACT"] = "add_contact";
         METHODS["GET_CONTACT"] = "get_contact";
@@ -1961,6 +1961,8 @@
         METHODS["SEND_MESSAGE"] = "send_message";
         METHODS["NOTIFICATION"] = "notification";
         METHODS["OPEN_SMART_APP"] = "open_smart_app";
+        METHODS["OPEN_CLIENT_SETTINGS"] = "open_client_settings";
+        METHODS["GET_CHATS"] = "get_chats";
     })(METHODS || (METHODS = {}));
 
     var LOCATION;
@@ -1969,7 +1971,27 @@
         LOCATION["NESTED"] = "nested";
     })(LOCATION || (LOCATION = {}));
 
-    const addContact = async ({ phone, name }) => {
+    const openClientSettings = () => {
+        return bridge?.sendClientEvent({
+            method: METHODS.OPEN_CLIENT_SETTINGS,
+            params: {},
+        });
+    };
+    /**
+     * @param filter
+     */
+    const getChats = ({ filter = null }) => {
+        return bridge?.sendClientEvent({
+            method: METHODS.GET_CHATS,
+            params: { filter },
+        });
+    };
+
+    /**
+     * @param phone
+     * @param name
+     */
+    const addContact = ({ phone, name }) => {
         return bridge?.sendClientEvent({
             method: METHODS.ADD_CONTACT,
             params: {
@@ -1978,25 +2000,41 @@
             },
         });
     };
+    /**
+     * @param phone
+     */
     const getContact = async ({ phone }) => {
         return bridge?.sendClientEvent({
             method: METHODS.GET_CONTACT,
             params: { phone },
         });
     };
-    const createPersonalChat = async ({ huid }) => {
+    /**
+     * @param huid
+     */
+    const createPersonalChat = ({ huid }) => {
         return bridge?.sendClientEvent({
             method: METHODS.CREATE_PERSONAL_CHAT,
             params: { huid },
         });
     };
-    const sendMessage = ({ userHuid = null, groupChatId = null, messageBody = '', messageMeta = {} }) => {
+    /**
+     * @param userHuid
+     * @param groupChatId
+     * @param messageBody
+     * @param messageMeta
+     */
+    const sendMessage = ({ userHuid = null, groupChatId = null, messageBody = "", messageMeta = {}, }) => {
         return bridge?.sendClientEvent({
             method: METHODS.SEND_MESSAGE,
-            params: { userHuid, groupChatId, message: {
+            params: {
+                userHuid,
+                groupChatId,
+                message: {
                     body: messageBody,
                     meta: messageMeta,
-                } },
+                },
+            },
         });
     };
 
@@ -2005,7 +2043,10 @@
         return Object.fromEntries(urlSearchParams.entries());
     };
 
-    const bridgeSendReady = async (timeout) => {
+    /**
+     * @param timeout
+     */
+    const bridgeSendReady = (timeout) => {
         const event = {
             method: METHODS.READY,
             params: {},
@@ -2013,6 +2054,9 @@
         return bridge?.sendClientEvent(timeout ? { ...event, timeout } : event);
     };
 
+    /**
+     * @param timeout
+     */
     const ready = async (timeout) => {
         const response = await bridgeSendReady(timeout);
         const Bridge = bridge;
@@ -2022,18 +2066,25 @@
         return response;
     };
 
+    /**
+     * @param handleNotification
+     */
     const onNotification = async (handleNotification) => {
         const response = await bridge?.sendClientEvent({
             method: METHODS.NOTIFICATION,
             params: {},
         });
         return bridge?.onReceive((event) => {
-            if (event.type === METHODS.NOTIFICATION)
+            if (event?.type === METHODS.NOTIFICATION) {
                 handleNotification(response);
+            }
         });
     };
 
-    const routingChanged = async (isRoot) => {
+    /**
+     * @param isRoot
+     */
+    const routingChanged = (isRoot) => {
         return bridge?.sendClientEvent({
             method: METHODS.ROUTING_CHANGED,
             params: {
@@ -2041,27 +2092,34 @@
             },
         });
     };
-    const onBackPressed = async (handleBackPressed) => {
+    /**
+     * @param handleBackPressed
+     */
+    const onBackPressed = (handleBackPressed) => {
         return bridge?.onReceive((event) => {
             if (event.type === METHODS.BACK_PRESSED)
                 handleBackPressed();
         });
     };
-    const openSmartApp = async (appId, meta) => {
+    /**
+     * @param appId
+     * @param meta
+     */
+    const openSmartApp = (appId, meta) => {
         return bridge?.sendClientEvent({
             method: METHODS.OPEN_SMART_APP,
             params: {
                 appId,
                 meta,
-            }
+            },
         });
     };
-    const exitSmartAppToCatalog = async () => {
+    const exitSmartAppToCatalog = () => {
         return bridge?.sendClientEvent({
             method: METHODS.OPEN_SMART_APP,
             params: {
-                appId: ''
-            }
+                appId: "",
+            },
         });
     };
 
@@ -2069,9 +2127,11 @@
     exports.addContact = addContact;
     exports.createPersonalChat = createPersonalChat;
     exports.exitSmartAppToCatalog = exitSmartAppToCatalog;
+    exports.getChats = getChats;
     exports.getContact = getContact;
     exports.onBackPressed = onBackPressed;
     exports.onNotification = onNotification;
+    exports.openClientSettings = openClientSettings;
     exports.openSmartApp = openSmartApp;
     exports.ready = ready;
     exports.routingChanged = routingChanged;

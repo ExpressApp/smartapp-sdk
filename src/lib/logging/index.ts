@@ -1,20 +1,12 @@
-import bridge from '@expressms/smartapp-bridge'
-import { bridgeSendReady } from '../index'
+import bridge from "@expressms/smartapp-bridge"
+import { bridgeSendReady } from "../index"
 
-// TODO remove when logsEnabled and enableLogs are in Bridge
-type BridgeResponse = {
-  payload: {
-    logsEnabled: boolean
-  }
-}
-
-type Bridge = {
-  enableLogs: Function
-}
-
+/**
+ * @param timeout
+ */
 const ready = async (timeout?: number) => {
-  const response = await bridgeSendReady(timeout) as unknown as BridgeResponse
-  const Bridge = bridge as unknown as Bridge
+  const response = await bridgeSendReady(timeout) as any
+  const Bridge = bridge as any
   const isLogsEnabled = response?.payload?.logsEnabled
 
   if (isLogsEnabled) Bridge?.enableLogs?.()
@@ -23,5 +15,5 @@ const ready = async (timeout?: number) => {
 }
 
 export {
-  ready
+  ready,
 }

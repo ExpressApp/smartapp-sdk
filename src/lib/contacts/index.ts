@@ -1,8 +1,14 @@
-import bridge from '@expressms/smartapp-bridge'
-import { METHODS } from '../../types'
-import { SendMessage } from '../../types/contacts'
+import bridge from "@expressms/smartapp-bridge"
+import { METHODS } from "../../types"
+import { SendMessageMethodParams } from "../../types/contacts"
 
-const addContact = async ({ phone, name }: { phone: string, name: string }) => {
+/**
+ * @param phone
+ * @param name
+ */
+const addContact = (
+  { phone, name }: { phone: string, name: string },
+) => {
   return bridge?.sendClientEvent({
     method: METHODS.ADD_CONTACT,
     params: {
@@ -12,6 +18,9 @@ const addContact = async ({ phone, name }: { phone: string, name: string }) => {
   })
 }
 
+/**
+ * @param phone
+ */
 const getContact = async ({ phone }: { phone: string }) => {
   return bridge?.sendClientEvent({
     method: METHODS.GET_CONTACT,
@@ -19,22 +28,38 @@ const getContact = async ({ phone }: { phone: string }) => {
   })
 }
 
-const createPersonalChat = async ({ huid }: { huid: string }) => {
+/**
+ * @param huid
+ */
+const createPersonalChat = ({ huid }: { huid: string }) => {
   return bridge?.sendClientEvent({
     method: METHODS.CREATE_PERSONAL_CHAT,
     params: { huid },
   })
 }
 
-const sendMessage = (
-  { userHuid = null, groupChatId = null, messageBody = '', messageMeta = {} }: SendMessage
-) => {
+/**
+ * @param userHuid
+ * @param groupChatId
+ * @param messageBody
+ * @param messageMeta
+ */
+const sendMessage = ({
+                       userHuid = null,
+                       groupChatId = null,
+                       messageBody = "",
+                       messageMeta = {},
+                     }: SendMessageMethodParams) => {
   return bridge?.sendClientEvent({
     method: METHODS.SEND_MESSAGE,
-    params: { userHuid, groupChatId, message: {
-      body: messageBody,
-      meta: messageMeta,
-    }},
+    params: {
+      userHuid,
+      groupChatId,
+      message: {
+        body: messageBody,
+        meta: messageMeta,
+      },
+    },
   })
 }
 
