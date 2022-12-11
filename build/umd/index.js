@@ -1963,6 +1963,7 @@
         METHODS["OPEN_SMART_APP"] = "open_smart_app";
         METHODS["OPEN_CLIENT_SETTINGS"] = "open_client_settings";
         METHODS["GET_CHATS"] = "get_chats";
+        METHODS["SEARCH_CORPORATE_PHONEBOOK"] = "search_corporate_phonebook";
     })(METHODS || (METHODS = {}));
 
     var LOCATION;
@@ -1983,6 +1984,12 @@
     const getChats = ({ filter = null }) => {
         return bridge?.sendClientEvent({
             method: METHODS.GET_CHATS,
+            params: { filter },
+        });
+    };
+    const searchCorporatePhonebook = ({ filter = null }) => {
+        return bridge?.sendClientEvent({
+            method: METHODS.SEARCH_CORPORATE_PHONEBOOK,
             params: { filter },
         });
     };
@@ -2135,6 +2142,7 @@
     exports.openSmartApp = openSmartApp;
     exports.ready = ready;
     exports.routingChanged = routingChanged;
+    exports.searchCorporatePhonebook = searchCorporatePhonebook;
     exports.sendMessage = sendMessage;
     exports.useQuery = useQuery;
 

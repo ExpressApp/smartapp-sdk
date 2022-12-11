@@ -44,12 +44,13 @@ const createPersonalChat = ({ huid }: { huid: string }) => {
  * @param messageBody
  * @param messageMeta
  */
-const sendMessage = ({
-                       userHuid = null,
-                       groupChatId = null,
-                       messageBody = "",
-                       messageMeta = {},
-                     }: SendMessageMethodParams) => {
+const sendMessage = (
+  {
+    userHuid = null,
+    groupChatId = null,
+    messageBody = "",
+    messageMeta = {},
+  }: SendMessageMethodParams) => {
   return bridge?.sendClientEvent({
     method: METHODS.SEND_MESSAGE,
     params: {

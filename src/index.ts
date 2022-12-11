@@ -1,5 +1,5 @@
 import Bridge from "@expressms/smartapp-bridge"
-import { getChats, openClientSettings } from "./lib/client"
+import { getChats, openClientSettings, searchCorporatePhonebook } from "./lib/client"
 import { addContact, createPersonalChat, getContact, sendMessage } from "./lib/contacts"
 import { useQuery } from "./lib/helpers/helpers"
 import { ready } from "./lib/logging"
@@ -21,4 +21,5 @@ export {
   useQuery,
   openClientSettings,
   getChats,
+  searchCorporatePhonebook,
 }

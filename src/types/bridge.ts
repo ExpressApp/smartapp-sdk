@@ -10,4 +10,5 @@ export enum METHODS {
   OPEN_SMART_APP = "open_smart_app",
   OPEN_CLIENT_SETTINGS = "open_client_settings",
   GET_CHATS = "get_chats",
+  SEARCH_CORPORATE_PHONEBOOK = "search_corporate_phonebook",
 }
