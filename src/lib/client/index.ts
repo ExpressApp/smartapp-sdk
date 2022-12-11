@@ -18,7 +18,15 @@ const getChats = ({ filter = null }: { filter: string | null }) => {
   })
 }
 
+const searchCorporatePhonebook = ({ filter = null }: { filter: string | null }) => {
+  return bridge?.sendClientEvent({
+    method: METHODS.SEARCH_CORPORATE_PHONEBOOK,
+    params: { filter },
+  })
+}
+
 export {
   openClientSettings,
   getChats,
+  searchCorporatePhonebook,
 }

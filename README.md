@@ -78,6 +78,8 @@ __Реализации клиентских методов SmartApp Bridge__
 
 - `getChats({ filter: string | null })` - запросить чаты;
 
+- `searchCorporatePhonebook({ filter: string | null })` - запросить результаты поиска по корпоративной phonebook и результат трастового поиска;
+
 __Метод onReceive__
 
 ```
@@ -234,6 +236,93 @@ __Запрос чатов__
       ],
     }
 }
+```
+
+__Запрос результатов поиска по корпоративной phonebook и результат трастового поиска__
+
+`const response = yield searchCorporatePhonebook({ filter }: { filter: string | null })`
+
+Метод отправляет клиенту запрос типа:
+
+```
+{
+    "ref": <string>,
+    "handler": "express",
+    "type": "search_corporate_phonebook",
+    "payload": {
+        "filter": <string|null>,
+    },
+    "files": []
+}
+```
+
+И получает ответ типа:
+
+```
+{
+    "ref": <string>,
+    "status": "success",
+    "data": {
+      "corp_phonebook_entries": [
+        {
+          "avatar": <string|null>,
+          "name": <string>,
+          "company": <string|null>,
+          "company_position": <string|null>,
+          "office": <string|null>,
+          "department": <string|null>,
+          "server_name": <string>,
+          "contacts": [
+            {
+              "active": <bool>,
+              "contact": <string>,
+              "contact_type": <string>,
+              "user_huid": <uuid>,
+              "user_kind": <string>,
+            }
+          ],
+        },
+      ],
+      "trust_search_entries": [
+        {
+          "avatar": <string|null>,
+          "name": <string>,
+          "company": <string|null>,
+          "company_position": <string|null>,
+          "office": <string|null>,
+          "department": <string|null>,
+          "server_name": <string>,
+          "contacts": [
+            {
+              "active": <bool>,
+              "contact": <string>,
+              "contact_type": <string>,
+              "user_huid": <uuid>,
+              "user_kind": <string>,
+            }
+          ],
+        },
+      ],
+    }
+}
+```
+
+Ответ клиента в случае ошибки:
+
+```
+  {
+    "ref": <string>,
+    "status": "error",
+    "error_code": <string>
+  }
+```
+
+Статус error и error_code отправляются в следующих случаях:
+
+```
+1. Таймаут одного из REST API, error_code = timeout
+2. Ошибка сервера 4xx, error_code = <reason из ответа сервера>
+3. Запрос менее 3х символов, error_code = filter_too_short
 ```
 
 __Кеширование статики с помощью WorkboxWebpackPlugin__
