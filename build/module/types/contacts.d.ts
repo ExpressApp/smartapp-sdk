@@ -1,4 +1,4 @@
-export declare type SendMessageMethodParams = ({
+export type SendMessageMethodParams = ({
     userHuid: string | null;
     groupChatId: string | null;
     messageBody: string;

@@ -17,7 +17,7 @@ const routingChanged = (isRoot: boolean) => {
  * @param handleBackPressed
  */
 const onBackPressed = (handleBackPressed: Function) => {
-  return bridge?.onReceive((event) => {
+  return bridge?.onReceive((event: any) => {
     if (event.type === METHODS.BACK_PRESSED) handleBackPressed()
   })
 }

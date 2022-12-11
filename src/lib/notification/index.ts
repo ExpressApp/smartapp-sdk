@@ -10,7 +10,7 @@ const onNotification = async (handleNotification: Function) => {
     params: {},
   })
 
-  return bridge?.onReceive((event) => {
+  return bridge?.onReceive((event: any) => {
     if (event?.type === METHODS.NOTIFICATION) {
       handleNotification(response)
     }
