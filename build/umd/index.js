@@ -1767,7 +1767,7 @@
                 if (getPlatform() === PLATFORM.WEB &&
                     event.data.handler === HANDLER.EXPRESS &&
                     this.isRenameParamsEnabled)
-                    this.disableRenameParams();
+                    this.isRenameParamsEnabled = false;
                 if (typeof event.data !== "object" ||
                     typeof event.data.data !== "object" ||
                     typeof event.data.data.type !== "string")
@@ -1785,7 +1785,7 @@
                     files: eventFiles,
                 });
                 if (isRenameParamsWasEnabled)
-                    this.enableRenameParams();
+                    this.isRenameParamsEnabled = true;
             });
         }
         /**
@@ -1945,7 +1945,7 @@
         }
     }
 
-    const LIB_VERSION = "1.1.4";
+    const LIB_VERSION = "1.1.5";
 
     const getBridge = () => {
         if (process.env.NODE_ENV === 'test')
