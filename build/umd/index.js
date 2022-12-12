@@ -1763,9 +1763,11 @@
         }
         addGlobalListener() {
             window.addEventListener("message", (event) => {
+                const isRenameParamsWasEnabled = this.isRenameParamsEnabled;
                 if (getPlatform() === PLATFORM.WEB &&
-                    event.data.handler === HANDLER.EXPRESS)
-                    this.isRenameParamsEnabled = false;
+                    event.data.handler === HANDLER.EXPRESS &&
+                    this.isRenameParamsEnabled)
+                    this.disableRenameParams();
                 if (typeof event.data !== "object" ||
                     typeof event.data.data !== "object" ||
                     typeof event.data.data.type !== "string")
@@ -1782,6 +1784,8 @@
                     payload: this.isRenameParamsEnabled ? snakeCaseToCamelCase(payload) : payload,
                     files: eventFiles,
                 });
+                if (isRenameParamsWasEnabled)
+                    this.enableRenameParams();
             });
         }
         /**
@@ -1800,9 +1804,11 @@
             this.eventEmitter.on(EVENT_TYPE.RECEIVE, callback);
         }
         sendEvent({ handler, method, params, files, timeout = RESPONSE_TIMEOUT, guaranteed_delivery_required = false, }) {
+            const isRenameParamsWasEnabled = this.isRenameParamsEnabled;
             if (getPlatform() === PLATFORM.WEB &&
-                handler === HANDLER.EXPRESS)
-                this.isRenameParamsEnabled = false;
+                handler === HANDLER.EXPRESS &&
+                this.isRenameParamsEnabled)
+                this.disableRenameParams();
             const ref = v4(); // UUID to detect express response.
             const payload = {
                 ref,
@@ -1821,7 +1827,8 @@
                 type: WEB_COMMAND_TYPE,
                 payload: event,
             }, "*");
-            this.isRenameParamsEnabled = true;
+            if (isRenameParamsWasEnabled)
+                this.enableRenameParams();
             return this.eventEmitter.onceWithTimeout(ref, timeout);
         }
         /**
@@ -1938,7 +1945,7 @@
         }
     }
 
-    const LIB_VERSION = "1.1.3";
+    const LIB_VERSION = "1.1.4";
 
     const getBridge = () => {
         if (process.env.NODE_ENV === 'test')
