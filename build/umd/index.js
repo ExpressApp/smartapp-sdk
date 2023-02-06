@@ -1981,6 +1981,7 @@
         METHODS["OPEN_CLIENT_SETTINGS"] = "open_client_settings";
         METHODS["GET_CHATS"] = "get_chats";
         METHODS["SEARCH_CORPORATE_PHONEBOOK"] = "search_corporate_phonebook";
+        METHODS["OPEN_CHAT"] = "open_chat";
     })(METHODS || (METHODS = {}));
 
     var LOCATION;
@@ -1995,9 +1996,6 @@
             params: {},
         });
     };
-    /**
-     * @param filter
-     */
     const getChats = ({ filter = null }) => {
         return bridge?.sendClientEvent({
             method: METHODS.GET_CHATS,
@@ -2010,11 +2008,13 @@
             params: { filter },
         });
     };
+    const openChat = ({ groupChatId }) => {
+        return bridge?.sendClientEvent({
+            method: METHODS.OPEN_CHAT,
+            params: { groupChatId },
+        });
+    };
 
-    /**
-     * @param phone
-     * @param name
-     */
     const addContact = ({ phone, name }) => {
         return bridge?.sendClientEvent({
             method: METHODS.ADD_CONTACT,
@@ -2024,30 +2024,18 @@
             },
         });
     };
-    /**
-     * @param phone
-     */
     const getContact = async ({ phone }) => {
         return bridge?.sendClientEvent({
             method: METHODS.GET_CONTACT,
             params: { phone },
         });
     };
-    /**
-     * @param huid
-     */
     const createPersonalChat = ({ huid }) => {
         return bridge?.sendClientEvent({
             method: METHODS.CREATE_PERSONAL_CHAT,
             params: { huid },
         });
     };
-    /**
-     * @param userHuid
-     * @param groupChatId
-     * @param messageBody
-     * @param messageMeta
-     */
     const sendMessage = ({ userHuid = null, groupChatId = null, messageBody = "", messageMeta = {}, }) => {
         return bridge?.sendClientEvent({
             method: METHODS.SEND_MESSAGE,
@@ -2155,6 +2143,7 @@
     exports.getContact = getContact;
     exports.onBackPressed = onBackPressed;
     exports.onNotification = onNotification;
+    exports.openChat = openChat;
     exports.openClientSettings = openClientSettings;
     exports.openSmartApp = openSmartApp;
     exports.ready = ready;

@@ -11,4 +11,5 @@ export enum METHODS {
   OPEN_CLIENT_SETTINGS = "open_client_settings",
   GET_CHATS = "get_chats",
   SEARCH_CORPORATE_PHONEBOOK = "search_corporate_phonebook",
+  OPEN_CHAT = 'open_chat',
 }

@@ -325,6 +325,36 @@ __Запрос результатов поиска по корпоративно
 3. Запрос менее 3х символов, error_code = filter_too_short
 ```
 
+__Открытие чата__
+
+```
+const response = yield openChat({ groupChatId: <uuid> })
+```
+
+Метод отправляет клиенту запрос типа:
+```
+{
+  "ref": <string>,
+  "handler": "express",
+  "type": "smartapp_rpc",
+  "method": "open_chat",
+  "payload": {
+    "group_chat_id": <uuid>,
+  },
+  "files": []
+}
+```
+
+И получает ответ типа:
+
+```
+{
+  "ref": <string>,
+  "status": "success|error",
+  "error_code"?: <string>
+}
+```
+
 __Кеширование статики с помощью WorkboxWebpackPlugin__
 
 Если приложение было создано с помощью `create-react-app`, добавляем строчку в `package.json`:
