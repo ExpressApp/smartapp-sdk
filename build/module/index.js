@@ -1,9 +1,9 @@
-import Bridge from "@expressms/smartapp-bridge";
-import { getChats, openClientSettings, searchCorporatePhonebook } from "./lib/client";
-import { addContact, createPersonalChat, getContact, sendMessage } from "./lib/contacts";
-import { useQuery } from "./lib/helpers/helpers";
-import { ready } from "./lib/logging";
-import { onNotification } from "./lib/notification";
-import { exitSmartAppToCatalog, onBackPressed, openSmartApp, routingChanged } from "./lib/routing";
-export { Bridge, ready, routingChanged, onBackPressed, addContact, getContact, createPersonalChat, onNotification, sendMessage, openSmartApp, exitSmartAppToCatalog, useQuery, openClientSettings, getChats, searchCorporatePhonebook, };
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi9zcmMvaW5kZXgudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsT0FBTyxNQUFNLE1BQU0sNEJBQTRCLENBQUE7QUFDL0MsT0FBTyxFQUFFLFFBQVEsRUFBRSxrQkFBa0IsRUFBRSx3QkFBd0IsRUFBRSxNQUFNLGNBQWMsQ0FBQTtBQUNyRixPQUFPLEVBQUUsVUFBVSxFQUFFLGtCQUFrQixFQUFFLFVBQVUsRUFBRSxXQUFXLEVBQUUsTUFBTSxnQkFBZ0IsQ0FBQTtBQUN4RixPQUFPLEVBQUUsUUFBUSxFQUFFLE1BQU0sdUJBQXVCLENBQUE7QUFDaEQsT0FBTyxFQUFFLEtBQUssRUFBRSxNQUFNLGVBQWUsQ0FBQTtBQUNyQyxPQUFPLEVBQUUsY0FBYyxFQUFFLE1BQU0sb0JBQW9CLENBQUE7QUFDbkQsT0FBTyxFQUFFLHFCQUFxQixFQUFFLGFBQWEsRUFBRSxZQUFZLEVBQUUsY0FBYyxFQUFFLE1BQU0sZUFBZSxDQUFBO0FBRWxHLE9BQU8sRUFDTCxNQUFNLEVBQ04sS0FBSyxFQUNMLGNBQWMsRUFDZCxhQUFhLEVBQ2IsVUFBVSxFQUNWLFVBQVUsRUFDVixrQkFBa0IsRUFDbEIsY0FBYyxFQUNkLFdBQVcsRUFDWCxZQUFZLEVBQ1oscUJBQXFCLEVBQ3JCLFFBQVEsRUFDUixrQkFBa0IsRUFDbEIsUUFBUSxFQUNSLHdCQUF3QixHQUN6QixDQUFBIn0=
+import Bridge from '@expressms/smartapp-bridge';
+import { getChats, openClientSettings, openGroupChat, searchCorporatePhonebook, sendBotCommand } from './lib/client';
+import { addContact, createPersonalChat, getContact, sendMessage } from './lib/contacts';
+import { useQuery } from './lib/helpers/helpers';
+import { ready } from './lib/logging';
+import { onNotification } from './lib/notification';
+import { exitSmartAppToCatalog, onBackPressed, openSmartApp, routingChanged } from './lib/routing';
+export { Bridge, ready, routingChanged, onBackPressed, addContact, getContact, createPersonalChat, onNotification, sendMessage, openSmartApp, exitSmartAppToCatalog, useQuery, openClientSettings, getChats, searchCorporatePhonebook, openGroupChat, sendBotCommand, };
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi9zcmMvaW5kZXgudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsT0FBTyxNQUFNLE1BQU0sNEJBQTRCLENBQUE7QUFDL0MsT0FBTyxFQUFFLFFBQVEsRUFBRSxrQkFBa0IsRUFBRSxhQUFhLEVBQUUsd0JBQXdCLEVBQUUsY0FBYyxFQUFFLE1BQU0sY0FBYyxDQUFBO0FBQ3BILE9BQU8sRUFBRSxVQUFVLEVBQUUsa0JBQWtCLEVBQUUsVUFBVSxFQUFFLFdBQVcsRUFBRSxNQUFNLGdCQUFnQixDQUFBO0FBQ3hGLE9BQU8sRUFBRSxRQUFRLEVBQUUsTUFBTSx1QkFBdUIsQ0FBQTtBQUNoRCxPQUFPLEVBQUUsS0FBSyxFQUFFLE1BQU0sZUFBZSxDQUFBO0FBQ3JDLE9BQU8sRUFBRSxjQUFjLEVBQUUsTUFBTSxvQkFBb0IsQ0FBQTtBQUNuRCxPQUFPLEVBQUUscUJBQXFCLEVBQUUsYUFBYSxFQUFFLFlBQVksRUFBRSxjQUFjLEVBQUUsTUFBTSxlQUFlLENBQUE7QUFFbEcsT0FBTyxFQUNMLE1BQU0sRUFDTixLQUFLLEVBQ0wsY0FBYyxFQUNkLGFBQWEsRUFDYixVQUFVLEVBQ1YsVUFBVSxFQUNWLGtCQUFrQixFQUNsQixjQUFjLEVBQ2QsV0FBVyxFQUNYLFlBQVksRUFDWixxQkFBcUIsRUFDckIsUUFBUSxFQUNSLGtCQUFrQixFQUNsQixRQUFRLEVBQ1Isd0JBQXdCLEVBQ3hCLGFBQWEsRUFDYixjQUFjLEdBQ2YsQ0FBQSJ9

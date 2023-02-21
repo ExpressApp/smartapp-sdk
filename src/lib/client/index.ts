@@ -1,5 +1,5 @@
-import bridge from "@expressms/smartapp-bridge"
-import { METHODS } from "../../types"
+import bridge from '@expressms/smartapp-bridge'
+import { METHODS } from '../../types'
 
 const openClientSettings = () => {
   return bridge?.sendClientEvent({
@@ -8,9 +8,6 @@ const openClientSettings = () => {
   })
 }
 
-/**
- * @param filter
- */
 const getChats = ({ filter = null }: { filter: string | null }) => {
   return bridge?.sendClientEvent({
     method: METHODS.GET_CHATS,
@@ -25,8 +22,32 @@ const searchCorporatePhonebook = ({ filter = null }: { filter: string | null }) 
   })
 }
 
+const openGroupChat = ({ groupChatId }: { groupChatId: string }) => {
+  return bridge?.sendClientEvent({
+    method: METHODS.OPEN_GROUP_CHAT,
+    params: { groupChatId },
+  })
+}
+
+const sendBotCommand = (
+  { userHuid, body, data }: { userHuid: string, body: string, data: string }
+) => {
+  return bridge?.sendClientEvent({
+    method: METHODS.SEND_BOT_COMMAND,
+    params: {
+      userHuid,
+      message: {
+        body,
+        data,
+      },
+    },
+  })
+}
+
 export {
   openClientSettings,
   getChats,
   searchCorporatePhonebook,
+  sendBotCommand,
+  openGroupChat,
 }

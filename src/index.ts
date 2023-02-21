@@ -1,10 +1,10 @@
-import Bridge from "@expressms/smartapp-bridge"
-import { getChats, openClientSettings, searchCorporatePhonebook } from "./lib/client"
-import { addContact, createPersonalChat, getContact, sendMessage } from "./lib/contacts"
-import { useQuery } from "./lib/helpers/helpers"
-import { ready } from "./lib/logging"
-import { onNotification } from "./lib/notification"
-import { exitSmartAppToCatalog, onBackPressed, openSmartApp, routingChanged } from "./lib/routing"
+import Bridge from '@expressms/smartapp-bridge'
+import { getChats, openClientSettings, openGroupChat, searchCorporatePhonebook, sendBotCommand } from './lib/client'
+import { addContact, createPersonalChat, getContact, sendMessage } from './lib/contacts'
+import { useQuery } from './lib/helpers/helpers'
+import { ready } from './lib/logging'
+import { onNotification } from './lib/notification'
+import { exitSmartAppToCatalog, onBackPressed, openSmartApp, routingChanged } from './lib/routing'
 
 export {
   Bridge,
@@ -22,4 +22,6 @@ export {
   openClientSettings,
   getChats,
   searchCorporatePhonebook,
+  openGroupChat,
+  sendBotCommand,
 }

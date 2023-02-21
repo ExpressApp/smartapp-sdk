@@ -1981,6 +1981,8 @@
         METHODS["OPEN_CLIENT_SETTINGS"] = "open_client_settings";
         METHODS["GET_CHATS"] = "get_chats";
         METHODS["SEARCH_CORPORATE_PHONEBOOK"] = "search_corporate_phonebook";
+        METHODS["OPEN_GROUP_CHAT"] = "open_group_chat";
+        METHODS["SEND_BOT_COMMAND"] = "send_bot_command";
     })(METHODS || (METHODS = {}));
 
     var LOCATION;
@@ -1995,9 +1997,6 @@
             params: {},
         });
     };
-    /**
-     * @param filter
-     */
     const getChats = ({ filter = null }) => {
         return bridge?.sendClientEvent({
             method: METHODS.GET_CHATS,
@@ -2010,11 +2009,25 @@
             params: { filter },
         });
     };
+    const openGroupChat = ({ groupChatId }) => {
+        return bridge?.sendClientEvent({
+            method: METHODS.OPEN_GROUP_CHAT,
+            params: { groupChatId },
+        });
+    };
+    const sendBotCommand = ({ userHuid, body, data }) => {
+        return bridge?.sendClientEvent({
+            method: METHODS.SEND_BOT_COMMAND,
+            params: {
+                userHuid,
+                message: {
+                    body,
+                    data,
+                },
+            },
+        });
+    };
 
-    /**
-     * @param phone
-     * @param name
-     */
     const addContact = ({ phone, name }) => {
         return bridge?.sendClientEvent({
             method: METHODS.ADD_CONTACT,
@@ -2024,30 +2037,18 @@
             },
         });
     };
-    /**
-     * @param phone
-     */
     const getContact = async ({ phone }) => {
         return bridge?.sendClientEvent({
             method: METHODS.GET_CONTACT,
             params: { phone },
         });
     };
-    /**
-     * @param huid
-     */
     const createPersonalChat = ({ huid }) => {
         return bridge?.sendClientEvent({
             method: METHODS.CREATE_PERSONAL_CHAT,
             params: { huid },
         });
     };
-    /**
-     * @param userHuid
-     * @param groupChatId
-     * @param messageBody
-     * @param messageMeta
-     */
     const sendMessage = ({ userHuid = null, groupChatId = null, messageBody = "", messageMeta = {}, }) => {
         return bridge?.sendClientEvent({
             method: METHODS.SEND_MESSAGE,
@@ -2156,10 +2157,12 @@
     exports.onBackPressed = onBackPressed;
     exports.onNotification = onNotification;
     exports.openClientSettings = openClientSettings;
+    exports.openGroupChat = openGroupChat;
     exports.openSmartApp = openSmartApp;
     exports.ready = ready;
     exports.routingChanged = routingChanged;
     exports.searchCorporatePhonebook = searchCorporatePhonebook;
+    exports.sendBotCommand = sendBotCommand;
     exports.sendMessage = sendMessage;
     exports.useQuery = useQuery;
 
