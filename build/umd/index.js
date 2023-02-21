@@ -1981,7 +1981,8 @@
         METHODS["OPEN_CLIENT_SETTINGS"] = "open_client_settings";
         METHODS["GET_CHATS"] = "get_chats";
         METHODS["SEARCH_CORPORATE_PHONEBOOK"] = "search_corporate_phonebook";
-        METHODS["OPEN_CHAT"] = "open_chat";
+        METHODS["OPEN_GROUP_CHAT"] = "open_group_chat";
+        METHODS["SEND_BOT_COMMAND"] = "send_bot_command";
     })(METHODS || (METHODS = {}));
 
     var LOCATION;
@@ -2008,10 +2009,22 @@
             params: { filter },
         });
     };
-    const openChat = ({ groupChatId }) => {
+    const openGroupChat = ({ groupChatId }) => {
         return bridge?.sendClientEvent({
-            method: METHODS.OPEN_CHAT,
+            method: METHODS.OPEN_GROUP_CHAT,
             params: { groupChatId },
+        });
+    };
+    const sendBotCommand = ({ userHuid, body, data }) => {
+        return bridge?.sendClientEvent({
+            method: METHODS.SEND_BOT_COMMAND,
+            params: {
+                userHuid,
+                message: {
+                    body,
+                    data,
+                },
+            },
         });
     };
 
@@ -2143,12 +2156,13 @@
     exports.getContact = getContact;
     exports.onBackPressed = onBackPressed;
     exports.onNotification = onNotification;
-    exports.openChat = openChat;
     exports.openClientSettings = openClientSettings;
+    exports.openGroupChat = openGroupChat;
     exports.openSmartApp = openSmartApp;
     exports.ready = ready;
     exports.routingChanged = routingChanged;
     exports.searchCorporatePhonebook = searchCorporatePhonebook;
+    exports.sendBotCommand = sendBotCommand;
     exports.sendMessage = sendMessage;
     exports.useQuery = useQuery;
 

@@ -22,10 +22,25 @@ const searchCorporatePhonebook = ({ filter = null }: { filter: string | null }) 
   })
 }
 
-const openChat = ({ groupChatId }: { groupChatId: string }) => {
+const openGroupChat = ({ groupChatId }: { groupChatId: string }) => {
   return bridge?.sendClientEvent({
-    method: METHODS.OPEN_CHAT,
+    method: METHODS.OPEN_GROUP_CHAT,
     params: { groupChatId },
+  })
+}
+
+const sendBotCommand = (
+  { userHuid, body, data }: { userHuid: string, body: string, data: string }
+) => {
+  return bridge?.sendClientEvent({
+    method: METHODS.SEND_BOT_COMMAND,
+    params: {
+      userHuid,
+      message: {
+        body,
+        data,
+      },
+    },
   })
 }
 
@@ -33,5 +48,6 @@ export {
   openClientSettings,
   getChats,
   searchCorporatePhonebook,
-  openChat,
+  sendBotCommand,
+  openGroupChat,
 }

@@ -6,23 +6,23 @@ __Методы SmartApp Bridge__
 
 - Отправка ивента клиенту:
 
-  ```
-  bridge?.sendClientEvent({
-      method: string,
-      params: object,
-      timeout?: number
-  })
-  ```
+```
+bridge?.sendClientEvent({
+    method: string,
+    params: object,
+    timeout?: number
+})
+```
 
 - Отправка ивента боту:
 
-  ```
-  bridge?.sendBotEvent({
-      method: string,
-      params: object,
-      timeout?: number
-  })
-  ```
+```
+bridge?.sendBotEvent({
+    method: string,
+    params: object,
+    timeout?: number
+})
+```
 
 - `bridge?.onReceive(callback: Function)` - передать клиенту коллбэк для выполнения при получении входящих ивентов;
 
@@ -53,21 +53,23 @@ __Реализации клиентских методов SmartApp Bridge__
 - `onNotification(handleNotification: Function)` - передать клиенту коллбэк для выполнения при получении ивента с `type === "notification"`;
 
 - ```
-    sendMessage({
-      userHuid: string | null,
-      groupChatId: string | null,
-      messageBody: string,
-      messageMeta? : Object
-    })
-    ```
+  sendMessage({
+    userHuid: string | null,
+    groupChatId: string | null,
+    messageBody: string,
+    messageMeta? : Object
+  })
+  ```
+
   отправить сообщение юзеру, боту или в групповой чат;
 
 - ```
-    openSmartApp({
-      appId: string,
-      meta?: any,
-    })
-    ```
+  openSmartApp({
+    appId: string,
+    meta?: any,
+  })
+  ```
+
   открыть смартапп;
 
 - `exitSmartAppToCatalog()` - выйти из смартапп на каталог;
@@ -78,7 +80,7 @@ __Реализации клиентских методов SmartApp Bridge__
 
 - `getChats({ filter: string | null })` - запросить чаты;
 
-- `searchCorporatePhonebook({ filter: string | null })` - запросить результаты поиска по корпоративной phonebook и результат трастового поиска;
+- `searchCorporatePhonebook({ filter: string | null })` - запросить результаты поиска по корпоративной phonebook и результат трастового поиска ;
 
 __Метод onReceive__
 
@@ -220,7 +222,7 @@ __Запрос чатов__
 И получает ответ типа:
 
 ```
-{ 
+{
     "ref": <string>,
     "status": "success",
     "data": {
@@ -325,10 +327,10 @@ __Запрос результатов поиска по корпоративно
 3. Запрос менее 3х символов, error_code = filter_too_short
 ```
 
-__Открытие чата__
+__Открытие группового чата__
 
 ```
-const response = yield openChat({ groupChatId: <uuid> })
+const response = yield openGroupChat({ groupChatId: <uuid> })
 ```
 
 Метод отправляет клиенту запрос типа:
@@ -337,7 +339,7 @@ const response = yield openChat({ groupChatId: <uuid> })
   "ref": <string>,
   "handler": "express",
   "type": "smartapp_rpc",
-  "method": "open_chat",
+  "method": "open_group_chat",
   "payload": {
     "group_chat_id": <uuid>,
   },
@@ -360,17 +362,21 @@ __Кеширование статики с помощью WorkboxWebpackPlugin__
 Если приложение было создано с помощью `create-react-app`, добавляем строчку в `package.json`:
 
 ```
+
 "scripts": {
-    "eject": "react-scripts eject",
+"eject": "react-scripts eject",
 }
+
 ```
 
 В зависимости приложения добавляем `smartapp-sdk` версии `1.0.7` или выше:
 
 ```
+
 "dependencies": {
-    "@expressms/smartapp-sdk": "^1.0.7",
+"@unlimited/smartapp-sdk": "^1.0.7",
 }
+
 ```
 
 Устанавливаем пакет и выполняем команду `npm run eject`.
@@ -380,41 +386,47 @@ __Кеширование статики с помощью WorkboxWebpackPlugin__
 Добавляем код в `index.tsx`:
 
 ```
+
 if (module.hot) module.hot.accept()
 
 if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./sw.js")
-    })
+window.addEventListener("load", () => {
+navigator.serviceWorker.register("./sw.js")
+})
 }
+
 ```
 
 Добавляем код в файл `webpack.config.js`:
 
 ```
+
 plugins: [
-    new WorkboxWebpackPlugin.InjectManifest({
-    swSrc: "@expressms/smartapp-sdk/workers/workbox.js", // path to worker
-    swDest: "sw.js"
+new WorkboxWebpackPlugin.InjectManifest({
+swSrc: "@unlimited/smartapp-sdk/workers/workbox.js", // path to worker
+swDest: "sw.js"
 }),
+
 ```
 
 Удаляем в файле `webpack.config.js` следующий код:
 
 ```
+
 // Generate a service worker script that will precache, and keep up to date,
 // the HTML & assets that are part of the webpack build.
 isEnvProduction &&
 fs.existsSync(swSrc) &&
 new WorkboxWebpackPlugin.InjectManifest({
-    swSrc,
-    dontCacheBustURLsMatching: /\.[0-9a-f]{8}\./,
-    exclude: [/\.map$/, /asset-manifest\.json$/, /LICENSE/],
-    // Bump up the default maximum size (2mb) that"s precached,
-    // to make lazy-loading failure scenarios less likely.
-    // See <https://github.com/cra-template/pwa/issues/13#issuecomment-722667270>
-    maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+swSrc,
+dontCacheBustURLsMatching: /\.[0-9a-f]{8}\./,
+exclude: [/\.map$/, /asset-manifest\.json$/, /LICENSE/],
+// Bump up the default maximum size (2mb) that"s precached,
+// to make lazy-loading failure scenarios less likely.
+// See <https://github.com/cra-template/pwa/issues/13#issuecomment-722667270>
+maximumFileSizeToCacheInBytes: 5 _ 1024 _ 1024,
 }),
+
 ```
 
 Запускаем приложение, проверяем регистрацию сервис-воркера.
