@@ -1381,16 +1381,10 @@
          * emitter.onceWithTimeout('d6910a9d-ea24-5fc6-a654-28781ef21f8f', 20000)
          * // => Promise
          * ```
-         * @param type - Event type, uuid or EVENT_TYPE.RECV for standalone events from client
-         * @param timeout - Timeout in ms
-         * @returns Promise.
          */
         onceWithTimeout(type, timeout) {
             return new Promise((resolve, reject) => {
-                const timer = setTimeout(() => {
-                    console.error("Bridge ~ Timeout event", timer);
-                    reject();
-                }, timeout);
+                const timer = setTimeout(() => reject(), timeout);
                 this.once(type, (event) => {
                     clearTimeout(timer);
                     resolve(event);
@@ -1575,6 +1569,15 @@
             this.isRenameParamsEnabled = false;
             console.log('Bridge ~ Disabled renaming event params from camelCase to snake_case and vice versa');
         }
+        log(data) {
+            if (!this.hasCommunicationObject)
+                return;
+            let value = '';
+            if (typeof data !== 'string' && typeof data !== 'object')
+                return;
+            value = data;
+            window.express.handleSmartAppEvent(JSON.stringify({ 'SmartApp Log': value }, null, 2));
+        }
     }
 
     class IosBridge {
@@ -1598,11 +1601,7 @@
             // Expect json data as string
             window.handleIosEvent = ({ ref, data, files, }) => {
                 if (this.logsEnabled)
-                    console.log('Bridge ~ Incoming event', JSON.stringify({
-                        ref,
-                        data,
-                        files,
-                    }, null, 2));
+                    console.log('Bridge ~ Incoming event', JSON.stringify({ ref, data, files }, null, 2));
                 const { type, ...payload } = data;
                 const emitterType = ref || EVENT_TYPE.RECEIVE;
                 const eventFiles = this.isRenameParamsEnabled ?
@@ -1626,7 +1625,6 @@
          *   console.log('event', type, handler, payload)
          * })
          * ```
-         * @param callback - Callback function.
          */
         onReceive(callback) {
             this.eventEmitter.on(EVENT_TYPE.RECEIVE, callback);
@@ -1670,14 +1668,16 @@
          *     console.log('response', data)
          *   })
          * ```
-         * @param method - Event type.
-         * @param params
-         * @param files
-         * @param timeout - Timeout in ms.
-         * @param guaranteed_delivery_required - boolean.
          */
         sendBotEvent({ method, params, files, timeout = RESPONSE_TIMEOUT, guaranteed_delivery_required, }) {
-            return this.sendEvent({ handler: HANDLER.BOTX, method, params, files, timeout, guaranteed_delivery_required });
+            return this.sendEvent({
+                handler: HANDLER.BOTX,
+                method,
+                params,
+                files,
+                timeout,
+                guaranteed_delivery_required,
+            });
         }
         /**
          * Send event and wait response from express client.
@@ -1698,12 +1698,14 @@
          *     console.log('response', data)
          *   })
          * ```
-         * @param method - Event type.
-         * @param params
-         * @param timeout - Timeout in ms.
          */
-        sendClientEvent({ method, params, timeout = RESPONSE_TIMEOUT }) {
-            return this.sendEvent({ handler: HANDLER.EXPRESS, method, params, timeout });
+        sendClientEvent({ method, params, timeout = RESPONSE_TIMEOUT, }) {
+            return this.sendEvent({
+                handler: HANDLER.EXPRESS,
+                method,
+                params,
+                timeout,
+            });
         }
         /**
          * Enabling logs.
@@ -1749,6 +1751,18 @@
             this.isRenameParamsEnabled = false;
             console.log('Bridge ~ Disabled renaming event params from camelCase to snake_case and vice versa');
         }
+        log(data) {
+            if (!this.hasCommunicationObject)
+                return;
+            let value = '';
+            if (typeof data !== 'string') {
+                value = data;
+            }
+            else if (typeof data !== 'object') {
+                value = JSON.stringify(data, null, 2);
+            }
+            window.webkit.messageHandlers.express.postMessage({ 'SmartApp Log': value });
+        }
     }
 
     class WebBridge {
@@ -1762,18 +1776,18 @@
             this.isRenameParamsEnabled = true;
         }
         addGlobalListener() {
-            window.addEventListener("message", (event) => {
+            window.addEventListener('message', (event) => {
                 const isRenameParamsWasEnabled = this.isRenameParamsEnabled;
                 if (getPlatform() === PLATFORM.WEB &&
                     event.data.handler === HANDLER.EXPRESS &&
                     this.isRenameParamsEnabled)
                     this.isRenameParamsEnabled = false;
-                if (typeof event.data !== "object" ||
-                    typeof event.data.data !== "object" ||
-                    typeof event.data.data.type !== "string")
+                if (typeof event.data !== 'object' ||
+                    typeof event.data.data !== 'object' ||
+                    typeof event.data.data.type !== 'string')
                     return;
                 if (this.logsEnabled)
-                    console.log("Bridge ~ Incoming event", event.data);
+                    console.log('Bridge ~ Incoming event', event.data);
                 const { ref, data: { type, ...payload }, files, } = event.data;
                 const emitterType = ref || EVENT_TYPE.RECEIVE;
                 const eventFiles = this.isRenameParamsEnabled ?
@@ -1798,17 +1812,16 @@
          *   console.log('event', type, handler, payload)
          * })
          * ```
-         * @param callback - Callback function.
          */
         onReceive(callback) {
             this.eventEmitter.on(EVENT_TYPE.RECEIVE, callback);
         }
         sendEvent({ handler, method, params, files, timeout = RESPONSE_TIMEOUT, guaranteed_delivery_required = false, }) {
-            const isRenameParamsWasEnabled = this.isRenameParamsEnabled;
+            const isRenameParamsInitiallyEnabled = this.isRenameParamsEnabled;
             if (getPlatform() === PLATFORM.WEB &&
                 handler === HANDLER.EXPRESS &&
                 this.isRenameParamsEnabled)
-                this.disableRenameParams();
+                this.isRenameParamsEnabled = false;
             const ref = v4(); // UUID to detect express response.
             const payload = {
                 ref,
@@ -1822,13 +1835,13 @@
                 files?.map((file) => camelCaseToSnakeCase(file)) : files;
             const event = files ? { ...payload, files: eventFiles } : payload;
             if (this.logsEnabled)
-                console.log("Bridge ~ Outgoing event", event);
+                console.log('Bridge ~ Outgoing event', event);
             window.parent.postMessage({
                 type: WEB_COMMAND_TYPE,
                 payload: event,
-            }, "*");
-            if (isRenameParamsWasEnabled)
-                this.enableRenameParams();
+            }, '*');
+            if (isRenameParamsInitiallyEnabled)
+                this.isRenameParamsEnabled = true;
             return this.eventEmitter.onceWithTimeout(ref, timeout);
         }
         /**
@@ -1849,12 +1862,6 @@
          *     console.log('response', data)
          *   })
          * ```
-         * @param method - Event type.
-         * @param params
-         * @param files
-         * @param is_rename_params_fields - boolean.
-         * @param timeout - Timeout in ms.
-         * @param guaranteed_delivery_required - boolean.
          */
         sendBotEvent({ method, params, files, timeout, guaranteed_delivery_required, }) {
             return this.sendEvent({
@@ -1884,12 +1891,14 @@
          *     console.log('response', data)
          *   })
          * ```
-         * @param method - Event type.
-         * @param params
-         * @param timeout - Timeout in ms.
          */
         sendClientEvent({ method, params, timeout }) {
-            return this.sendEvent({ handler: HANDLER.EXPRESS, method, params, timeout });
+            return this.sendEvent({
+                handler: HANDLER.EXPRESS,
+                method,
+                params,
+                timeout,
+            });
         }
         /**
          * Enabling logs.
@@ -1906,7 +1915,7 @@
                 window.parent.postMessage({
                     type: WEB_COMMAND_TYPE_RPC_LOGS,
                     payload: rest,
-                }, "*");
+                }, '*');
                 _log.apply(console, rest);
             };
         }
@@ -1930,7 +1939,7 @@
          */
         enableRenameParams() {
             this.isRenameParamsEnabled = true;
-            console.log("Bridge ~ Enabled renaming event params from camelCase to snake_case and vice versa");
+            console.log('Bridge ~ Enabled renaming event params from camelCase to snake_case and vice versa');
         }
         /**
          * Enabling renaming event params from camelCase to snake_case and vice versa
@@ -1941,11 +1950,11 @@
          */
         disableRenameParams() {
             this.isRenameParamsEnabled = false;
-            console.log("Bridge ~ Disabled renaming event params from camelCase to snake_case and vice versa");
+            console.log('Bridge ~ Disabled renaming event params from camelCase to snake_case and vice versa');
         }
     }
 
-    const LIB_VERSION = "1.1.5";
+    const LIB_VERSION = "1.1.6";
 
     const getBridge = () => {
         if (process.env.NODE_ENV === 'test')
