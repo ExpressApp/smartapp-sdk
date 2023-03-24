@@ -30,8 +30,18 @@ const openGroupChat = ({ groupChatId }: { groupChatId: string }) => {
 }
 
 const sendBotCommand = (
-  { userHuid, body, data }: { userHuid: string, body: string, data: string }
+  {
+    userHuid,
+    body,
+    data
+  }: {
+    userHuid: string
+    body: string
+    data: { command: string } | null
+  }
 ) => {
+  if (typeof data !== 'object') return
+
   return bridge?.sendClientEvent({
     method: METHODS.SEND_BOT_COMMAND,
     params: {

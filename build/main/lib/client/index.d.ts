@@ -11,6 +11,8 @@ declare const openGroupChat: ({ groupChatId }: {
 declare const sendBotCommand: ({ userHuid, body, data }: {
     userHuid: string;
     body: string;
-    data: string;
+    data: {
+        command: string;
+    } | null;
 }) => Promise<import("@expressms/smartapp-bridge/build/main/types/eventEmitter").EmitterEventPayload> | undefined;
 export { openClientSettings, getChats, searchCorporatePhonebook, sendBotCommand, openGroupChat, };

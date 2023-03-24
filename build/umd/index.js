@@ -1570,13 +1570,10 @@
             console.log('Bridge ~ Disabled renaming event params from camelCase to snake_case and vice versa');
         }
         log(data) {
-            if (!this.hasCommunicationObject)
+            if ((!this.hasCommunicationObject || !data) ||
+                (typeof data !== 'string' && typeof data !== 'object'))
                 return;
-            let value = '';
-            if (typeof data !== 'string' && typeof data !== 'object')
-                return;
-            value = data;
-            window.express.handleSmartAppEvent(JSON.stringify({ 'SmartApp Log': value }, null, 2));
+            window.express.handleSmartAppEvent(JSON.stringify({ 'SmartApp Log': data }, null, 2));
         }
     }
 
@@ -1752,15 +1749,17 @@
             console.log('Bridge ~ Disabled renaming event params from camelCase to snake_case and vice versa');
         }
         log(data) {
-            if (!this.hasCommunicationObject)
+            if (!this.hasCommunicationObject || !data)
                 return;
             let value = '';
-            if (typeof data !== 'string') {
+            if (typeof data === 'string') {
                 value = data;
             }
-            else if (typeof data !== 'object') {
+            else if (typeof data === 'object') {
                 value = JSON.stringify(data, null, 2);
             }
+            else
+                return;
             window.webkit.messageHandlers.express.postMessage({ 'SmartApp Log': value });
         }
     }
@@ -1954,7 +1953,7 @@
         }
     }
 
-    const LIB_VERSION = "1.1.6";
+    const LIB_VERSION = "1.1.7";
 
     const getBridge = () => {
         if (process.env.NODE_ENV === 'test')
@@ -2025,6 +2024,8 @@
         });
     };
     const sendBotCommand = ({ userHuid, body, data }) => {
+        if (typeof data !== 'object')
+            return;
         return bridge?.sendClientEvent({
             method: METHODS.SEND_BOT_COMMAND,
             params: {
