@@ -1403,12 +1403,14 @@
         eventEmitter;
         hasCommunicationObject;
         logsEnabled;
-        isRenameParamsEnabled;
+        isRenameParamsEnabledForBotx;
+        handler;
         constructor() {
             this.hasCommunicationObject = typeof window.express !== 'undefined' && !!window.express.handleSmartAppEvent;
             this.eventEmitter = new ExtendedEventEmitter();
             this.logsEnabled = false;
-            this.isRenameParamsEnabled = true;
+            this.isRenameParamsEnabledForBotx = true;
+            this.handler = null;
             if (!this.hasCommunicationObject) {
                 log('No method "express.handleSmartAppEvent", cannot send message to Android');
                 return;
@@ -1416,19 +1418,16 @@
             // Expect json data as string
             window.handleAndroidEvent = ({ ref, data, files, }) => {
                 if (this.logsEnabled)
-                    console.log('Bridge ~ Incoming event', JSON.stringify({
-                        ref,
-                        data,
-                        files,
-                    }, null, 2));
+                    console.log('Bridge ~ Incoming event', JSON.stringify({ ref, data, files }, null, 2));
                 const { type, ...payload } = data;
                 const emitterType = ref || EVENT_TYPE.RECEIVE;
-                const eventFiles = this.isRenameParamsEnabled ?
+                const isRenameParamsEnabled = this.handler === HANDLER.BOTX ? this.isRenameParamsEnabledForBotx : true;
+                const eventFiles = isRenameParamsEnabled ?
                     files?.map((file) => snakeCaseToCamelCase(file)) : files;
                 const event = {
                     ref,
                     type,
-                    payload: this.isRenameParamsEnabled ? snakeCaseToCamelCase(payload) : payload,
+                    payload: isRenameParamsEnabled ? snakeCaseToCamelCase(payload) : payload,
                     files: eventFiles,
                 };
                 this.eventEmitter.emit(emitterType, event);
@@ -1452,16 +1451,17 @@
         sendEvent({ handler, method, params, files, timeout = RESPONSE_TIMEOUT, guaranteed_delivery_required = false, }) {
             if (!this.hasCommunicationObject)
                 return Promise.reject();
+            const isRenameParamsEnabled = handler === HANDLER.BOTX ? this.isRenameParamsEnabledForBotx : true;
             const ref = v4(); // UUID to detect express response.
             const eventParams = {
                 ref,
                 type: WEB_COMMAND_TYPE_RPC,
                 method,
                 handler,
-                payload: this.isRenameParamsEnabled ? camelCaseToSnakeCase(params) : params,
+                payload: isRenameParamsEnabled ? camelCaseToSnakeCase(params) : params,
                 guaranteed_delivery_required,
             };
-            const eventFiles = this.isRenameParamsEnabled ?
+            const eventFiles = isRenameParamsEnabled ?
                 files?.map((file) => camelCaseToSnakeCase(file)) : files;
             const event = JSON.stringify(files ? { ...eventParams, files: eventFiles } : eventParams);
             if (this.logsEnabled)
@@ -1495,8 +1495,15 @@
          * @param guaranteed_delivery_required - boolean.
          * @returns Promise.
          */
-        sendBotEvent({ method, params, files, timeout, guaranteed_delivery_required }) {
-            return this.sendEvent({ handler: HANDLER.BOTX, method, params, files, timeout, guaranteed_delivery_required });
+        sendBotEvent({ method, params, files, timeout, guaranteed_delivery_required, }) {
+            return this.sendEvent({
+                handler: HANDLER.BOTX,
+                method,
+                params,
+                files,
+                timeout,
+                guaranteed_delivery_required,
+            });
         }
         /**
          * Send event and wait response from express client.
@@ -1555,7 +1562,7 @@
          * ```
          */
         enableRenameParams() {
-            this.isRenameParamsEnabled = true;
+            this.isRenameParamsEnabledForBotx = true;
             console.log('Bridge ~ Enabled renaming event params from camelCase to snake_case and vice versa');
         }
         /**
@@ -1566,7 +1573,7 @@
          * ```
          */
         disableRenameParams() {
-            this.isRenameParamsEnabled = false;
+            this.isRenameParamsEnabledForBotx = false;
             console.log('Bridge ~ Disabled renaming event params from camelCase to snake_case and vice versa');
         }
         log(data) {
@@ -1581,7 +1588,8 @@
         eventEmitter;
         hasCommunicationObject;
         logsEnabled;
-        isRenameParamsEnabled;
+        isRenameParamsEnabledForBotx;
+        handler;
         constructor() {
             this.hasCommunicationObject =
                 window.webkit &&
@@ -1590,7 +1598,8 @@
                     !!window.webkit.messageHandlers.express.postMessage;
             this.eventEmitter = new ExtendedEventEmitter();
             this.logsEnabled = false;
-            this.isRenameParamsEnabled = true;
+            this.isRenameParamsEnabledForBotx = true;
+            this.handler = null;
             if (!this.hasCommunicationObject) {
                 log('No method "express.postMessage", cannot send message to iOS');
                 return;
@@ -1601,12 +1610,13 @@
                     console.log('Bridge ~ Incoming event', JSON.stringify({ ref, data, files }, null, 2));
                 const { type, ...payload } = data;
                 const emitterType = ref || EVENT_TYPE.RECEIVE;
-                const eventFiles = this.isRenameParamsEnabled ?
+                const isRenameParamsEnabled = this.handler === HANDLER.BOTX ? this.isRenameParamsEnabledForBotx : true;
+                const eventFiles = isRenameParamsEnabled ?
                     files?.map((file) => snakeCaseToCamelCase(file)) : files;
                 const event = {
                     ref,
                     type,
-                    payload: this.isRenameParamsEnabled ? snakeCaseToCamelCase(payload) : payload,
+                    payload: isRenameParamsEnabled ? snakeCaseToCamelCase(payload) : payload,
                     files: eventFiles,
                 };
                 this.eventEmitter.emit(emitterType, event);
@@ -1630,15 +1640,17 @@
             if (!this.hasCommunicationObject)
                 return Promise.reject();
             const ref = v4(); // UUID to detect express response.
+            this.handler = handler;
+            const isRenameParamsEnabled = handler === HANDLER.BOTX ? this.isRenameParamsEnabledForBotx : true;
             const eventProps = {
                 ref,
                 type: WEB_COMMAND_TYPE_RPC,
                 method,
                 handler,
-                payload: this.isRenameParamsEnabled ? camelCaseToSnakeCase(params) : params,
+                payload: isRenameParamsEnabled ? camelCaseToSnakeCase(params) : params,
                 guaranteed_delivery_required,
             };
-            const eventFiles = this.isRenameParamsEnabled ?
+            const eventFiles = isRenameParamsEnabled ?
                 files?.map((file) => camelCaseToSnakeCase(file)) : files;
             const event = files ? { ...eventProps, files: eventFiles } : eventProps;
             if (this.logsEnabled)
@@ -1734,7 +1746,7 @@
          * ```
          */
         enableRenameParams() {
-            this.isRenameParamsEnabled = true;
+            this.isRenameParamsEnabledForBotx = true;
             console.log('Bridge ~ Enabled renaming event params from camelCase to snake_case and vice versa');
         }
         /**
@@ -1745,7 +1757,7 @@
          * ```
          */
         disableRenameParams() {
-            this.isRenameParamsEnabled = false;
+            this.isRenameParamsEnabledForBotx = false;
             console.log('Bridge ~ Disabled renaming event params from camelCase to snake_case and vice versa');
         }
         log(data) {
@@ -1767,38 +1779,34 @@
     class WebBridge {
         eventEmitter;
         logsEnabled;
-        isRenameParamsEnabled;
+        isRenameParamsEnabledForBotx;
+        handler;
         constructor() {
             this.eventEmitter = new ExtendedEventEmitter();
             this.addGlobalListener();
             this.logsEnabled = false;
-            this.isRenameParamsEnabled = true;
+            this.isRenameParamsEnabledForBotx = true;
+            this.handler = null;
         }
         addGlobalListener() {
             window.addEventListener('message', (event) => {
-                const isRenameParamsWasEnabled = this.isRenameParamsEnabled;
-                if (getPlatform() === PLATFORM.WEB &&
-                    event.data.handler === HANDLER.EXPRESS &&
-                    this.isRenameParamsEnabled)
-                    this.isRenameParamsEnabled = false;
                 if (typeof event.data !== 'object' ||
                     typeof event.data.data !== 'object' ||
                     typeof event.data.data.type !== 'string')
                     return;
+                const { ref, data: { type, ...payload }, files, } = event.data;
+                const isRenameParamsEnabled = this.handler === HANDLER.BOTX ? this.isRenameParamsEnabledForBotx : false;
                 if (this.logsEnabled)
                     console.log('Bridge ~ Incoming event', event.data);
-                const { ref, data: { type, ...payload }, files, } = event.data;
                 const emitterType = ref || EVENT_TYPE.RECEIVE;
-                const eventFiles = this.isRenameParamsEnabled ?
+                const eventFiles = isRenameParamsEnabled ?
                     files?.map((file) => snakeCaseToCamelCase(file)) : files;
                 this.eventEmitter.emit(emitterType, {
                     ref,
                     type,
-                    payload: this.isRenameParamsEnabled ? snakeCaseToCamelCase(payload) : payload,
+                    payload: isRenameParamsEnabled ? snakeCaseToCamelCase(payload) : payload,
                     files: eventFiles,
                 });
-                if (isRenameParamsWasEnabled)
-                    this.isRenameParamsEnabled = true;
             });
         }
         /**
@@ -1816,21 +1824,18 @@
             this.eventEmitter.on(EVENT_TYPE.RECEIVE, callback);
         }
         sendEvent({ handler, method, params, files, timeout = RESPONSE_TIMEOUT, guaranteed_delivery_required = false, }) {
-            const isRenameParamsInitiallyEnabled = this.isRenameParamsEnabled;
-            if (getPlatform() === PLATFORM.WEB &&
-                handler === HANDLER.EXPRESS &&
-                this.isRenameParamsEnabled)
-                this.isRenameParamsEnabled = false;
+            const isRenameParamsEnabled = handler === HANDLER.BOTX ? this.isRenameParamsEnabledForBotx : false;
             const ref = v4(); // UUID to detect express response.
+            this.handler = handler;
             const payload = {
                 ref,
                 type: WEB_COMMAND_TYPE_RPC,
                 method,
                 handler,
-                payload: this.isRenameParamsEnabled ? camelCaseToSnakeCase(params) : params,
+                payload: isRenameParamsEnabled ? camelCaseToSnakeCase(params) : params,
                 guaranteed_delivery_required,
             };
-            const eventFiles = this.isRenameParamsEnabled ?
+            const eventFiles = isRenameParamsEnabled ?
                 files?.map((file) => camelCaseToSnakeCase(file)) : files;
             const event = files ? { ...payload, files: eventFiles } : payload;
             if (this.logsEnabled)
@@ -1839,8 +1844,6 @@
                 type: WEB_COMMAND_TYPE,
                 payload: event,
             }, '*');
-            if (isRenameParamsInitiallyEnabled)
-                this.isRenameParamsEnabled = true;
             return this.eventEmitter.onceWithTimeout(ref, timeout);
         }
         /**
@@ -1937,7 +1940,7 @@
          * ```
          */
         enableRenameParams() {
-            this.isRenameParamsEnabled = true;
+            this.isRenameParamsEnabledForBotx = true;
             console.log('Bridge ~ Enabled renaming event params from camelCase to snake_case and vice versa');
         }
         /**
@@ -1948,12 +1951,12 @@
          * ```
          */
         disableRenameParams() {
-            this.isRenameParamsEnabled = false;
+            this.isRenameParamsEnabledForBotx = false;
             console.log('Bridge ~ Disabled renaming event params from camelCase to snake_case and vice versa');
         }
     }
 
-    const LIB_VERSION = "1.1.7";
+    const LIB_VERSION = "1.1.9";
 
     const getBridge = () => {
         if (process.env.NODE_ENV === 'test')
