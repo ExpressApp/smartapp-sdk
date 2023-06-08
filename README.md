@@ -420,6 +420,41 @@ const response = yield openGroupChat({ groupChatId: <uuid> })
 }
 ```
 
+__Отправка скрытой команды боту__
+
+Команда позволяет только передать боту информацию. Обработка информации должна быть реализована на стороне бота.
+
+```
+await sendBotCommand({ userHuid, body, data}: {
+    userHuid: <string>
+    body: <string>
+    data: { command: <string> } | null
+  }
+)
+```
+
+Метод отправляет клиенту ивент типа:
+
+```
+{
+  "ref": <string>,
+  "type": "smartapp_rpc",
+  "handler": "express",
+  "payload": {
+    "userHuid": <string>,
+    "message": {
+       "body": "hello",
+       "data": {
+          "command": "/test"
+        }
+     }
+  },
+  "method": "send_bot_command"
+}
+```
+
+В чат с ботом придет значение параметра `{ "body": "hello" }`, бот получит объект `{ "command": "/test" }`.
+
 __Кеширование статики с помощью WorkboxWebpackPlugin__
 
 Если приложение было создано с помощью `create-react-app`, добавляем строчку в `package.json`:
