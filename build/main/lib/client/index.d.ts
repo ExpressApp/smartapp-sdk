@@ -2,6 +2,7 @@ declare const openClientSettings: () => Promise<import("@expressms/smartapp-brid
 declare const getChats: ({ filter }: {
     filter: string | null;
 }) => Promise<import("@expressms/smartapp-bridge/build/main/types/eventEmitter").EmitterEventPayload> | undefined;
+declare const requestGeolocation: () => Promise<import("@expressms/smartapp-bridge/build/main/types/eventEmitter").EmitterEventPayload> | undefined;
 declare const searchCorporatePhonebook: ({ filter }: {
     filter: string | null;
 }) => Promise<import("@expressms/smartapp-bridge/build/main/types/eventEmitter").EmitterEventPayload> | undefined;
@@ -15,4 +16,4 @@ declare const sendBotCommand: ({ userHuid, body, data }: {
         command: string;
     } | null;
 }) => Promise<import("@expressms/smartapp-bridge/build/main/types/eventEmitter").EmitterEventPayload> | undefined;
-export { openClientSettings, getChats, searchCorporatePhonebook, sendBotCommand, openGroupChat, };
+export { openClientSettings, getChats, requestGeolocation, searchCorporatePhonebook, sendBotCommand, openGroupChat, };

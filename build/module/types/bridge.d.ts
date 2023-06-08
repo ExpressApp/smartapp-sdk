@@ -2,6 +2,7 @@ export declare enum METHODS {
     READY = "ready",
     ROUTING_CHANGED = "routing_changed",
     BACK_PRESSED = "back_pressed",
+    MOVE_TO_ROOT = "move_to_root",
     ADD_CONTACT = "add_contact",
     GET_CONTACT = "get_contact",
     CREATE_PERSONAL_CHAT = "create_personal_chat",
@@ -10,6 +11,7 @@ export declare enum METHODS {
     OPEN_SMART_APP = "open_smart_app",
     OPEN_CLIENT_SETTINGS = "open_client_settings",
     GET_CHATS = "get_chats",
+    REQUEST_GEOLOCATION = "request_geolocation",
     SEARCH_CORPORATE_PHONEBOOK = "search_corporate_phonebook",
     OPEN_GROUP_CHAT = "open_group_chat",
     SEND_BOT_COMMAND = "send_bot_command"

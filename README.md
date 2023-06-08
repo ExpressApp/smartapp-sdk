@@ -44,6 +44,8 @@ __Реализации клиентских методов SmartApp Bridge__
 
 - `onBackPressed(handleBackPressed: Function)` - передать клиенту коллбэк для выполнения при получении команды `back_pressed`;
 
+- `onMoveToRoot(handleMoveToRoot: Function)` - передать клиенту коллбэк для выполнения при получении команды `move_to_root`;
+
 - `addContact({ phone: string, name: string })` - скачать `.csv` файл контакта;
 
 - `getContact({ phone: string })` – получить контакт по номеру телефона;
@@ -80,6 +82,8 @@ __Реализации клиентских методов SmartApp Bridge__
 
 - `getChats({ filter: string | null })` - запросить чаты;
 
+- `requestGeolocation()` - запросить геолокацию;
+
 - `searchCorporatePhonebook({ filter: string | null })` - запросить результаты поиска по корпоративной phonebook и результат трастового поиска ;
 
 __Метод onReceive__
@@ -93,6 +97,53 @@ function subscribeClientEvents(): EventChannel<any> {
         return () => {}
   })
 }
+```
+
+__Запрос геолокации__
+
+`const response = yield requestGeolocation()`
+
+Метод отправляет клиенту запрос типа:
+
+```
+{
+    "ref": <string>,
+    "handler": "express",
+    "type": "request_geolocation",
+    "payload": {},
+    "files": []
+}
+```
+
+И получает ответ типа:
+
+```
+{
+    "ref": <string>,
+    "status": "success",
+    "data": {
+      "latitude": <string|null>,
+      "longitude": <string|null>,
+      "timestamp": <"YYYY-MM-DDThh:mm:ss.fZZZZZ"|null>,
+    }
+}
+```
+
+Ответ клиента в случае ошибки:
+
+```
+  {
+    "ref": <string>,
+    "status": "error",
+    "error_code": "permission_denied" | "location_undefined"
+  }
+```
+
+Статус error_code отправляется в следующих случаях:
+
+```
+1. Ошибка разрешения на получение геолокации, error_code = "permission_denied"
+2. Ошибка получения данных геолокации, error_code = "location_undefined"
 ```
 
 __Метод routingChanged__
@@ -114,6 +165,18 @@ function handleClientBackPressedEvent() {
 
 function* watchClientEvents() {
   yield onBackPressed(handleClientBackPressedEvent)
+}
+```
+
+__Метод onMoveToRoot__
+
+```
+function handleMoveToRoot() {
+  history.push('/') - home page
+}
+
+function* watchClientEvents() {
+  yield onMoveToRoot(handleMoveToRoot)
 }
 ```
 
