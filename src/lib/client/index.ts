@@ -15,12 +15,20 @@ const getChats = ({ filter = null }: { filter: string | null }) => {
   })
 }
 
+const requestGeolocation = () => {
+  return bridge?.sendClientEvent({
+    method: METHODS.REQUEST_GEOLOCATION,
+    params: {},
+  })
+}
+
 const searchCorporatePhonebook = ({ filter = null }: { filter: string | null }) => {
   return bridge?.sendClientEvent({
     method: METHODS.SEARCH_CORPORATE_PHONEBOOK,
     params: { filter },
   })
 }
+
 
 const openGroupChat = ({ groupChatId }: { groupChatId: string }) => {
   return bridge?.sendClientEvent({
@@ -57,6 +65,7 @@ const sendBotCommand = (
 export {
   openClientSettings,
   getChats,
+  requestGeolocation,
   searchCorporatePhonebook,
   sendBotCommand,
   openGroupChat,

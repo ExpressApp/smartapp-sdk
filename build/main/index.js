@@ -3,13 +3,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendBotCommand = exports.openGroupChat = exports.searchCorporatePhonebook = exports.getChats = exports.openClientSettings = exports.useQuery = exports.exitSmartAppToCatalog = exports.openSmartApp = exports.sendMessage = exports.onNotification = exports.createPersonalChat = exports.getContact = exports.addContact = exports.onBackPressed = exports.routingChanged = exports.ready = exports.Bridge = void 0;
+exports.sendBotCommand = exports.onMoveToRoot = exports.openGroupChat = exports.searchCorporatePhonebook = exports.requestGeolocation = exports.getChats = exports.openClientSettings = exports.useQuery = exports.exitSmartAppToCatalog = exports.openSmartApp = exports.sendMessage = exports.onNotification = exports.createPersonalChat = exports.getContact = exports.addContact = exports.onBackPressed = exports.routingChanged = exports.ready = exports.Bridge = void 0;
 const smartapp_bridge_1 = __importDefault(require("@expressms/smartapp-bridge"));
 exports.Bridge = smartapp_bridge_1.default;
 const client_1 = require("./lib/client");
 Object.defineProperty(exports, "getChats", { enumerable: true, get: function () { return client_1.getChats; } });
 Object.defineProperty(exports, "openClientSettings", { enumerable: true, get: function () { return client_1.openClientSettings; } });
 Object.defineProperty(exports, "openGroupChat", { enumerable: true, get: function () { return client_1.openGroupChat; } });
+Object.defineProperty(exports, "requestGeolocation", { enumerable: true, get: function () { return client_1.requestGeolocation; } });
 Object.defineProperty(exports, "searchCorporatePhonebook", { enumerable: true, get: function () { return client_1.searchCorporatePhonebook; } });
 Object.defineProperty(exports, "sendBotCommand", { enumerable: true, get: function () { return client_1.sendBotCommand; } });
 const contacts_1 = require("./lib/contacts");
@@ -26,6 +27,7 @@ Object.defineProperty(exports, "onNotification", { enumerable: true, get: functi
 const routing_1 = require("./lib/routing");
 Object.defineProperty(exports, "exitSmartAppToCatalog", { enumerable: true, get: function () { return routing_1.exitSmartAppToCatalog; } });
 Object.defineProperty(exports, "onBackPressed", { enumerable: true, get: function () { return routing_1.onBackPressed; } });
+Object.defineProperty(exports, "onMoveToRoot", { enumerable: true, get: function () { return routing_1.onMoveToRoot; } });
 Object.defineProperty(exports, "openSmartApp", { enumerable: true, get: function () { return routing_1.openSmartApp; } });
 Object.defineProperty(exports, "routingChanged", { enumerable: true, get: function () { return routing_1.routingChanged; } });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi9zcmMvaW5kZXgudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7O0FBQUEsaUZBQStDO0FBUzdDLGlCQVRLLHlCQUFNLENBU0w7QUFSUix5Q0FBb0g7QUFxQmxILHlGQXJCTyxpQkFBUSxPQXFCUDtBQURSLG1HQXBCaUIsMkJBQWtCLE9Bb0JqQjtBQUdsQiw4RkF2QnFDLHNCQUFhLE9BdUJyQztBQURiLHlHQXRCb0QsaUNBQXdCLE9Bc0JwRDtBQUV4QiwrRkF4QjhFLHVCQUFjLE9Bd0I5RTtBQXZCaEIsNkNBQXdGO0FBV3RGLDJGQVhPLHFCQUFVLE9BV1A7QUFFVixtR0FibUIsNkJBQWtCLE9BYW5CO0FBRGxCLDJGQVp1QyxxQkFBVSxPQVl2QztBQUdWLDRGQWZtRCxzQkFBVyxPQWVuRDtBQWRiLG1EQUFnRDtBQWlCOUMseUZBakJPLGtCQUFRLE9BaUJQO0FBaEJWLDJDQUFxQztBQU1uQyxzRkFOTyxlQUFLLE9BTVA7QUFMUCxxREFBbUQ7QUFXakQsK0ZBWE8sNkJBQWMsT0FXUDtBQVZoQiwyQ0FBa0c7QUFhaEcsc0dBYk8sK0JBQXFCLE9BYVA7QUFQckIsOEZBTjhCLHVCQUFhLE9BTTlCO0FBTWIsNkZBWjZDLHNCQUFZLE9BWTdDO0FBUFosK0ZBTDJELHdCQUFjLE9BSzNEIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi9zcmMvaW5kZXgudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7O0FBQUEsaUZBQStDO0FBZ0I3QyxpQkFoQksseUJBQU0sQ0FnQkw7QUFmUix5Q0FPcUI7QUFxQm5CLHlGQTNCQSxpQkFBUSxPQTJCQTtBQURSLG1HQXpCQSwyQkFBa0IsT0F5QkE7QUFJbEIsOEZBNUJBLHNCQUFhLE9BNEJBO0FBRmIsbUdBekJBLDJCQUFrQixPQXlCQTtBQUNsQix5R0F6QkEsaUNBQXdCLE9BeUJBO0FBR3hCLCtGQTNCQSx1QkFBYyxPQTJCQTtBQXpCaEIsNkNBQXdGO0FBV3RGLDJGQVhPLHFCQUFVLE9BV1A7QUFFVixtR0FibUIsNkJBQWtCLE9BYW5CO0FBRGxCLDJGQVp1QyxxQkFBVSxPQVl2QztBQUdWLDRGQWZtRCxzQkFBVyxPQWVuRDtBQWRiLG1EQUFnRDtBQWlCOUMseUZBakJPLGtCQUFRLE9BaUJQO0FBaEJWLDJDQUFxQztBQU1uQyxzRkFOTyxlQUFLLE9BTVA7QUFMUCxxREFBbUQ7QUFXakQsK0ZBWE8sNkJBQWMsT0FXUDtBQVZoQiwyQ0FBZ0g7QUFhOUcsc0dBYk8sK0JBQXFCLE9BYVA7QUFQckIsOEZBTjhCLHVCQUFhLE9BTTlCO0FBY2IsNkZBcEI2QyxzQkFBWSxPQW9CN0M7QUFSWiw2RkFaMkQsc0JBQVksT0FZM0Q7QUFQWiwrRkFMeUUsd0JBQWMsT0FLekUifQ==

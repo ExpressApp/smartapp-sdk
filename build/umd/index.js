@@ -1983,6 +1983,7 @@
         METHODS["READY"] = "ready";
         METHODS["ROUTING_CHANGED"] = "routing_changed";
         METHODS["BACK_PRESSED"] = "back_pressed";
+        METHODS["MOVE_TO_ROOT"] = "move_to_root";
         METHODS["ADD_CONTACT"] = "add_contact";
         METHODS["GET_CONTACT"] = "get_contact";
         METHODS["CREATE_PERSONAL_CHAT"] = "create_personal_chat";
@@ -1991,6 +1992,7 @@
         METHODS["OPEN_SMART_APP"] = "open_smart_app";
         METHODS["OPEN_CLIENT_SETTINGS"] = "open_client_settings";
         METHODS["GET_CHATS"] = "get_chats";
+        METHODS["REQUEST_GEOLOCATION"] = "request_geolocation";
         METHODS["SEARCH_CORPORATE_PHONEBOOK"] = "search_corporate_phonebook";
         METHODS["OPEN_GROUP_CHAT"] = "open_group_chat";
         METHODS["SEND_BOT_COMMAND"] = "send_bot_command";
@@ -2012,6 +2014,12 @@
         return bridge?.sendClientEvent({
             method: METHODS.GET_CHATS,
             params: { filter },
+        });
+    };
+    const requestGeolocation = () => {
+        return bridge?.sendClientEvent({
+            method: METHODS.REQUEST_GEOLOCATION,
+            params: {},
         });
     };
     const searchCorporatePhonebook = ({ filter = null }) => {
@@ -2119,9 +2127,6 @@
         });
     };
 
-    /**
-     * @param isRoot
-     */
     const routingChanged = (isRoot) => {
         return bridge?.sendClientEvent({
             method: METHODS.ROUTING_CHANGED,
@@ -2130,19 +2135,12 @@
             },
         });
     };
-    /**
-     * @param handleBackPressed
-     */
     const onBackPressed = (handleBackPressed) => {
         return bridge?.onReceive((event) => {
             if (event.type === METHODS.BACK_PRESSED)
                 handleBackPressed();
         });
     };
-    /**
-     * @param appId
-     * @param meta
-     */
     const openSmartApp = (appId, meta) => {
         return bridge?.sendClientEvent({
             method: METHODS.OPEN_SMART_APP,
@@ -2150,6 +2148,12 @@
                 appId,
                 meta,
             },
+        });
+    };
+    const onMoveToRoot = (handleMoveToRoot) => {
+        return bridge?.onReceive(event => {
+            if (event.type === METHODS.MOVE_TO_ROOT)
+                handleMoveToRoot();
         });
     };
     const exitSmartAppToCatalog = () => {
@@ -2168,11 +2172,13 @@
     exports.getChats = getChats;
     exports.getContact = getContact;
     exports.onBackPressed = onBackPressed;
+    exports.onMoveToRoot = onMoveToRoot;
     exports.onNotification = onNotification;
     exports.openClientSettings = openClientSettings;
     exports.openGroupChat = openGroupChat;
     exports.openSmartApp = openSmartApp;
     exports.ready = ready;
+    exports.requestGeolocation = requestGeolocation;
     exports.routingChanged = routingChanged;
     exports.searchCorporatePhonebook = searchCorporatePhonebook;
     exports.sendBotCommand = sendBotCommand;
