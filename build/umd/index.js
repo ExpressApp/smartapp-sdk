@@ -1981,7 +1981,7 @@
     var METHODS;
     (function (METHODS) {
         METHODS["READY"] = "ready";
-        METHODS["ROUTING_CHANGED"] = "routing_changed";
+        METHODS["ROUTING_CHANGED"] = "routing_changes";
         METHODS["BACK_PRESSED"] = "back_pressed";
         METHODS["MOVE_TO_ROOT"] = "move_to_root";
         METHODS["ADD_CONTACT"] = "add_contact";
@@ -1992,10 +1992,13 @@
         METHODS["OPEN_SMART_APP"] = "open_smart_app";
         METHODS["OPEN_CLIENT_SETTINGS"] = "open_client_settings";
         METHODS["GET_CHATS"] = "get_chats";
-        METHODS["REQUEST_GEOLOCATION"] = "request_geolocation";
         METHODS["SEARCH_CORPORATE_PHONEBOOK"] = "search_corporate_phonebook";
-        METHODS["OPEN_GROUP_CHAT"] = "open_group_chat";
         METHODS["SEND_BOT_COMMAND"] = "send_bot_command";
+        METHODS["OPEN_GROUP_CHAT"] = "open_group_chat";
+        METHODS["OPEN_CONTACT_CARD"] = "open_contact_card";
+        METHODS["REQUEST_LOCATION"] = "request_location";
+        METHODS["REQUEST_SELF_PROFILE"] = "request_self_profile";
+        METHODS["CLOSE_SMART_APP"] = "close_smart_app";
     })(METHODS || (METHODS = {}));
 
     var LOCATION;
@@ -2016,12 +2019,6 @@
             params: { filter },
         });
     };
-    const requestGeolocation = () => {
-        return bridge?.sendClientEvent({
-            method: METHODS.REQUEST_GEOLOCATION,
-            params: {},
-        });
-    };
     const searchCorporatePhonebook = ({ filter = null }) => {
         return bridge?.sendClientEvent({
             method: METHODS.SEARCH_CORPORATE_PHONEBOOK,
@@ -2034,7 +2031,7 @@
             params: { groupChatId },
         });
     };
-    const sendBotCommand = ({ userHuid, body, data }) => {
+    const sendBotCommand = ({ userHuid, body, data, }) => {
         if (typeof data !== 'object')
             return;
         return bridge?.sendClientEvent({
@@ -2046,6 +2043,12 @@
                     data,
                 },
             },
+        });
+    };
+    const requestLocation = () => {
+        return bridge?.sendClientEvent({
+            method: METHODS.REQUEST_LOCATION,
+            params: {},
         });
     };
 
@@ -2070,7 +2073,7 @@
             params: { huid },
         });
     };
-    const sendMessage = ({ userHuid = null, groupChatId = null, messageBody = "", messageMeta = {}, }) => {
+    const sendMessage = ({ userHuid = null, groupChatId = null, messageBody = '', messageMeta = {}, }) => {
         return bridge?.sendClientEvent({
             method: METHODS.SEND_MESSAGE,
             params: {
@@ -2083,15 +2086,26 @@
             },
         });
     };
+    const openContactCard = ({ userHuid }) => {
+        if (!userHuid)
+            return;
+        return bridge?.sendClientEvent({
+            method: METHODS.OPEN_CONTACT_CARD,
+            params: { userHuid }
+        });
+    };
+    const requestSelfProfile = () => {
+        return bridge?.sendClientEvent({
+            method: METHODS.REQUEST_SELF_PROFILE,
+            params: {},
+        });
+    };
 
     const useQuery = () => {
         const urlSearchParams = new URLSearchParams(window.location.search);
         return Object.fromEntries(urlSearchParams.entries());
     };
 
-    /**
-     * @param timeout
-     */
     const bridgeSendReady = (timeout) => {
         const event = {
             method: METHODS.READY,
@@ -2100,21 +2114,14 @@
         return bridge?.sendClientEvent(timeout ? { ...event, timeout } : event);
     };
 
-    /**
-     * @param timeout
-     */
     const ready = async (timeout) => {
         const response = await bridgeSendReady(timeout);
-        const Bridge = bridge;
         const isLogsEnabled = response?.payload?.logsEnabled;
         if (isLogsEnabled)
-            Bridge?.enableLogs?.();
+            bridge?.enableLogs?.();
         return response;
     };
 
-    /**
-     * @param handleNotification
-     */
     const onNotification = async (handleNotification) => {
         const response = await bridge?.sendClientEvent({
             method: METHODS.NOTIFICATION,
@@ -2136,18 +2143,21 @@
         });
     };
     const onBackPressed = (handleBackPressed) => {
-        return bridge?.onReceive((event) => {
+        return bridge?.onReceive(event => {
             if (event.type === METHODS.BACK_PRESSED)
                 handleBackPressed();
         });
     };
-    const openSmartApp = (appId, meta) => {
+    const openSmartApp = ({ appId, meta }) => {
         return bridge?.sendClientEvent({
             method: METHODS.OPEN_SMART_APP,
-            params: {
-                appId,
-                meta,
-            },
+            params: meta ? { appId, meta } : { appId },
+        });
+    };
+    const closeSmartApp = () => {
+        return bridge?.sendClientEvent({
+            method: METHODS.CLOSE_SMART_APP,
+            params: {},
         });
     };
     const onMoveToRoot = (handleMoveToRoot) => {
@@ -2159,14 +2169,13 @@
     const exitSmartAppToCatalog = () => {
         return bridge?.sendClientEvent({
             method: METHODS.OPEN_SMART_APP,
-            params: {
-                appId: "",
-            },
+            params: { appId: '' },
         });
     };
 
     exports.Bridge = bridge;
     exports.addContact = addContact;
+    exports.closeSmartApp = closeSmartApp;
     exports.createPersonalChat = createPersonalChat;
     exports.exitSmartAppToCatalog = exitSmartAppToCatalog;
     exports.getChats = getChats;
@@ -2175,10 +2184,12 @@
     exports.onMoveToRoot = onMoveToRoot;
     exports.onNotification = onNotification;
     exports.openClientSettings = openClientSettings;
+    exports.openContactCard = openContactCard;
     exports.openGroupChat = openGroupChat;
     exports.openSmartApp = openSmartApp;
     exports.ready = ready;
-    exports.requestGeolocation = requestGeolocation;
+    exports.requestLocation = requestLocation;
+    exports.requestSelfProfile = requestSelfProfile;
     exports.routingChanged = routingChanged;
     exports.searchCorporatePhonebook = searchCorporatePhonebook;
     exports.sendBotCommand = sendBotCommand;

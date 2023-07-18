@@ -1,5 +1,5 @@
 import bridge from '@expressms/smartapp-bridge'
-import { METHODS } from '../../types'
+import {METHODS} from '../../types'
 
 const openClientSettings = () => {
   return bridge?.sendClientEvent({
@@ -8,45 +8,37 @@ const openClientSettings = () => {
   })
 }
 
-const getChats = ({ filter = null }: { filter: string | null }) => {
+const getChats = ({filter = null}: { filter: string | null }) => {
   return bridge?.sendClientEvent({
     method: METHODS.GET_CHATS,
-    params: { filter },
+    params: {filter},
   })
 }
 
-const requestGeolocation = () => {
-  return bridge?.sendClientEvent({
-    method: METHODS.REQUEST_GEOLOCATION,
-    params: {},
-  })
-}
-
-const searchCorporatePhonebook = ({ filter = null }: { filter: string | null }) => {
+const searchCorporatePhonebook = ({filter = null}: { filter: string | null }) => {
   return bridge?.sendClientEvent({
     method: METHODS.SEARCH_CORPORATE_PHONEBOOK,
-    params: { filter },
+    params: {filter},
   })
 }
 
-
-const openGroupChat = ({ groupChatId }: { groupChatId: string }) => {
+const openGroupChat = ({groupChatId}: { groupChatId: string }) => {
   return bridge?.sendClientEvent({
     method: METHODS.OPEN_GROUP_CHAT,
-    params: { groupChatId },
+    params: {groupChatId},
   })
 }
 
 const sendBotCommand = (
-  {
-    userHuid,
-    body,
-    data
-  }: {
-    userHuid: string
-    body: string
-    data: { command: string } | null
-  }
+    {
+      userHuid,
+      body,
+      data,
+    }: {
+      userHuid: string
+      body: string
+      data: { command: string } | null
+    }
 ) => {
   if (typeof data !== 'object') return
 
@@ -62,11 +54,18 @@ const sendBotCommand = (
   })
 }
 
+const requestLocation = () => {
+  return bridge?.sendClientEvent({
+    method: METHODS.REQUEST_LOCATION,
+    params: {},
+  })
+}
+
 export {
   openClientSettings,
   getChats,
-  requestGeolocation,
   searchCorporatePhonebook,
-  sendBotCommand,
   openGroupChat,
+  sendBotCommand,
+  requestLocation
 }

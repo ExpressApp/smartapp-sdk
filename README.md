@@ -74,6 +74,12 @@ __Реализации клиентских методов SmartApp Bridge__
 
   открыть смартапп;
 
+- ```
+  closeSmartApp()
+  ```
+
+  закрыть текущий смартапп;
+
 - `exitSmartAppToCatalog()` - выйти из смартапп на каталог;
 
 - `useQuery()` - получить параметры `url` SmartApp;
@@ -97,53 +103,6 @@ function subscribeClientEvents(): EventChannel<any> {
         return () => {}
   })
 }
-```
-
-__Запрос геолокации__
-
-`const response = yield requestGeolocation()`
-
-Метод отправляет клиенту запрос типа:
-
-```
-{
-    "ref": <string>,
-    "handler": "express",
-    "type": "request_geolocation",
-    "payload": {},
-    "files": []
-}
-```
-
-И получает ответ типа:
-
-```
-{
-    "ref": <string>,
-    "status": "success",
-    "data": {
-      "latitude": <string|null>,
-      "longitude": <string|null>,
-      "timestamp": <"YYYY-MM-DDThh:mm:ss.fZZZZZ"|null>,
-    }
-}
-```
-
-Ответ клиента в случае ошибки:
-
-```
-  {
-    "ref": <string>,
-    "status": "error",
-    "error_code": "permission_denied" | "location_undefined"
-  }
-```
-
-Статус error_code отправляется в следующих случаях:
-
-```
-1. Ошибка разрешения на получение геолокации, error_code = "permission_denied"
-2. Ошибка получения данных геолокации, error_code = "location_undefined"
 ```
 
 __Метод routingChanged__
@@ -186,7 +145,7 @@ __Редирект в другой смартапп__
 bridge?.sendClientEvent({
     method: "open_smart_app",
     params: {
-        appId: string // уникальный идентификатор SmartApp e.g. "feature-smartapp"
+      appId: string // уникальный идентификатор SmartApp e.g. "017aade3-0f2d-5274-93f2-79607f564dc6",
     }
 })
 ```
@@ -195,7 +154,7 @@ __Редирект в другой смартапп, передача поля `
 
 ```
 openSmartApp({
-    appId: string // уникальный идентификатор SmartApp e.g. "feature-smartapp",
+    appId: string // уникальный идентификатор SmartApp e.g. "017aade3-0f2d-5274-93f2-79607f564dc6",
     meta: Object, // "meta" может содержать любую информацию
 })
 ```
@@ -206,7 +165,7 @@ SmartApp 1 отправляет клиенту ивент:
 
 ```
 openSmartApp({
-    appId: "feature-smartapp",
+    appId: "017aade3-0f2d-5274-93f2-79607f564dc6",
     meta: {
       route: "/route-in-feature-smartapp"
     }
@@ -215,7 +174,7 @@ openSmartApp({
 
 Клиент получает ивент, сохраняет значение поля `meta`.
 
-Клиент открывает SmartApp 2 с `appId === "feature-smartapp"`.
+Клиент открывает SmartApp 2 с `appId === "017aade3-0f2d-5274-93f2-79607f564dc6"`.
 
 SmartApp 2 шлет ивент `ready`:
 
@@ -301,6 +260,53 @@ __Запрос чатов__
       ],
     }
 }
+```
+
+__Запрос геолокации__
+
+`const response = yield requestLocation()`
+
+Метод отправляет клиенту запрос типа:
+
+```
+{
+    "ref": <string>,
+    "handler": "express",
+    "type": "request_location",
+    "payload": {},
+    "files": []
+}
+```
+
+И получает ответ типа:
+
+```
+{
+    "ref": <string>,
+    "status": "success",
+    "data": {
+      "latitude": <string|null>,
+      "longitude": <string|null>,
+      "timestamp": <"YYYY-MM-DDThh:mm:ss.fZZZZZ"|null>,
+    }
+}
+```
+
+Ответ клиента в случае ошибки:
+
+```
+  {
+    "ref": <string>,
+    "status": "error",
+    "error_code": "permission_denied" | "location_undefined"
+  }
+```
+
+Статус error_code отправляется в следующих случаях:
+
+```
+1. Ошибка разрешения на получение геолокации, error_code = "permission_denied"
+2. Ошибка получения данных геолокации, error_code = "location_undefined"
 ```
 
 __Запрос результатов поиска по корпоративной phonebook и результат трастового поиска__
@@ -455,6 +461,50 @@ await sendBotCommand({ userHuid, body, data}: {
 
 В чат с ботом придет значение параметра `{ "body": "hello" }`, бот получит объект `{ "command": "/test" }`.
 
+__Запрос профиля текущего пользователя__
+
+```
+const response = yield requestSelfProfile()
+```
+
+Метод отправляет клиенту запрос типа:
+```
+{
+  "ref": <string>,
+  "handler": "express",
+  "type": "smartapp_rpc",
+  "method": "request_self_profile",
+  "payload": {},
+  "files": []
+}
+```
+
+И получает ответ:
+
+```
+{
+  "ref": <string>,
+  "status": "success|error",
+  "data": {
+    "userHuid": string,
+    "name": string,
+    "avatar": string | null,
+    "avatarPreview": string | null,
+    "company": string | null,
+    "department": string | null,
+    "office": string | null,
+    "manager": string | null,
+    "managerHuid": string | null,
+    "email": string | null,
+    "phone": string | null,
+    "description": string | null,
+    "otherPhone": string | null,
+    "ip_phone": string | null,
+    "otherIpPhone": string | null,
+  }
+}
+```
+
 __Кеширование статики с помощью WorkboxWebpackPlugin__
 
 Если приложение было создано с помощью `create-react-app`, добавляем строчку в `package.json`:
@@ -462,17 +512,17 @@ __Кеширование статики с помощью WorkboxWebpackPlugin__
 ```
 
 "scripts": {
-"eject": "react-scripts eject",
+  "eject": "react-scripts eject",
 }
 
 ```
 
-В зависимости приложения добавляем `smartapp-sdk` версии `1.0.7` или выше:
+В зависимости приложения добавляем `smartapp-sdk` версии `1.2.2` или выше:
 
 ```
 
 "dependencies": {
-"@unlimited/smartapp-sdk": "^1.0.7",
+  "@unlimited/smartapp-sdk": "^1.2.2",
 }
 
 ```
@@ -488,9 +538,9 @@ __Кеширование статики с помощью WorkboxWebpackPlugin__
 if (module.hot) module.hot.accept()
 
 if ("serviceWorker" in navigator) {
-window.addEventListener("load", () => {
-navigator.serviceWorker.register("./sw.js")
-})
+  window.addEventListener("load", () => {
+  navigator.serviceWorker.register("./sw.js")
+  })
 }
 
 ```
@@ -500,9 +550,9 @@ navigator.serviceWorker.register("./sw.js")
 ```
 
 plugins: [
-new WorkboxWebpackPlugin.InjectManifest({
-swSrc: "@unlimited/smartapp-sdk/workers/workbox.js", // path to worker
-swDest: "sw.js"
+  new WorkboxWebpackPlugin.InjectManifest({
+  swSrc: "@unlimited/smartapp-sdk/workers/workbox.js", // path to worker
+  swDest: "sw.js"
 }),
 
 ```
