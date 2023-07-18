@@ -1,15 +1,12 @@
 import bridge from "@expressms/smartapp-bridge"
+import { ReadyEventResponse } from "../../types"
 import { bridgeSendReady } from "../index"
 
-/**
- * @param timeout
- */
 const ready = async (timeout?: number) => {
-  const response = await bridgeSendReady(timeout) as any
-  const Bridge = bridge as any
+  const response = await bridgeSendReady(timeout) as ReadyEventResponse
   const isLogsEnabled = response?.payload?.logsEnabled
 
-  if (isLogsEnabled) Bridge?.enableLogs?.()
+  if (isLogsEnabled) (bridge as any)?.enableLogs?.()
 
   return response
 }

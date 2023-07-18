@@ -3,20 +3,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendBotCommand = exports.onMoveToRoot = exports.openGroupChat = exports.searchCorporatePhonebook = exports.requestGeolocation = exports.getChats = exports.openClientSettings = exports.useQuery = exports.exitSmartAppToCatalog = exports.openSmartApp = exports.sendMessage = exports.onNotification = exports.createPersonalChat = exports.getContact = exports.addContact = exports.onBackPressed = exports.routingChanged = exports.ready = exports.Bridge = void 0;
+exports.closeSmartApp = exports.requestSelfProfile = exports.openContactCard = exports.requestLocation = exports.onMoveToRoot = exports.openGroupChat = exports.sendBotCommand = exports.searchCorporatePhonebook = exports.getChats = exports.openClientSettings = exports.useQuery = exports.exitSmartAppToCatalog = exports.openSmartApp = exports.sendMessage = exports.onNotification = exports.createPersonalChat = exports.getContact = exports.addContact = exports.onBackPressed = exports.routingChanged = exports.ready = exports.Bridge = void 0;
 const smartapp_bridge_1 = __importDefault(require("@expressms/smartapp-bridge"));
 exports.Bridge = smartapp_bridge_1.default;
 const client_1 = require("./lib/client");
 Object.defineProperty(exports, "getChats", { enumerable: true, get: function () { return client_1.getChats; } });
 Object.defineProperty(exports, "openClientSettings", { enumerable: true, get: function () { return client_1.openClientSettings; } });
 Object.defineProperty(exports, "openGroupChat", { enumerable: true, get: function () { return client_1.openGroupChat; } });
-Object.defineProperty(exports, "requestGeolocation", { enumerable: true, get: function () { return client_1.requestGeolocation; } });
+Object.defineProperty(exports, "requestLocation", { enumerable: true, get: function () { return client_1.requestLocation; } });
 Object.defineProperty(exports, "searchCorporatePhonebook", { enumerable: true, get: function () { return client_1.searchCorporatePhonebook; } });
 Object.defineProperty(exports, "sendBotCommand", { enumerable: true, get: function () { return client_1.sendBotCommand; } });
 const contacts_1 = require("./lib/contacts");
 Object.defineProperty(exports, "addContact", { enumerable: true, get: function () { return contacts_1.addContact; } });
 Object.defineProperty(exports, "createPersonalChat", { enumerable: true, get: function () { return contacts_1.createPersonalChat; } });
 Object.defineProperty(exports, "getContact", { enumerable: true, get: function () { return contacts_1.getContact; } });
+Object.defineProperty(exports, "openContactCard", { enumerable: true, get: function () { return contacts_1.openContactCard; } });
+Object.defineProperty(exports, "requestSelfProfile", { enumerable: true, get: function () { return contacts_1.requestSelfProfile; } });
 Object.defineProperty(exports, "sendMessage", { enumerable: true, get: function () { return contacts_1.sendMessage; } });
 const helpers_1 = require("./lib/helpers/helpers");
 Object.defineProperty(exports, "useQuery", { enumerable: true, get: function () { return helpers_1.useQuery; } });
@@ -25,9 +27,10 @@ Object.defineProperty(exports, "ready", { enumerable: true, get: function () { r
 const notification_1 = require("./lib/notification");
 Object.defineProperty(exports, "onNotification", { enumerable: true, get: function () { return notification_1.onNotification; } });
 const routing_1 = require("./lib/routing");
+Object.defineProperty(exports, "closeSmartApp", { enumerable: true, get: function () { return routing_1.closeSmartApp; } });
 Object.defineProperty(exports, "exitSmartAppToCatalog", { enumerable: true, get: function () { return routing_1.exitSmartAppToCatalog; } });
 Object.defineProperty(exports, "onBackPressed", { enumerable: true, get: function () { return routing_1.onBackPressed; } });
 Object.defineProperty(exports, "onMoveToRoot", { enumerable: true, get: function () { return routing_1.onMoveToRoot; } });
 Object.defineProperty(exports, "openSmartApp", { enumerable: true, get: function () { return routing_1.openSmartApp; } });
 Object.defineProperty(exports, "routingChanged", { enumerable: true, get: function () { return routing_1.routingChanged; } });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi9zcmMvaW5kZXgudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7O0FBQUEsaUZBQStDO0FBZ0I3QyxpQkFoQksseUJBQU0sQ0FnQkw7QUFmUix5Q0FPcUI7QUFxQm5CLHlGQTNCQSxpQkFBUSxPQTJCQTtBQURSLG1HQXpCQSwyQkFBa0IsT0F5QkE7QUFJbEIsOEZBNUJBLHNCQUFhLE9BNEJBO0FBRmIsbUdBekJBLDJCQUFrQixPQXlCQTtBQUNsQix5R0F6QkEsaUNBQXdCLE9BeUJBO0FBR3hCLCtGQTNCQSx1QkFBYyxPQTJCQTtBQXpCaEIsNkNBQXdGO0FBV3RGLDJGQVhPLHFCQUFVLE9BV1A7QUFFVixtR0FibUIsNkJBQWtCLE9BYW5CO0FBRGxCLDJGQVp1QyxxQkFBVSxPQVl2QztBQUdWLDRGQWZtRCxzQkFBVyxPQWVuRDtBQWRiLG1EQUFnRDtBQWlCOUMseUZBakJPLGtCQUFRLE9BaUJQO0FBaEJWLDJDQUFxQztBQU1uQyxzRkFOTyxlQUFLLE9BTVA7QUFMUCxxREFBbUQ7QUFXakQsK0ZBWE8sNkJBQWMsT0FXUDtBQVZoQiwyQ0FBZ0g7QUFhOUcsc0dBYk8sK0JBQXFCLE9BYVA7QUFQckIsOEZBTjhCLHVCQUFhLE9BTTlCO0FBY2IsNkZBcEI2QyxzQkFBWSxPQW9CN0M7QUFSWiw2RkFaMkQsc0JBQVksT0FZM0Q7QUFQWiwrRkFMeUUsd0JBQWMsT0FLekUifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi9zcmMvaW5kZXgudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7O0FBQUEsaUZBQStDO0FBOEI3QyxpQkE5QksseUJBQU0sQ0E4Qkw7QUE3QlIseUNBT3FCO0FBbUNuQix5RkF6Q0EsaUJBQVEsT0F5Q0E7QUFEUixtR0F2Q0EsMkJBQWtCLE9BdUNBO0FBSWxCLDhGQTFDQSxzQkFBYSxPQTBDQTtBQUViLGdHQTNDQSx3QkFBZSxPQTJDQTtBQUpmLHlHQXRDQSxpQ0FBd0IsT0FzQ0E7QUFDeEIsK0ZBdENBLHVCQUFjLE9Bc0NBO0FBcENoQiw2Q0FPdUI7QUFrQnJCLDJGQXhCQSxxQkFBVSxPQXdCQTtBQUVWLG1HQXpCQSw2QkFBa0IsT0F5QkE7QUFEbEIsMkZBdkJBLHFCQUFVLE9BdUJBO0FBY1YsZ0dBcENBLDBCQUFlLE9Bb0NBO0FBQ2YsbUdBcENBLDZCQUFrQixPQW9DQTtBQVpsQiw0RkF2QkEsc0JBQVcsT0F1QkE7QUFyQmIsbURBQThDO0FBd0I1Qyx5RkF4Qk0sa0JBQVEsT0F3Qk47QUF2QlYsMkNBQW1DO0FBYWpDLHNGQWJNLGVBQUssT0FhTjtBQVpQLHFEQUFpRDtBQWtCL0MsK0ZBbEJNLDZCQUFjLE9Ba0JOO0FBakJoQiwyQ0FPc0I7QUF3QnBCLDhGQTlCQSx1QkFBYSxPQThCQTtBQVhiLHNHQWxCQSwrQkFBcUIsT0FrQkE7QUFQckIsOEZBVkEsdUJBQWEsT0FVQTtBQWNiLDZGQXZCQSxzQkFBWSxPQXVCQTtBQVJaLDZGQWRBLHNCQUFZLE9BY0E7QUFQWiwrRkFOQSx3QkFBYyxPQU1BIn0=

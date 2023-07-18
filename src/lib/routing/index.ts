@@ -1,5 +1,5 @@
 import bridge from "@expressms/smartapp-bridge"
-import { LOCATION, METHODS } from "../../types"
+import { LOCATION, METHODS } from '../../types'
 
 const routingChanged = (isRoot: boolean) => {
   return bridge?.sendClientEvent({
@@ -11,18 +11,22 @@ const routingChanged = (isRoot: boolean) => {
 }
 
 const onBackPressed = (handleBackPressed: Function) => {
-  return bridge?.onReceive((event: any) => {
+  return bridge?.onReceive(event => {
     if (event.type === METHODS.BACK_PRESSED) handleBackPressed()
   })
 }
 
-const openSmartApp = (appId: string, meta?: any) => {
+const openSmartApp = ({ appId, meta }: { appId: string; meta?: object }) => {
   return bridge?.sendClientEvent({
     method: METHODS.OPEN_SMART_APP,
-    params: {
-      appId,
-      meta,
-    },
+    params: meta ? { appId, meta } : { appId },
+  })
+}
+
+const closeSmartApp = () => {
+  return bridge?.sendClientEvent({
+    method: METHODS.CLOSE_SMART_APP,
+    params: {},
   })
 }
 
@@ -35,16 +39,8 @@ const onMoveToRoot = (handleMoveToRoot: Function) => {
 const exitSmartAppToCatalog = () => {
   return bridge?.sendClientEvent({
     method: METHODS.OPEN_SMART_APP,
-    params: {
-      appId: "",
-    },
+    params: { appId: '' },
   })
 }
 
-export {
-  routingChanged,
-  onBackPressed,
-  openSmartApp,
-  onMoveToRoot,
-  exitSmartAppToCatalog,
-}
+export { routingChanged, onBackPressed, openSmartApp, exitSmartAppToCatalog, onMoveToRoot, closeSmartApp }

@@ -1,5 +1,3 @@
-/**
- * @param timeout
- */
-declare const ready: (timeout?: number) => Promise<any>;
+import { ReadyEventResponse } from "../../types";
+declare const ready: (timeout?: number) => Promise<ReadyEventResponse>;
 export { ready, };

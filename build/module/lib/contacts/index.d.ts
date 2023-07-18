@@ -1,4 +1,4 @@
-import { SendMessageMethodParams } from "../../types/contacts";
+import { RequestSelfProfileResponse, SendMessageMethodParams } from '../../types/contacts';
 declare const addContact: ({ phone, name }: {
     phone: string;
     name: string;
@@ -10,4 +10,8 @@ declare const createPersonalChat: ({ huid }: {
     huid: string;
 }) => Promise<import("@expressms/smartapp-bridge/build/main/types/eventEmitter").EmitterEventPayload> | undefined;
 declare const sendMessage: ({ userHuid, groupChatId, messageBody, messageMeta, }: SendMessageMethodParams) => Promise<import("@expressms/smartapp-bridge/build/main/types/eventEmitter").EmitterEventPayload> | undefined;
-export { addContact, getContact, createPersonalChat, sendMessage, };
+declare const openContactCard: ({ userHuid }: {
+    userHuid: string;
+}) => Promise<import("@expressms/smartapp-bridge/build/main/types/eventEmitter").EmitterEventPayload> | undefined;
+declare const requestSelfProfile: () => RequestSelfProfileResponse;
+export { addContact, getContact, createPersonalChat, sendMessage, openContactCard, requestSelfProfile, };

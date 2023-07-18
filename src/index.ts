@@ -3,15 +3,29 @@ import {
   getChats,
   openClientSettings,
   openGroupChat,
-  requestGeolocation,
+  requestLocation,
   searchCorporatePhonebook,
   sendBotCommand,
 } from './lib/client'
-import { addContact, createPersonalChat, getContact, sendMessage } from './lib/contacts'
-import { useQuery } from './lib/helpers/helpers'
-import { ready } from './lib/logging'
-import { onNotification } from './lib/notification'
-import { exitSmartAppToCatalog, onBackPressed, onMoveToRoot, openSmartApp, routingChanged } from './lib/routing'
+import {
+  addContact,
+  createPersonalChat,
+  getContact,
+  openContactCard,
+  requestSelfProfile,
+  sendMessage,
+} from './lib/contacts'
+import {useQuery} from './lib/helpers/helpers'
+import {ready} from './lib/logging'
+import {onNotification} from './lib/notification'
+import {
+  closeSmartApp,
+  exitSmartAppToCatalog,
+  onBackPressed,
+  onMoveToRoot,
+  openSmartApp,
+  routingChanged,
+} from './lib/routing'
 
 export {
   Bridge,
@@ -28,9 +42,12 @@ export {
   useQuery,
   openClientSettings,
   getChats,
-  requestGeolocation,
   searchCorporatePhonebook,
+  sendBotCommand,
   openGroupChat,
   onMoveToRoot,
-  sendBotCommand,
+  requestLocation,
+  openContactCard,
+  requestSelfProfile,
+  closeSmartApp,
 }
