@@ -1404,13 +1404,11 @@
         hasCommunicationObject;
         logsEnabled;
         isRenameParamsEnabledForBotx;
-        handler;
         constructor() {
             this.hasCommunicationObject = typeof window.express !== 'undefined' && !!window.express.handleSmartAppEvent;
             this.eventEmitter = new ExtendedEventEmitter();
             this.logsEnabled = false;
             this.isRenameParamsEnabledForBotx = true;
-            this.handler = null;
             if (!this.hasCommunicationObject) {
                 log('No method "express.handleSmartAppEvent", cannot send message to Android');
                 return;
@@ -1421,13 +1419,13 @@
                     console.log('Bridge ~ Incoming event', JSON.stringify({ ref, data, files }, null, 2));
                 const { type, ...payload } = data;
                 const emitterType = ref || EVENT_TYPE.RECEIVE;
-                const isRenameParamsEnabled = this.handler === HANDLER.BOTX ? this.isRenameParamsEnabledForBotx : true;
-                const eventFiles = isRenameParamsEnabled ?
+                // const isRenameParamsEnabled = data.handler === HANDLER.BOTX ? this.isRenameParamsEnabledForBotx : true // TODO uncomment when client is ready
+                const eventFiles = this.isRenameParamsEnabledForBotx ?
                     files?.map((file) => snakeCaseToCamelCase(file)) : files;
                 const event = {
                     ref,
                     type,
-                    payload: isRenameParamsEnabled ? snakeCaseToCamelCase(payload) : payload,
+                    payload: this.isRenameParamsEnabledForBotx ? snakeCaseToCamelCase(payload) : payload,
                     files: eventFiles,
                 };
                 this.eventEmitter.emit(emitterType, event);
@@ -1589,7 +1587,6 @@
         hasCommunicationObject;
         logsEnabled;
         isRenameParamsEnabledForBotx;
-        handler;
         constructor() {
             this.hasCommunicationObject =
                 window.webkit &&
@@ -1599,7 +1596,6 @@
             this.eventEmitter = new ExtendedEventEmitter();
             this.logsEnabled = false;
             this.isRenameParamsEnabledForBotx = true;
-            this.handler = null;
             if (!this.hasCommunicationObject) {
                 log('No method "express.postMessage", cannot send message to iOS');
                 return;
@@ -1610,13 +1606,13 @@
                     console.log('Bridge ~ Incoming event', JSON.stringify({ ref, data, files }, null, 2));
                 const { type, ...payload } = data;
                 const emitterType = ref || EVENT_TYPE.RECEIVE;
-                const isRenameParamsEnabled = this.handler === HANDLER.BOTX ? this.isRenameParamsEnabledForBotx : true;
-                const eventFiles = isRenameParamsEnabled ?
+                // const isRenameParamsEnabled = data.handler === HANDLER.BOTX ? this.isRenameParamsEnabledForBotx : true // TODO uncomment when client is ready
+                const eventFiles = this.isRenameParamsEnabledForBotx ?
                     files?.map((file) => snakeCaseToCamelCase(file)) : files;
                 const event = {
                     ref,
                     type,
-                    payload: isRenameParamsEnabled ? snakeCaseToCamelCase(payload) : payload,
+                    payload: this.isRenameParamsEnabledForBotx ? snakeCaseToCamelCase(payload) : payload,
                     files: eventFiles,
                 };
                 this.eventEmitter.emit(emitterType, event);
@@ -1640,7 +1636,6 @@
             if (!this.hasCommunicationObject)
                 return Promise.reject();
             const ref = v4(); // UUID to detect express response.
-            this.handler = handler;
             const isRenameParamsEnabled = handler === HANDLER.BOTX ? this.isRenameParamsEnabledForBotx : true;
             const eventProps = {
                 ref,
@@ -1780,13 +1775,11 @@
         eventEmitter;
         logsEnabled;
         isRenameParamsEnabledForBotx;
-        handler;
         constructor() {
             this.eventEmitter = new ExtendedEventEmitter();
             this.addGlobalListener();
             this.logsEnabled = false;
             this.isRenameParamsEnabledForBotx = true;
-            this.handler = null;
         }
         addGlobalListener() {
             window.addEventListener('message', (event) => {
@@ -1795,7 +1788,7 @@
                     typeof event.data.data.type !== 'string')
                     return;
                 const { ref, data: { type, ...payload }, files, } = event.data;
-                const isRenameParamsEnabled = this.handler === HANDLER.BOTX ? this.isRenameParamsEnabledForBotx : false;
+                const isRenameParamsEnabled = this.isRenameParamsEnabledForBotx; // TODO fix when handler is passed
                 if (this.logsEnabled)
                     console.log('Bridge ~ Incoming event', event.data);
                 const emitterType = ref || EVENT_TYPE.RECEIVE;
@@ -1804,7 +1797,7 @@
                 this.eventEmitter.emit(emitterType, {
                     ref,
                     type,
-                    payload: isRenameParamsEnabled ? snakeCaseToCamelCase(payload) : payload,
+                    payload: this.isRenameParamsEnabledForBotx ? snakeCaseToCamelCase(payload) : payload,
                     files: eventFiles,
                 });
             });
@@ -1826,7 +1819,6 @@
         sendEvent({ handler, method, params, files, timeout = RESPONSE_TIMEOUT, guaranteed_delivery_required = false, }) {
             const isRenameParamsEnabled = handler === HANDLER.BOTX ? this.isRenameParamsEnabledForBotx : false;
             const ref = v4(); // UUID to detect express response.
-            this.handler = handler;
             const payload = {
                 ref,
                 type: WEB_COMMAND_TYPE_RPC,
@@ -1956,7 +1948,7 @@
         }
     }
 
-    const LIB_VERSION = "1.1.9";
+    const LIB_VERSION = "1.2.0";
 
     const getBridge = () => {
         if (process.env.NODE_ENV === 'test')

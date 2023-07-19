@@ -4,7 +4,6 @@ node_modules
 src/**.js
 coverage
 *.log
-yarn.lock
 public
 build/tsconfig.*
 .DS_Store
