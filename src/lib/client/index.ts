@@ -1,5 +1,5 @@
 import bridge from '@expressms/smartapp-bridge'
-import {METHODS} from '../../types'
+import { File, METHODS } from '../../types'
 
 const openClientSettings = () => {
   return bridge?.sendClientEvent({
@@ -26,6 +26,13 @@ const openGroupChat = ({groupChatId}: { groupChatId: string }) => {
   return bridge?.sendClientEvent({
     method: METHODS.OPEN_GROUP_CHAT,
     params: {groupChatId},
+  })
+}
+
+const openFile = (file: File) => {
+  return bridge?.sendClientEvent({
+    method: METHODS.OPEN_FILE,
+    params: file,
   })
 }
 
@@ -62,6 +69,7 @@ const requestLocation = () => {
 }
 
 export {
+  openFile,
   openClientSettings,
   getChats,
   searchCorporatePhonebook,

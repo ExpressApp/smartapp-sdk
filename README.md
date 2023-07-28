@@ -426,6 +426,39 @@ const response = yield openGroupChat({ groupChatId: <uuid> })
 }
 ```
 
+__Открытие файла__
+
+Метод отправляет клиенту запрос типа:
+
+```
+const response = yield openFile(file: { 
+     "type": <string> | null
+     "file": <string>
+     "fileMimeType": <string> | null
+     "fileName": <string> | null
+     "filePreview": <string> | null
+     "filePreviewHeight": <number> | null
+     "filePreviewWidth": <number> | null
+     "fileSize": <number>
+     "fileHash": <string> | null
+     "fileEncryptionAlgo": <string> | null
+     "chunkSize": <number> | null
+     "fileId": <string> | null    
+     "key": {} | null
+    } 
+)
+```
+
+И получает ответ типа:
+
+```
+{
+  "ref": <string>,
+  "status": "success|error",
+  "error_code"?: <string>
+}
+```
+
 __Отправка скрытой команды боту__
 
 Команда позволяет только передать боту информацию. Обработка информации должна быть реализована на стороне бота.

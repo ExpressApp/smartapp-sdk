@@ -2,6 +2,7 @@ import Bridge from '@expressms/smartapp-bridge'
 import {
   getChats,
   openClientSettings,
+  openFile,
   openGroupChat,
   requestLocation,
   searchCorporatePhonebook,
@@ -38,6 +39,7 @@ export {
   onNotification,
   sendMessage,
   openSmartApp,
+  openFile,
   exitSmartAppToCatalog,
   useQuery,
   openClientSettings,
