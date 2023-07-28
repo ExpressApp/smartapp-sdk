@@ -1991,6 +1991,7 @@
         METHODS["REQUEST_LOCATION"] = "request_location";
         METHODS["REQUEST_SELF_PROFILE"] = "request_self_profile";
         METHODS["CLOSE_SMART_APP"] = "close_smart_app";
+        METHODS["OPEN_FILE"] = "open_file";
     })(METHODS || (METHODS = {}));
 
     var LOCATION;
@@ -2021,6 +2022,12 @@
         return bridge?.sendClientEvent({
             method: METHODS.OPEN_GROUP_CHAT,
             params: { groupChatId },
+        });
+    };
+    const openFile = (file) => {
+        return bridge?.sendClientEvent({
+            method: METHODS.OPEN_FILE,
+            params: file,
         });
     };
     const sendBotCommand = ({ userHuid, body, data, }) => {
@@ -2177,6 +2184,7 @@
     exports.onNotification = onNotification;
     exports.openClientSettings = openClientSettings;
     exports.openContactCard = openContactCard;
+    exports.openFile = openFile;
     exports.openGroupChat = openGroupChat;
     exports.openSmartApp = openSmartApp;
     exports.ready = ready;

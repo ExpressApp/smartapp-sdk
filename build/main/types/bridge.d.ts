@@ -17,7 +17,8 @@ export declare enum METHODS {
     OPEN_CONTACT_CARD = "open_contact_card",
     REQUEST_LOCATION = "request_location",
     REQUEST_SELF_PROFILE = "request_self_profile",
-    CLOSE_SMART_APP = "close_smart_app"
+    CLOSE_SMART_APP = "close_smart_app",
+    OPEN_FILE = "open_file"
 }
 export type ReadyEventResponse = ({
     ref: string;
@@ -29,3 +30,18 @@ export type ReadyEventResponse = ({
         openSmartAppMeta?: object;
     };
 }) | undefined;
+export interface File {
+    type: string | null;
+    file: string;
+    fileMimeType: string | null;
+    fileName: string | null;
+    filePreview: string | null;
+    filePreviewHeight: number | null;
+    filePreviewWidth: number | null;
+    fileSize: number;
+    fileHash: string | null;
+    fileEncryptionAlgo: string | null;
+    chunkSize: number | null;
+    fileId: string | null;
+    key: {} | null;
+}
