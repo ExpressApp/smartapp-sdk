@@ -970,10 +970,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@expressms/smartapp-bridge@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@expressms/smartapp-bridge/-/smartapp-bridge-1.2.0.tgz#04f8bf12ee84278b1271c41a605d71cf4b33687b"
-  integrity sha512-Jhe5WFOOVcRS2LjtEqy33V95UcwRyO1Sq3nBgMDOWaH9Ix+AA5VUkbnIiV3J9CwB5EyyaVZYVkisbeSQFeD/lA==
+"@expressms/smartapp-bridge@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@expressms/smartapp-bridge/-/smartapp-bridge-1.2.1.tgz#70feb358172294029f7de42487e1e2d5f8024546"
+  integrity sha512-5laVBOdPLK98sG7PT7EfSNIHMYQbgUwFhAmM49irgpo1BN/lWyEZOYcqqVNRgmt9B/XocLqTFimAwFdro4TZLQ==
   dependencies:
     "@types/lodash" "^4.14.168"
     eventemitter3 "^4.0.7"
