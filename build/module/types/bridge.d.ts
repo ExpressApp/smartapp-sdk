@@ -18,11 +18,23 @@ export declare enum METHODS {
     REQUEST_LOCATION = "request_location",
     REQUEST_SELF_PROFILE = "request_self_profile",
     CLOSE_SMART_APP = "close_smart_app",
-    OPEN_FILE = "open_file"
+    OPEN_FILE = "open_file",
+    SUBSCRIBE_CLIENT_EVENTS = "subscribe_client_events",
+    UNSUBSCRIBE_CLIENT_EVENTS = "unsubscribe_client_events",
+    GET_CONNECTION_STATUS = "get_connection_status",
+    CREATE_DEEPLINK = "create_deeplink"
 }
-export type ReadyEventResponse = ({
+export declare enum STATUS {
+    SUCCESS = "success",
+    ERROR = "error"
+}
+export declare enum ERROR_CODES {
+    NO_BRIDGE = "no_bridge",
+    SUBSCRIPTION_NOT_FOUND = "subscription_not_found"
+}
+export declare type ReadyEventResponse = ({
     ref: string;
-    status: "success";
+    status: STATUS.SUCCESS;
     payload: {
         logsEnabled?: boolean;
         isMain?: boolean;

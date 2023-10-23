@@ -1,5 +1,7 @@
 import bridge from '@expressms/smartapp-bridge'
-import { File, METHODS } from '../../types'
+import { CreateDeeplinkResponse, ERROR_CODES, File, GetConnectionStatusResponse, METHODS } from '../../types'
+
+export * from './events'
 
 const openClientSettings = () => {
   return bridge?.sendClientEvent({
@@ -8,24 +10,24 @@ const openClientSettings = () => {
   })
 }
 
-const getChats = ({filter = null}: { filter: string | null }) => {
+const getChats = ({ filter = null }: { filter: string | null }) => {
   return bridge?.sendClientEvent({
     method: METHODS.GET_CHATS,
-    params: {filter},
+    params: { filter },
   })
 }
 
-const searchCorporatePhonebook = ({filter = null}: { filter: string | null }) => {
+const searchCorporatePhonebook = ({ filter = null }: { filter: string | null }) => {
   return bridge?.sendClientEvent({
     method: METHODS.SEARCH_CORPORATE_PHONEBOOK,
-    params: {filter},
+    params: { filter },
   })
 }
 
-const openGroupChat = ({groupChatId}: { groupChatId: string }) => {
+const openGroupChat = ({ groupChatId }: { groupChatId: string }) => {
   return bridge?.sendClientEvent({
     method: METHODS.OPEN_GROUP_CHAT,
-    params: {groupChatId},
+    params: { groupChatId },
   })
 }
 
@@ -37,16 +39,15 @@ const openFile = (file: File) => {
 }
 
 const sendBotCommand = (
-    {
-      userHuid,
-      body,
-      data,
-    }: {
-      userHuid: string
-      body: string
-      data: { command: string } | null
-    }
-) => {
+  {
+    userHuid,
+    body,
+    data,
+  }: {
+    userHuid: string
+    body: string
+    data: { command: string } | null
+  }) => {
   if (typeof data !== 'object') return
 
   return bridge?.sendClientEvent({
@@ -68,12 +69,49 @@ const requestLocation = () => {
   })
 }
 
+/**
+ * Get client current connection status. It's based on client's WebSocket connection state.
+ * @returns Promise that'll be fullfilled with status data on success, otherwise rejected with reason
+ */
+const getConnectionStatus = async (): Promise<GetConnectionStatusResponse> => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  const response = await bridge.sendClientEvent({
+    method: METHODS.GET_CONNECTION_STATUS,
+    params: {},
+  })
+
+  return response as GetConnectionStatusResponse
+}
+
+/**
+ * Create deeplink URL to open SmartApp
+ * @param appId ID of SmartApp
+ * @param meta Array of params to be included in deeplink
+ * @returns Promise that'll be fullfilled with deeplink data on success, otherwise rejected with reason
+ */
+const createDeeplink = async (
+  appId: string,
+  meta: Array<{ key: string; value: null | boolean | string | number }>,
+): Promise<CreateDeeplinkResponse> => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  const response = await bridge.sendClientEvent({
+    method: METHODS.CREATE_DEEPLINK,
+    params: { appId, meta },
+  })
+
+  return response as CreateDeeplinkResponse
+}
+
 export {
-  openFile,
   openClientSettings,
   getChats,
   searchCorporatePhonebook,
   openGroupChat,
   sendBotCommand,
-  requestLocation
+  requestLocation,
+  openFile,
+  getConnectionStatus,
+  createDeeplink,
 }

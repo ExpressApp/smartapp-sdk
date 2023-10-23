@@ -1,4 +1,4 @@
-import bridge from "@expressms/smartapp-bridge";
+import bridge from '@expressms/smartapp-bridge';
 import { LOCATION, METHODS } from '../../types';
 const routingChanged = (isRoot) => {
     return bridge?.sendClientEvent({

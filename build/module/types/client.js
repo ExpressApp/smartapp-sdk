@@ -1,0 +1,5 @@
+export var SubscriptionEventType;
+(function (SubscriptionEventType) {
+    SubscriptionEventType["CONNECTION_STATUS"] = "connection_status";
+})(SubscriptionEventType || (SubscriptionEventType = {}));
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY2xpZW50LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vc3JjL3R5cGVzL2NsaWVudC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxNQUFNLENBQU4sSUFBWSxxQkFFWDtBQUZELFdBQVkscUJBQXFCO0lBQy9CLGdFQUF1QyxDQUFBO0FBQ3pDLENBQUMsRUFGVyxxQkFBcUIsS0FBckIscUJBQXFCLFFBRWhDIn0=

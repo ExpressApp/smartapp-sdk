@@ -1,9 +1,9 @@
 import bridge from "@expressms/smartapp-bridge"
-import { METHODS } from '../../types'
-import {RequestSelfProfileResponse, SendMessageMethodParams} from '../../types/contacts'
+import { METHODS, RequestSelfProfileResponse } from '../../types'
+import { SendMessageMethodParams } from '../../types/contacts'
 
 const addContact = (
-    { phone, name }: { phone: string, name: string },
+  { phone, name }: { phone: string, name: string },
 ) => {
   return bridge?.sendClientEvent({
     method: METHODS.ADD_CONTACT,
@@ -29,12 +29,12 @@ const createPersonalChat = ({ huid }: { huid: string }) => {
 }
 
 const sendMessage = (
-    {
-      userHuid = null,
-      groupChatId = null,
-      messageBody = '',
-      messageMeta = {},
-    }: SendMessageMethodParams,
+  {
+    userHuid = null,
+    groupChatId = null,
+    messageBody = '',
+    messageMeta = {},
+  }: SendMessageMethodParams,
 ) => {
   return bridge?.sendClientEvent({
     method: METHODS.SEND_MESSAGE,

@@ -1,4 +1,5 @@
-import { RequestSelfProfileResponse, SendMessageMethodParams } from '../../types/contacts';
+import { RequestSelfProfileResponse } from '../../types';
+import { SendMessageMethodParams } from '../../types/contacts';
 declare const addContact: ({ phone, name }: {
     phone: string;
     name: string;

@@ -1,5 +1,6 @@
 import { EmitterEventPayload } from '@expressms/smartapp-bridge/build/main/types/eventEmitter'
 
+
 export type SendMessageMethodParams = ({
   userHuid: string | null,
   groupChatId: string | null,
@@ -31,4 +32,4 @@ interface RequestSelfProfilePayload extends EmitterEventPayload {
   }
 }
 
-export type RequestSelfProfileResponse = Promise<RequestSelfProfilePayload> | undefined;
+export type RequestSelfProfileResponse = Promise<RequestSelfProfilePayload> | undefined

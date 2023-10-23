@@ -1,12 +1,16 @@
 import Bridge from '@expressms/smartapp-bridge'
 import {
+  createDeeplink,
   getChats,
+  getConnectionStatus,
   openClientSettings,
   openFile,
   openGroupChat,
   requestLocation,
   searchCorporatePhonebook,
   sendBotCommand,
+  subscribeClientEvents,
+  unsubscribeClientEvents,
 } from './lib/client'
 import {
   addContact,
@@ -16,9 +20,9 @@ import {
   requestSelfProfile,
   sendMessage,
 } from './lib/contacts'
-import {useQuery} from './lib/helpers/helpers'
-import {ready} from './lib/logging'
-import {onNotification} from './lib/notification'
+import { useQuery } from './lib/helpers/helpers'
+import { ready } from './lib/logging'
+import { onNotification } from './lib/notification'
 import {
   closeSmartApp,
   exitSmartAppToCatalog,
@@ -39,7 +43,6 @@ export {
   onNotification,
   sendMessage,
   openSmartApp,
-  openFile,
   exitSmartAppToCatalog,
   useQuery,
   openClientSettings,
@@ -47,9 +50,14 @@ export {
   searchCorporatePhonebook,
   sendBotCommand,
   openGroupChat,
+  openFile,
   onMoveToRoot,
   requestLocation,
   openContactCard,
   requestSelfProfile,
   closeSmartApp,
+  getConnectionStatus,
+  subscribeClientEvents,
+  unsubscribeClientEvents,
+  createDeeplink,
 }
