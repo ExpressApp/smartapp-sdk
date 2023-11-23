@@ -431,7 +431,7 @@ __Открытие файла__
 Метод отправляет клиенту запрос типа:
 
 ```
-const response = yield openFile(file: { 
+const response = yield openFile(file: {
      "type": <string> | null
      "file": <string>
      "fileMimeType": <string> | null
@@ -443,9 +443,9 @@ const response = yield openFile(file: {
      "fileHash": <string> | null
      "fileEncryptionAlgo": <string> | null
      "chunkSize": <number> | null
-     "fileId": <string> | null    
+     "fileId": <string> | null
      "key": {} | null
-    } 
+    }
 )
 ```
 
@@ -537,77 +537,3 @@ const response = yield requestSelfProfile()
   }
 }
 ```
-
-__Кеширование статики с помощью WorkboxWebpackPlugin__
-
-Если приложение было создано с помощью `create-react-app`, добавляем строчку в `package.json`:
-
-```
-
-"scripts": {
-  "eject": "react-scripts eject",
-}
-
-```
-
-В зависимости приложения добавляем `smartapp-sdk` версии `1.2.2` или выше:
-
-```
-
-"dependencies": {
-  "@unlimited/smartapp-sdk": "^1.2.2",
-}
-
-```
-
-Устанавливаем пакет и выполняем команду `npm run eject`.
-
-Далее, делаем следующие изменения в файлах:
-
-Добавляем код в `index.tsx`:
-
-```
-
-if (module.hot) module.hot.accept()
-
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-  navigator.serviceWorker.register("./sw.js")
-  })
-}
-
-```
-
-Добавляем код в файл `webpack.config.js`:
-
-```
-
-plugins: [
-  new WorkboxWebpackPlugin.InjectManifest({
-  swSrc: "@unlimited/smartapp-sdk/workers/workbox.js", // path to worker
-  swDest: "sw.js"
-}),
-
-```
-
-Удаляем в файле `webpack.config.js` следующий код:
-
-```
-
-// Generate a service worker script that will precache, and keep up to date,
-// the HTML & assets that are part of the webpack build.
-isEnvProduction &&
-fs.existsSync(swSrc) &&
-new WorkboxWebpackPlugin.InjectManifest({
-swSrc,
-dontCacheBustURLsMatching: /\.[0-9a-f]{8}\./,
-exclude: [/\.map$/, /asset-manifest\.json$/, /LICENSE/],
-// Bump up the default maximum size (2mb) that"s precached,
-// to make lazy-loading failure scenarios less likely.
-// See <https://github.com/cra-template/pwa/issues/13#issuecomment-722667270>
-maximumFileSizeToCacheInBytes: 5 _ 1024 _ 1024,
-}),
-
-```
-
-Запускаем приложение, проверяем регистрацию сервис-воркера.
