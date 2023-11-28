@@ -41,7 +41,7 @@
     "@expressms/smartapp-bridge": "^1.2.1",
     "webpack-manifest-plugin": "2.2.0",
     "workbox-cacheable-response": "^6.5.4",
-    "workbox-expiration": "^6.5.4",
+    "workbox-expiration": "^7.0.0",
     "workbox-precaching": "^6.5.4",
     "workbox-routing": "^6.5.4",
     "workbox-strategies": "^6.5.4",
