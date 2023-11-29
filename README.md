@@ -88,7 +88,7 @@ __Реализации клиентских методов SmartApp Bridge__
 
 - `getChats({ filter: string | null })` - запросить чаты;
 
-- `requestGeolocation()` - запросить геолокацию;
+- `requestLocation()` - запросить геолокацию;
 
 - `searchCorporatePhonebook({ filter: string | null })` - запросить результаты поиска по корпоративной phonebook и результат трастового поиска ;
 
@@ -537,3 +537,11 @@ const response = yield requestSelfProfile()
   }
 }
 ```
+
+__Открытие карточки контакта__
+
+```
+yield openContactCard({ userHuid: "123e4567-e89b-12d3-a456-426655440000" })
+```
+
+Метод отправляет клиенту запрос на открытие карточки контакта с указанным huid.
