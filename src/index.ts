@@ -1,12 +1,16 @@
 import Bridge from '@expressms/smartapp-bridge'
 import {
+  createDeeplink,
   getChats,
+  getConnectionStatus,
   openClientSettings,
   openFile,
   openGroupChat,
   requestLocation,
   searchCorporatePhonebook,
   sendBotCommand,
+  subscribeClientEvents,
+  unsubscribeClientEvents,
 } from './lib/client'
 import {
   addContact,
@@ -52,4 +56,8 @@ export {
   openContactCard,
   requestSelfProfile,
   closeSmartApp,
+  getConnectionStatus,
+  subscribeClientEvents,
+  unsubscribeClientEvents,
+  createDeeplink,
 }

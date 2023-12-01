@@ -38,7 +38,7 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "@expressms/smartapp-bridge": "^1.2.1"
+    "@expressms/smartapp-bridge": "1.2.3"
   },
   "files": [
     "build/main",

@@ -43,13 +43,13 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@expressms/smartapp-bridge@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@expressms/smartapp-bridge/-/smartapp-bridge-1.2.1.tgz#70feb358172294029f7de42487e1e2d5f8024546"
-  integrity sha512-5laVBOdPLK98sG7PT7EfSNIHMYQbgUwFhAmM49irgpo1BN/lWyEZOYcqqVNRgmt9B/XocLqTFimAwFdro4TZLQ==
+"@expressms/smartapp-bridge@1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@expressms/smartapp-bridge/-/smartapp-bridge-1.2.3.tgz#1705dab4a87d2518d357dace2c645830128ed9e6"
+  integrity sha512-X8VsuZZySb6rlXlO56bvdIjmrQeJjiU2RKcOnHSNkUsNFQ1dnxkwaNeFGGUE0F+dimD+bqShCKwZJ2Djiwreng==
   dependencies:
-    "@types/lodash" "^4.14.168"
     eventemitter3 "^4.0.7"
+    lodash-es "^4.17.21"
     uuid "^8.3.2"
 
 "@humanwhocodes/config-array@^0.5.0":
@@ -147,11 +147,6 @@
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
-
-"@types/lodash@^4.14.168":
-  version "4.14.195"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.195.tgz#bafc975b252eb6cea78882ce8a7b6bf22a6de632"
-  integrity sha512-Hwx9EUgdwf2GLarOjQp5ZH8ZmblzcbTBC2wtQWNKARBSxM9ezRIAUpeDTgoQRAFB0+8CNWXVA9+MaSOzOF3nPg==
 
 "@types/node@*":
   version "20.4.2"
@@ -1306,6 +1301,11 @@ levn@^0.4.1:
   dependencies:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
+
+lodash-es@^4.17.21:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
+  integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
 
 lodash.merge@^4.6.2:
   version "4.6.2"
