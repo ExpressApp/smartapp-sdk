@@ -19,11 +19,25 @@ export enum METHODS {
   REQUEST_SELF_PROFILE = 'request_self_profile',
   CLOSE_SMART_APP = 'close_smart_app',
   OPEN_FILE = 'open_file',
+  SUBSCRIBE_CLIENT_EVENTS = 'subscribe_client_events',
+  UNSUBSCRIBE_CLIENT_EVENTS = 'unsubscribe_client_events',
+  GET_CONNECTION_STATUS = 'get_connection_status',
+  CREATE_DEEPLINK = 'create_deeplink',
+}
+
+export enum STATUS {
+  SUCCESS = 'success',
+  ERROR = 'error',
+}
+
+export enum ERROR_CODES {
+  NO_BRIDGE = 'no_bridge',
+  SUBSCRIPTION_NOT_FOUND = 'subscription_not_found',
 }
 
 export type ReadyEventResponse = ({
   ref: string,
-  status: "success",
+  status: STATUS.SUCCESS,
   payload: {
     logsEnabled?: boolean,
     isMain?: boolean,

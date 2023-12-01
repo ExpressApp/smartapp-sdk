@@ -545,3 +545,99 @@ yield openContactCard({ userHuid: "123e4567-e89b-12d3-a456-426655440000" })
 ```
 
 Метод отправляет клиенту запрос на открытие карточки контакта с указанным huid.
+
+
+__Статус подключения клиента к серверу__
+
+```
+const response = yield getConnectionStatus()
+```
+
+Метод отправляет клиенту запрос типа:
+```
+{
+  "ref": <string>,
+  "handler": "express",
+  "type": "smartapp_rpc",
+  "method": "get_connection_status",
+  "payload": {},
+  "files": []
+}
+```
+
+И получает ответ:
+```
+{
+  "ref": <string>,
+  "status": "success|error",
+  "data": {
+    "connectionStatus": "connected" | "disconnected",
+  }
+}
+```
+
+__Создание ссылки (deeplink)__
+
+```
+const response = yield createDeeplink({
+  appId: "email-app",
+  meta: [
+    {
+      key: "route",
+      value: "/send-email",
+    },
+    {
+      key: "email",
+      value: "test@mail.ru",
+    },
+  ]
+})
+```
+
+Метод отправляет клиенту запрос типа:
+```
+{
+  "ref": <string>,
+  "handler": "express",
+  "type": "smartapp_rpc",
+  "method": "create_deeplink",
+  "payload": {
+    "app_id": "email-app",
+    "meta": [
+    {
+      "key": "route",
+      "value": "/send-email",
+    },
+    {
+      "key": "email",
+      "value": "test@mail.ru",
+    },
+  ]
+  },
+  "files": []
+}
+```
+
+И получает ответ:
+```
+{
+  "ref": <string>,
+  "status": "success|error",
+  "data": {
+    "deeplink": "https://xlnk.ms/open/smartapp/email-app?route=%2Fsend-email&email=test%40mail.ru",
+  }
+}
+```
+
+Также можно подписаться на изменение статуса подключения:
+```
+yield subscribeClientEvents('connection_status', (event) => {
+  // TODO: обработать event.data.connectionStatus
+})
+```
+
+Отписаться от изменения статуса подключения:
+```
+yield unsubscribeClientEvents('connection_status', functionName)
+```
+
