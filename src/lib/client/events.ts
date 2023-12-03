@@ -1,7 +1,7 @@
 import bridge from '@expressms/smartapp-bridge'
 import { ERROR_CODES, METHODS, STATUS, SubscriptionEventType } from '../../types'
 
-const subscriptions: Array<{ eventType: SubscriptionEventType; callback: Function }> = []
+const subscriptions: Array<{ eventType: SubscriptionEventType; callback?: Function }> = []
 let bridgeEventListenerInstalled = false
 
 const isAnySubscriptionsOfType = (eventType: SubscriptionEventType) => {
@@ -14,17 +14,17 @@ const installBridgeEventListener = () => {
   bridgeEventListenerInstalled = true
 
   bridge.onReceive(event => {
-    subscriptions.filter(sub => sub.eventType === event.type).map(sub => sub.callback(event))
+    subscriptions.filter(sub => sub.eventType === event.type).map(sub => sub.callback?.(event))
   })
 }
 
 /**
  * Subscribe to special client events
  * @param eventType Event from SubscriptionEventType enum to be subscribed
- * @param callback Function to be handled when event is coming
+ * @param callback Optinonal function to be handled when event is coming
  * @returns Promise that'll be fullfilled on successful subscription, otherwise rejected with reason
  */
-const subscribeClientEvents = (eventType: SubscriptionEventType, callback: Function): Promise<{ status: string }> => {
+const subscribeClientEvents = (eventType: SubscriptionEventType, callback?: Function): Promise<{ status: string }> => {
   const successResponse = { status: STATUS.SUCCESS }
 
   // No need to subscribe event twice on client
@@ -55,7 +55,7 @@ const subscribeClientEvents = (eventType: SubscriptionEventType, callback: Funct
  * @param callback Function to be unsibscribed
  * @returns Promise that'll be fullfilled on successful unsubscription, otherwise rejected with reason
  */
-const unsubscribeClientEvents = (eventType: SubscriptionEventType, callback: Function): Promise<{ status: string }> => {
+const unsubscribeClientEvents = (eventType: SubscriptionEventType, callback?: Function): Promise<{ status: string }> => {
   const successResponse = { status: STATUS.SUCCESS }
 
   const index = subscriptions.findIndex(sub => sub.eventType == eventType && sub.callback == callback)
