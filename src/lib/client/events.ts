@@ -21,7 +21,7 @@ const installBridgeEventListener = () => {
 /**
  * Subscribe to special client events
  * @param eventType Event from SubscriptionEventType enum to be subscribed
- * @param callback Optinonal function to be handled when event is coming
+ * @param callback Optional function to be handled when event is coming
  * @returns Promise that'll be fullfilled on successful subscription, otherwise rejected with reason
  */
 const subscribeClientEvents = (eventType: SubscriptionEventType, callback?: Function): Promise<{ status: string }> => {

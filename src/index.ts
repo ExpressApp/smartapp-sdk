@@ -3,6 +3,7 @@ import {
   createDeeplink,
   getChats,
   getConnectionStatus,
+  openChatMessage,
   openClientSettings,
   openFile,
   openGroupChat,
@@ -60,4 +61,5 @@ export {
   subscribeClientEvents,
   unsubscribeClientEvents,
   createDeeplink,
+  openChatMessage,
 }

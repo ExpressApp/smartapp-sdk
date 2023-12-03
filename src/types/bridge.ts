@@ -23,6 +23,7 @@ export enum METHODS {
   UNSUBSCRIBE_CLIENT_EVENTS = 'unsubscribe_client_events',
   GET_CONNECTION_STATUS = 'get_connection_status',
   CREATE_DEEPLINK = 'create_deeplink',
+  OPEN_CHAT_MESSAGE = 'open_chat_message',
 }
 
 export enum STATUS {
