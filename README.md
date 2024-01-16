@@ -634,10 +634,26 @@ const response = yield createDeeplink({
 yield subscribeClientEvents('connection_status', (event) => {
   // TODO: обработать event.data.connectionStatus
 })
+
+// Второй аргумент опциональный, поэтому можно вызывать так
+yield subscribeClientEvents('connection_status')
 ```
 
 Отписаться от изменения статуса подключения:
 ```
 yield unsubscribeClientEvents('connection_status', functionName)
+
+// Второй аргумент опциональный, поэтому можно вызывать так
+yield unsubscribeClientEvents('connection_status')
 ```
 
+__Открытие сообщения в чате__
+
+```
+yield openChatMessage({
+  groupChatId: "123e4567-e89b-12d3-a456-426655440000",
+  syncId: "123e4567-e89b-12d3-a456-426655440000",
+})
+```
+
+Метод отправляет клиенту запрос на открытие сообщения в чате. Если сообщение существует, оно будет подсвечено.

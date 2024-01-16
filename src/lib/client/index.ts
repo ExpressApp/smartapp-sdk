@@ -1,4 +1,5 @@
 import bridge from '@expressms/smartapp-bridge'
+import { EmitterEventPayload } from '@expressms/smartapp-bridge/build/main/types/eventEmitter'
 import { CreateDeeplinkResponse, ERROR_CODES, File, GetConnectionStatusResponse, METHODS } from '../../types'
 export * from './events'
 
@@ -9,24 +10,24 @@ const openClientSettings = () => {
   })
 }
 
-const getChats = ({filter = null}: { filter: string | null }) => {
+const getChats = ({ filter = null }: { filter: string | null }) => {
   return bridge?.sendClientEvent({
     method: METHODS.GET_CHATS,
-    params: {filter},
+    params: { filter },
   })
 }
 
-const searchCorporatePhonebook = ({filter = null}: { filter: string | null }) => {
+const searchCorporatePhonebook = ({ filter = null }: { filter: string | null }) => {
   return bridge?.sendClientEvent({
     method: METHODS.SEARCH_CORPORATE_PHONEBOOK,
-    params: {filter},
+    params: { filter },
   })
 }
 
-const openGroupChat = ({groupChatId}: { groupChatId: string }) => {
+const openGroupChat = ({ groupChatId }: { groupChatId: string }) => {
   return bridge?.sendClientEvent({
     method: METHODS.OPEN_GROUP_CHAT,
-    params: {groupChatId},
+    params: { groupChatId },
   })
 }
 
@@ -37,17 +38,15 @@ const openFile = (file: File) => {
   })
 }
 
-const sendBotCommand = (
-    {
-      userHuid,
-      body,
-      data,
-    }: {
-      userHuid: string
-      body: string
-      data: { command: string } | null
-    }
-) => {
+const sendBotCommand = ({
+  userHuid,
+  body,
+  data,
+}: {
+  userHuid: string
+  body: string
+  data: { command: string } | null
+}) => {
   if (typeof data !== 'object') return
 
   return bridge?.sendClientEvent({
@@ -104,6 +103,27 @@ const createDeeplink = async (
   return response as CreateDeeplinkResponse
 }
 
+/**
+ * Open message in chat
+ * @param groupChatId Chat identifier
+ * @param syncId Message identifier
+ * @returns Promise that'll be fullfilled with success response
+ */
+const openChatMessage = async ({
+  groupChatId,
+  syncId,
+}: {
+  groupChatId: string
+  syncId: string
+}): Promise<EmitterEventPayload> => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  return await bridge.sendClientEvent({
+    method: METHODS.OPEN_CHAT_MESSAGE,
+    params: { groupChatId, syncId },
+  })
+}
+
 export {
   openFile,
   openClientSettings,
@@ -114,4 +134,5 @@ export {
   requestLocation,
   getConnectionStatus,
   createDeeplink,
+  openChatMessage,
 }
