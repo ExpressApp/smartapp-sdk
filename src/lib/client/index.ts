@@ -2,6 +2,8 @@ import bridge from '@expressms/smartapp-bridge'
 import { EmitterEventPayload } from '@expressms/smartapp-bridge/build/main/types/eventEmitter'
 import { CreateDeeplinkResponse, ERROR_CODES, File, GetConnectionStatusResponse, METHODS } from '../../types'
 export * from './events'
+export * from './storage'
+
 
 const openClientSettings = () => {
   return bridge?.sendClientEvent({

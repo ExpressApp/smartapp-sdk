@@ -1,5 +1,9 @@
 import Bridge from '@expressms/smartapp-bridge'
 import {
+  clientStorageClear,
+  clientStorageGet,
+  clientStorageRemove,
+  clientStorageSet,
   createDeeplink,
   getChats,
   getConnectionStatus,
@@ -62,4 +66,8 @@ export {
   unsubscribeClientEvents,
   createDeeplink,
   openChatMessage,
+  clientStorageGet,
+  clientStorageSet,
+  clientStorageRemove,
+  clientStorageClear,
 }
