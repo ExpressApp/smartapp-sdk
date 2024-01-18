@@ -7,6 +7,7 @@ const onNotification = async (handleNotification: Function) => {
     params: {},
   })
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return bridge?.onReceive((event: any) => {
     if (event?.type === METHODS.NOTIFICATION) {
       handleNotification(response)

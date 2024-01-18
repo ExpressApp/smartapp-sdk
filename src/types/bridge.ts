@@ -1,3 +1,6 @@
+import { EmitterEventPayload } from '@expressms/smartapp-bridge/build/main/types/eventEmitter'
+
+
 export enum METHODS {
   READY = 'ready',
   ROUTING_CHANGED = 'routing_changes',
@@ -24,6 +27,10 @@ export enum METHODS {
   GET_CONNECTION_STATUS = 'get_connection_status',
   CREATE_DEEPLINK = 'create_deeplink',
   OPEN_CHAT_MESSAGE = 'open_chat_message',
+  CLIENT_STORAGE_GET = 'client_storage_get',
+  CLIENT_STORAGE_SET = 'client_storage_set',
+  CLIENT_STORAGE_REMOVE = 'client_storage_remove',
+  CLIENT_STORAGE_CLEAR = 'client_storage_clear',
 }
 
 export enum STATUS {
@@ -61,4 +68,11 @@ export interface File {
   chunkSize: number | null
   fileId: string | null
   key: {} | null
+}
+
+export interface StatusResponse extends EmitterEventPayload {
+  payload: {
+    status: STATUS
+    errorCode?: string | null,
+  }
 }
