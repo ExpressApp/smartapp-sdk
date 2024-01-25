@@ -22,6 +22,7 @@ import {
   createPersonalChat,
   getContact,
   openContactCard,
+  openPersonalChat,
   requestSelfProfile,
   sendMessage,
 } from './lib/contacts'
@@ -70,4 +71,5 @@ export {
   clientStorageSet,
   clientStorageRemove,
   clientStorageClear,
+  openPersonalChat,
 }

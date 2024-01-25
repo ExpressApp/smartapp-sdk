@@ -28,6 +28,10 @@ const createPersonalChat = ({ huid }: { huid: string }) => {
   })
 }
 
+const openPersonalChat = ({ huid }: { huid: string }) => {
+  return createPersonalChat({ huid })
+}
+
 const sendMessage = (
     {
       userHuid = null,
@@ -72,4 +76,5 @@ export {
   sendMessage,
   openContactCard,
   requestSelfProfile,
+  openPersonalChat,
 }
