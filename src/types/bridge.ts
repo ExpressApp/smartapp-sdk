@@ -31,6 +31,7 @@ export enum METHODS {
   CLIENT_STORAGE_SET = 'client_storage_set',
   CLIENT_STORAGE_REMOVE = 'client_storage_remove',
   CLIENT_STORAGE_CLEAR = 'client_storage_clear',
+  HANDLE_DEEPLINK = 'handle_deeplink',
 }
 
 export enum STATUS {

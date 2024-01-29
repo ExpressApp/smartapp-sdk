@@ -7,6 +7,7 @@ import {
   createDeeplink,
   getChats,
   getConnectionStatus,
+  handleDeeplink,
   openChatMessage,
   openClientSettings,
   openFile,
@@ -72,4 +73,5 @@ export {
   clientStorageRemove,
   clientStorageClear,
   openPersonalChat,
+  handleDeeplink,
 }

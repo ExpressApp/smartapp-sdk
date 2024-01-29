@@ -1,9 +1,15 @@
 import bridge from '@expressms/smartapp-bridge'
 import { EmitterEventPayload } from '@expressms/smartapp-bridge/build/main/types/eventEmitter'
-import { CreateDeeplinkResponse, ERROR_CODES, File, GetConnectionStatusResponse, METHODS } from '../../types'
+import {
+  CreateDeeplinkResponse,
+  ERROR_CODES,
+  File,
+  GetConnectionStatusResponse,
+  METHODS,
+  StatusResponse,
+} from '../../types'
 export * from './events'
 export * from './storage'
-
 
 const openClientSettings = () => {
   return bridge?.sendClientEvent({
@@ -126,6 +132,22 @@ const openChatMessage = async ({
   })
 }
 
+/**
+ * Handle deeplink to join call/conference/chat/channel
+ * @param link Deeplink URL
+ * @returns Promise that'll be fullfilled with success response, otherwise rejected with reason
+ */
+const handleDeeplink = ({ link }: { link: string }): Promise<StatusResponse> => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  return bridge
+    .sendClientEvent({
+      method: METHODS.HANDLE_DEEPLINK,
+      params: { link },
+    })
+    .then(event => event as StatusResponse)
+}
+
 export {
   openFile,
   openClientSettings,
@@ -137,4 +159,5 @@ export {
   getConnectionStatus,
   createDeeplink,
   openChatMessage,
+  handleDeeplink,
 }
