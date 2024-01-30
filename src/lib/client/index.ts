@@ -7,6 +7,7 @@ import {
   GetConnectionStatusResponse,
   METHODS,
   StatusResponse,
+  SearchLocalPhonebookResponse,
 } from '../../types'
 export * from './events'
 export * from './storage'
@@ -148,6 +149,22 @@ const handleDeeplink = ({ link }: { link: string }): Promise<StatusResponse> => 
     .then(event => event as StatusResponse)
 }
 
+/**
+ * Search entries in local phonebook
+ * @param filter Query string
+ * @returns Promise that'll be fullfilled with `payload.localPhonebookEntries` on success, otherwise rejected with reason
+ */
+const searchLocalPhonebook = ({ filter = null }: { filter: string | null }): Promise<SearchLocalPhonebookResponse> => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  return bridge
+    .sendClientEvent({
+      method: METHODS.SEARCH_LOCAL_PHONEBOOK,
+      params: { filter },
+    })
+    .then(event => event as SearchLocalPhonebookResponse)
+}
+
 export {
   openFile,
   openClientSettings,
@@ -160,4 +177,5 @@ export {
   createDeeplink,
   openChatMessage,
   handleDeeplink,
+  searchLocalPhonebook,
 }

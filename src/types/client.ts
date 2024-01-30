@@ -1,3 +1,6 @@
+import { EmitterEventPayload } from '@expressms/smartapp-bridge/build/main/types/eventEmitter'
+import { STATUS } from './bridge'
+
 export enum SubscriptionEventType {
   CONNECTION_STATUS = "connection_status",
 }
@@ -19,3 +22,20 @@ export type CreateDeeplinkResponse = ({
     }
   }
 })
+
+type LocalPhonebookEntry = ({
+  avatar: string | null,
+  name: string | null,
+  contacts: {
+    contactType: string,
+    contact: string,
+  }[],
+})
+
+export interface SearchLocalPhonebookResponse extends EmitterEventPayload {
+  payload: {
+    status: STATUS,
+    errorCode?: string | null,
+    localPhonebookEntries: Array<LocalPhonebookEntry>,
+  }
+}
