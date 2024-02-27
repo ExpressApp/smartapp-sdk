@@ -14,6 +14,7 @@ import {
   openGroupChat,
   requestLocation,
   searchCorporatePhonebook,
+  searchLocalPhonebook,
   sendBotCommand,
   subscribeClientEvents,
   unsubscribeClientEvents,
@@ -74,4 +75,5 @@ export {
   clientStorageClear,
   openPersonalChat,
   handleDeeplink,
+  searchLocalPhonebook,
 }

@@ -32,6 +32,7 @@ export enum METHODS {
   CLIENT_STORAGE_REMOVE = 'client_storage_remove',
   CLIENT_STORAGE_CLEAR = 'client_storage_clear',
   HANDLE_DEEPLINK = 'handle_deeplink',
+  SEARCH_LOCAL_PHONEBOOK = 'search_local_phonebook',
 }
 
 export enum STATUS {
