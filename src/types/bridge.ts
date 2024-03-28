@@ -33,6 +33,7 @@ export enum METHODS {
   CLIENT_STORAGE_CLEAR = 'client_storage_clear',
   HANDLE_DEEPLINK = 'handle_deeplink',
   SEARCH_LOCAL_PHONEBOOK = 'search_local_phonebook',
+  GET_UNREAD_COUNTER = 'get_unread_counter',
 }
 
 export enum STATUS {

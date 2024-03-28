@@ -5,9 +5,11 @@ import {
   ERROR_CODES,
   File,
   GetConnectionStatusResponse,
+  GetUnreadCounterResponse,
   METHODS,
-  StatusResponse,
   SearchLocalPhonebookResponse,
+  StatusResponse,
+  SubscriptionPayload,
 } from '../../types'
 export * from './events'
 export * from './storage'
@@ -165,6 +167,21 @@ const searchLocalPhonebook = ({ filter = null }: { filter: string | null }): Pro
     .then(event => event as SearchLocalPhonebookResponse)
 }
 
+/**
+ * Get unread counter for chat/user/bot/smartapp.
+ * @returns Promise that'll be fullfilled with status data on success, otherwise rejected with reason
+ */
+const getUnreadCounter = async ({ type, id }: SubscriptionPayload): Promise<GetUnreadCounterResponse> => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  const response = await bridge.sendClientEvent({
+    method: METHODS.GET_UNREAD_COUNTER,
+    params: { type, id },
+  })
+
+  return response as GetUnreadCounterResponse
+}
+
 export {
   openFile,
   openClientSettings,
@@ -178,4 +195,5 @@ export {
   openChatMessage,
   handleDeeplink,
   searchLocalPhonebook,
+  getUnreadCounter,
 }
