@@ -5,6 +5,7 @@ import {
   ERROR_CODES,
   File,
   GetConnectionStatusResponse,
+  GetLayoutTypeResponse,
   GetUnreadCounterResponse,
   METHODS,
   SearchLocalPhonebookResponse,
@@ -169,7 +170,7 @@ const searchLocalPhonebook = ({ filter = null }: { filter: string | null }): Pro
 
 /**
  * Get unread counter for chat/user/bot/smartapp.
- * @returns Promise that'll be fullfilled with status data on success, otherwise rejected with reason
+ * @returns Promise that'll be fullfilled with counter data on success, otherwise rejected with reason
  */
 const getUnreadCounter = async ({ type, id }: SubscriptionPayload): Promise<GetUnreadCounterResponse> => {
   if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
@@ -180,6 +181,21 @@ const getUnreadCounter = async ({ type, id }: SubscriptionPayload): Promise<GetU
   })
 
   return response as GetUnreadCounterResponse
+}
+
+/**
+ * Get window layout type "minimal" | "full" | "half".
+ * @returns Promise that'll be fullfilled with layout data on success, otherwise rejected with reason
+ */
+const getLayoutType = async (): Promise<GetLayoutTypeResponse> => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  const response = await bridge.sendClientEvent({
+    method: METHODS.GET_LAYOUT_TYPE,
+    params: {},
+  })
+
+  return response as GetLayoutTypeResponse
 }
 
 export {
@@ -196,4 +212,5 @@ export {
   handleDeeplink,
   searchLocalPhonebook,
   getUnreadCounter,
+  getLayoutType,
 }

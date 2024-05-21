@@ -4,6 +4,7 @@ import { STATUS } from './bridge'
 export enum SubscriptionEventType {
   CONNECTION_STATUS = 'connection_status',
   UNREAD_COUNTER_CHANGE = 'unread_counter_change',
+  LAYOUT_TYPE = 'layout_type',
 }
 
 export type SubscriptionPayload = {
@@ -52,5 +53,14 @@ export type GetUnreadCounterResponse = {
     status: STATUS
     errorCode?: string | null
     unreadCounter: number
+  }
+}
+
+export type GetLayoutTypeResponse = {
+  ref: string
+  payload: {
+    status: STATUS
+    errorCode?: string | null
+    layoutType: "minimal" | "full" | "half"
   }
 }
