@@ -33,6 +33,7 @@ export enum METHODS {
   HANDLE_DEEPLINK = 'handle_deeplink',
   SEARCH_LOCAL_PHONEBOOK = 'search_local_phonebook',
   GET_UNREAD_COUNTER = 'get_unread_counter',
+  GET_LAYOUT_TYPE = 'get_layout_type',
 }
 
 export enum STATUS {
