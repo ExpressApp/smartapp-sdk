@@ -1,6 +1,5 @@
 import { EmitterEventPayload } from '@expressms/smartapp-bridge/build/main/types/eventEmitter'
 
-
 export enum METHODS {
   READY = 'ready',
   ROUTING_CHANGED = 'routing_changes',
@@ -47,16 +46,100 @@ export enum ERROR_CODES {
   SUBSCRIPTION_NOT_FOUND = 'subscription_not_found',
 }
 
-export type ReadyEventResponse = ({
-  ref: string,
-  status: STATUS.SUCCESS,
-  payload: {
-    logsEnabled?: boolean,
-    isMain?: boolean,
-    type: string,
-    openSmartAppMeta?: object,
-  },
-}) | undefined
+export interface InitialData {
+  initiator: string
+  meta?: object | string
+}
+
+export interface InitialDataEmail extends InitialData {
+  initiator: 'email_link'
+  meta: string
+}
+
+export interface InitialDataProfileAction extends InitialData {
+  initiator: 'profile_action'
+  meta: {
+    action: string
+    profile: {
+      user_huid: string
+      name: string
+      avatar?: string
+      avatar_preview?: string
+      company?: string
+      company_position?: string
+      department?: string
+      office?: string
+      manager?: string
+      manager_huid?: string
+      email?: string
+      description?: string
+      other_phone?: string
+      ip_phone?: string
+      other_ip_phone?: string
+    }
+  }
+}
+
+export interface InitialDataPush extends InitialData {
+  initiator: 'push'
+  meta?: object
+}
+
+export interface InitialDataDeeplink extends InitialData {
+  initiator: 'deeplink'
+  meta?: object
+}
+
+export type MentionDataType = {
+  mentionType: 'user' | 'contact' | 'chat' | 'channel' | 'all'
+  mentionId: string
+  mentionData: {
+    connType: 'cts' | 'rts' | 'hybrid'
+    userHuid?: string
+    name: string
+    groupChatId?: string
+  }
+}
+
+export interface InitialDataMenuAction extends InitialData {
+  initiator: 'menu_action'
+  meta: {
+    action: string
+    sender: {
+      user_huid: string
+      name: string
+      avatar?: string
+      avatar_preview?: string
+      company?: string
+      company_position?: string
+      email?: string
+    }
+    message: {
+      body: string
+      timestamp: number
+      mentions: Array<MentionDataType>
+    }
+  }
+}
+
+export type ReadyEventResponse =
+  | {
+      ref: string
+      status: STATUS.SUCCESS
+      payload: {
+        logsEnabled?: boolean
+        isMain?: boolean
+        type: string
+        openSmartAppMeta?: object
+        initialData?:
+          | InitialDataEmail
+          | InitialDataProfileAction
+          | InitialDataPush
+          | InitialDataDeeplink
+          | InitialDataMenuAction
+      }
+    }
+  | undefined
 
 export interface File {
   type: string | null
@@ -77,6 +160,6 @@ export interface File {
 export interface StatusResponse extends EmitterEventPayload {
   payload: {
     status: STATUS
-    errorCode?: string | null,
+    errorCode?: string | null
   }
 }
