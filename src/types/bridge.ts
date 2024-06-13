@@ -53,7 +53,9 @@ export interface InitialData {
 
 export interface InitialDataEmail extends InitialData {
   initiator: 'email_link'
-  meta: string
+  meta: {
+    email: string
+  }
 }
 
 export interface InitialDataProfileAction extends InitialData {
