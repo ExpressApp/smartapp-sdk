@@ -7,6 +7,7 @@ import {
   createDeeplink,
   getChats,
   getConnectionStatus,
+  getLayoutType,
   getUnreadCounter,
   handleDeeplink,
   openChatMessage,
@@ -78,4 +79,5 @@ export {
   handleDeeplink,
   searchLocalPhonebook,
   getUnreadCounter,
+  getLayoutType,
 }
