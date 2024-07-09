@@ -12,7 +12,6 @@ import {
   handleDeeplink,
   openChatMessage,
   openClientSettings,
-  openFile,
   openGroupChat,
   requestLocation,
   searchCorporatePhonebook,
@@ -21,6 +20,7 @@ import {
   subscribeClientEvents,
   unsubscribeClientEvents,
 } from './lib/client'
+import { openFile, openFiles, uploadFile, uploadFiles } from './lib/client/file'
 import {
   addContact,
   createPersonalChat,
@@ -30,9 +30,9 @@ import {
   requestSelfProfile,
   sendMessage,
 } from './lib/contacts'
-import {useQuery} from './lib/helpers/helpers'
-import {ready} from './lib/logging'
-import {onNotification} from './lib/notification'
+import { useQuery } from './lib/helpers/helpers'
+import { ready } from './lib/logging'
+import { onNotification } from './lib/notification'
 import {
   closeSmartApp,
   exitSmartAppToCatalog,
@@ -54,6 +54,9 @@ export {
   sendMessage,
   openSmartApp,
   openFile,
+  openFiles,
+  uploadFile,
+  uploadFiles,
   exitSmartAppToCatalog,
   useQuery,
   openClientSettings,
