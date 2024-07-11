@@ -86,7 +86,7 @@ export interface InitialDataProfileAction extends InitialData {
 }
 
 export interface InitialDataPush extends InitialData {
-  initiator: 'push'
+  initiator: 'push_notification'
   meta?: object
 }
 
