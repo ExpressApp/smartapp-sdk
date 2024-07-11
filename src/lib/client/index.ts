@@ -3,7 +3,6 @@ import { EmitterEventPayload } from '@expressms/smartapp-bridge/build/main/types
 import {
   CreateDeeplinkResponse,
   ERROR_CODES,
-  File,
   GetConnectionStatusResponse,
   GetLayoutTypeResponse,
   GetUnreadCounterResponse,
@@ -40,13 +39,6 @@ const openGroupChat = ({ groupChatId }: { groupChatId: string }) => {
   return bridge?.sendClientEvent({
     method: METHODS.OPEN_GROUP_CHAT,
     params: { groupChatId },
-  })
-}
-
-const openFile = (file: File) => {
-  return bridge?.sendClientEvent({
-    method: METHODS.OPEN_FILE,
-    params: file,
   })
 }
 
@@ -199,7 +191,6 @@ const getLayoutType = async (): Promise<GetLayoutTypeResponse> => {
 }
 
 export {
-  openFile,
   openClientSettings,
   getChats,
   searchCorporatePhonebook,

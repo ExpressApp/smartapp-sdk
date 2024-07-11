@@ -1,5 +1,5 @@
 import { EmitterEventPayload } from '@expressms/smartapp-bridge/build/main/types/eventEmitter'
-import { STATUS } from './bridge'
+import { File, STATUS } from './bridge'
 
 export enum SubscriptionEventType {
   CONNECTION_STATUS = 'connection_status',
@@ -30,7 +30,7 @@ export type CreateDeeplinkResponse = {
   }
 }
 
-type LocalPhonebookEntry = {
+export type LocalPhonebookEntry = {
   avatar: string | null
   name: string | null
   contacts: {
@@ -62,5 +62,23 @@ export type GetLayoutTypeResponse = {
     status: STATUS
     errorCode?: string | null
     layoutType: "minimal" | "full" | "half"
+  }
+}
+
+export type UploadFileTypeResponse = {
+  ref: string
+  payload: {
+    status: STATUS
+    errorCode?: string | null
+    record: File
+  }
+}
+
+export type UploadFilesTypeResponse = {
+  ref: string
+  payload: {
+    status: STATUS
+    errorCode?: string | null
+    records: File[]
   }
 }
