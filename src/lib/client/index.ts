@@ -190,6 +190,21 @@ const getLayoutType = async (): Promise<GetLayoutTypeResponse> => {
   return response as GetLayoutTypeResponse
 }
 
+/**
+ * Clean file cache.
+ * @returns Promise that'll be fullfilled with layout data on success, otherwise rejected with reason
+ */
+const cleanCache = async (): Promise<StatusResponse> => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  const response = await bridge.sendClientEvent({
+    method: METHODS.CLEAN_CACHE,
+    params: {},
+  })
+
+  return response as StatusResponse
+}
+
 export {
   openClientSettings,
   getChats,
@@ -204,4 +219,5 @@ export {
   searchLocalPhonebook,
   getUnreadCounter,
   getLayoutType,
+  cleanCache,
 }
