@@ -8,7 +8,7 @@ export enum SubscriptionEventType {
 }
 
 export type SubscriptionPayload = {
-  type: 'huid' | 'chat' | 'smartapp'
+  type: 'user' | 'chat' | 'smartapp'
   id: string
 }
 
