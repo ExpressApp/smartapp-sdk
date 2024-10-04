@@ -1,5 +1,6 @@
 import Bridge from '@expressms/smartapp-bridge'
 import {
+  cleanCache,
   clientStorageClear,
   clientStorageGet,
   clientStorageRemove,
@@ -83,4 +84,5 @@ export {
   searchLocalPhonebook,
   getUnreadCounter,
   getLayoutType,
+  cleanCache,
 }
