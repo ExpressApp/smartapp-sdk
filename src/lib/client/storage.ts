@@ -18,14 +18,14 @@ const clientStorageGet = ({ key }: { key: string }): Promise<ClientStorageGetRes
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { payload }: { payload: any } = event
 
-      const deserializedValue = JSON.parse(payload.value);
-      
+      const deserializedValue = payload.value && JSON.parse(payload.value)
+
       return {
         ...event,
         payload: {
           ...payload,
           value: deserializedValue,
-        }
+        },
       } as ClientStorageGetResponse
     })
 }
