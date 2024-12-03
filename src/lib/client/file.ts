@@ -75,14 +75,17 @@ const uploadFile = async ({
  * Upload files list with client
  * @param mimeType Mime type of allowed files
  * @param maxSize Max file size in bytes
+ * @param totalSize Total files size in bytes
  * @returns Promise that'll be fullfilled with files metadata on success, otherwise rejected with reason
  */
 const uploadFiles = async ({
   mimeType,
   maxSize,
+  totalSize,
 }: {
   mimeType: string
-  maxSize?: number
+  maxSize?: number,
+  totalSize?: number,
 }): Promise<UploadFilesTypeResponse> => {
   if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
 
@@ -91,6 +94,7 @@ const uploadFiles = async ({
     params: {
       type: mimeType,
       maxSize,
+      totalSize,
     },
     timeout: FILE_LOAD_TIMEOUT,
   })
