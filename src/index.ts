@@ -21,7 +21,7 @@ import {
   subscribeClientEvents,
   unsubscribeClientEvents,
 } from './lib/client'
-import { openFile, openFiles, uploadFile, uploadFiles } from './lib/client/file'
+import { openFile, uploadFile, uploadFiles } from './lib/client/file'
 import {
   addContact,
   createPersonalChat,
@@ -55,7 +55,6 @@ export {
   sendMessage,
   openSmartApp,
   openFile,
-  openFiles,
   uploadFile,
   uploadFiles,
   exitSmartAppToCatalog,

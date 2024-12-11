@@ -28,23 +28,6 @@ const openFile = async (file: File): Promise<StatusResponse> => {
 }
 
 /**
- * Download file list with client
- * @param files Files list to be opened
- * @returns Promise that'll be fullfilled, otherwise rejected with reason
- */
-const openFiles = async (files: File[]): Promise<StatusResponse> => {
-  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
-
-  const response = await bridge.sendClientEvent({
-    method: METHODS.OPEN_FILES,
-    params: files,
-    timeout: FILE_LOAD_TIMEOUT,
-  })
-
-  return response as StatusResponse
-}
-
-/**
  * Upload single file with client
  * @param mimeType Mime type of allowed files
  * @param maxSize Max file size in bytes
@@ -98,4 +81,4 @@ const uploadFiles = async ({
   return response as UploadFilesTypeResponse
 }
 
-export { openFile, openFiles, uploadFile, uploadFiles }
+export { openFile, uploadFile, uploadFiles }
