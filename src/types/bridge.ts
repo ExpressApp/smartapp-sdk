@@ -21,7 +21,6 @@ export enum METHODS {
   REQUEST_SELF_PROFILE = 'request_self_profile',
   CLOSE_SMART_APP = 'close_smart_app',
   OPEN_FILE = 'open_file',
-  OPEN_FILES = 'open_files',
   UPLOAD_FILE = 'upload_file',
   UPLOAD_FILES = 'upload_files',
   SUBSCRIBE_CLIENT_EVENTS = 'subscribe_client_events',
