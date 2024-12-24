@@ -3,6 +3,7 @@ import { EmitterEventPayload } from '@expressms/smartapp-bridge/build/main/types
 import {
   CreateDeeplinkResponse,
   ERROR_CODES,
+  GetAppVisibilityResponse,
   GetConnectionStatusResponse,
   GetLayoutTypeResponse,
   GetUnreadCounterResponse,
@@ -205,6 +206,21 @@ const cleanCache = async (): Promise<StatusResponse> => {
   return response as StatusResponse
 }
 
+/**
+ * Get application window visibility
+ * @returns Promise that'll be fullfilled, otherwise rejected with reason
+ */
+const getAppVisibility = (): Promise<GetAppVisibilityResponse> => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  return bridge
+    .sendClientEvent({
+      method: METHODS.GET_APP_VISIBILITY,
+      params: {},
+    })
+    .then(event => event as GetAppVisibilityResponse)
+}
+
 export {
   openClientSettings,
   getChats,
@@ -220,4 +236,5 @@ export {
   getUnreadCounter,
   getLayoutType,
   cleanCache,
+  getAppVisibility,
 }
