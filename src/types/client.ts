@@ -1,17 +1,6 @@
 import { EmitterEventPayload } from '@expressms/smartapp-bridge/build/main/types/eventEmitter'
 import { File, STATUS } from './bridge'
 
-export enum SubscriptionEventType {
-  CONNECTION_STATUS = 'connection_status',
-  UNREAD_COUNTER_CHANGE = 'unread_counter_change',
-  LAYOUT_TYPE = 'layout_type',
-}
-
-export type SubscriptionPayload = {
-  type: 'user' | 'chat' | 'smartapp'
-  id: string
-}
-
 export type GetConnectionStatusResponse = {
   ref: string
   payload: {
@@ -80,5 +69,14 @@ export type UploadFilesTypeResponse = {
     status: STATUS
     errorCode?: string | null
     records: File[]
+  }
+}
+
+export type GetAppVisibilityResponse = {
+  ref: string
+  payload: {
+    status: STATUS
+    errorCode?: string | null
+    visible: boolean
   }
 }

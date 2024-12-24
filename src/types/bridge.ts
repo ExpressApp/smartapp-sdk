@@ -37,6 +37,7 @@ export enum METHODS {
   GET_UNREAD_COUNTER = 'get_unread_counter',
   GET_LAYOUT_TYPE = 'get_layout_type',
   CLEAN_CACHE = 'clean_cache',
+  GET_APP_VISIBILITY = 'get_app_visibility',
 }
 
 export enum STATUS {
