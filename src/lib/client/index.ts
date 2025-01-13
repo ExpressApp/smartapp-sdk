@@ -29,10 +29,10 @@ const getChats = ({ filter = null }: { filter: string | null }) => {
   })
 }
 
-const searchCorporatePhonebook = ({ filter = null }: { filter: string | null }) => {
+const searchCorporatePhonebook = ({ filter = null, exactMatch }: { filter: string | null; exactMatch?: boolean }) => {
   return bridge?.sendClientEvent({
     method: METHODS.SEARCH_CORPORATE_PHONEBOOK,
-    params: { filter },
+    params: { filter, exactMatch },
   })
 }
 
