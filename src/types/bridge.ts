@@ -124,7 +124,8 @@ export interface InitialDataMenuAction extends InitialData {
       body: string
       timestamp: number
       mentions: Array<MentionDataType>
-    }
+    },
+    files?: File[],
   }
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "@expressms/smartapp-sdk",
-  "version": "1.11.0-alpha.4",
+  "version": "1.11.0-alpha.5",
   "description": "Smartapp SDK",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -38,7 +38,7 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "@expressms/smartapp-bridge": "1.4.0-alpha.1"
+    "@expressms/smartapp-bridge": "1.4.0-alpha.2"
   },
   "files": [
     "build/main",
