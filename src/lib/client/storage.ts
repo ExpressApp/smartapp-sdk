@@ -13,6 +13,7 @@ const clientStorageGet = ({ key }: { key: string }): Promise<ClientStorageGetRes
     .sendClientEvent({
       method: METHODS.CLIENT_STORAGE_GET,
       params: { key },
+      hide_recv_event_data: true
     })
     .then(event => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -48,6 +49,7 @@ const clientStorageSet = ({ key, value }: { key: string; value: StorageValueType
         key,
         value: serializedValue,
       },
+      hide_send_event_data: true,
     })
     .then(event => event as StatusResponse)
 }
