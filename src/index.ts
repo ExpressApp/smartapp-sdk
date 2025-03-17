@@ -10,6 +10,7 @@ import {
   getChats,
   getConnectionStatus,
   getLayoutType,
+  getSmartAppList,
   getUnreadCounter,
   handleDeeplink,
   openChatMessage,
@@ -86,4 +87,5 @@ export {
   getUnreadCounter,
   getLayoutType,
   cleanCache,
+  getSmartAppList,
 }

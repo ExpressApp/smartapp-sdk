@@ -3,6 +3,7 @@ export enum SubscriptionEventType {
   UNREAD_COUNTER_CHANGE = 'unread_counter_change',
   LAYOUT_TYPE = 'layout_type',
   APP_VISIBILITY = 'app_visibility',
+  SMARTAPP_LIST = 'smartapp_list',
 }
 
 export type SubscriptionPayload = {
