@@ -1,6 +1,7 @@
 import bridge from '@expressms/smartapp-bridge'
 import { EmitterEventPayload } from '@expressms/smartapp-bridge/build/main/types/eventEmitter'
 import {
+  CookieItem,
   CreateDeeplinkResponse,
   ERROR_CODES,
   GetAppVisibilityResponse,
@@ -237,6 +238,25 @@ const getSmartAppList = (): Promise<GetSmartAppListResponse> => {
     .then(event => event as GetSmartAppListResponse)
 }
 
+/**
+ * Set cookies for web resouce. It's needed for SSO auth cases.
+ * @param cookies List of cookie strings !with domains!
+ * @returns Promise that'll be fullfilled with SmartApp list on success, otherwise rejected with reason
+ */
+const setWebResourceCookies = (cookies: CookieItem[]): Promise<StatusResponse> => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  return bridge
+    .sendClientEvent({
+      method: METHODS.SET_WEB_RESOURCE_COOKIES,
+      params: {
+        cookies,
+      },
+    })
+    .then(event => event as StatusResponse)
+}
+
+
 export {
   openClientSettings,
   getChats,
@@ -254,4 +274,5 @@ export {
   cleanCache,
   getAppVisibility,
   getSmartAppList,
+  setWebResourceCookies,
 }
