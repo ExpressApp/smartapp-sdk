@@ -256,6 +256,24 @@ const setWebResourceCookies = (cookies: CookieItem[]): Promise<StatusResponse> =
     .then(event => event as StatusResponse)
 }
 
+/**
+ * Allow WebView то open links inside, not in external browser
+ * @param domains List domains without schema
+ * @returns Promise that'll be fullfilled with SmartApp list on success, otherwise rejected with reason
+ */
+const setAllowedNavigationDomains = (domains: string[]): Promise<StatusResponse> => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  return bridge
+    .sendClientEvent({
+      method: METHODS.SET_ALLOWED_NAVIGATION_DOMAINS,
+      params: {
+        domains,
+      },
+      timeout: 1000,
+    })
+    .then(event => event as StatusResponse)
+}
 
 export {
   openClientSettings,
@@ -275,4 +293,5 @@ export {
   getAppVisibility,
   getSmartAppList,
   setWebResourceCookies,
+  setAllowedNavigationDomains,
 }
