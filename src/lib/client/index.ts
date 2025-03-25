@@ -6,6 +6,7 @@ import {
   GetAppVisibilityResponse,
   GetConnectionStatusResponse,
   GetLayoutTypeResponse,
+  GetSmartAppListResponse,
   GetUnreadCounterResponse,
   METHODS,
   SearchLocalPhonebookResponse,
@@ -221,6 +222,21 @@ const getAppVisibility = (): Promise<GetAppVisibilityResponse> => {
     .then(event => event as GetAppVisibilityResponse)
 }
 
+/**
+ * Get SmartApp list
+ * @returns Promise that'll be fullfilled with SmartApp list on success, otherwise rejected with reason
+ */
+const getSmartAppList = (): Promise<GetSmartAppListResponse> => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  return bridge
+    .sendClientEvent({
+      method: METHODS.GET_SMARTAPP_LIST,
+      params: {},
+    })
+    .then(event => event as GetSmartAppListResponse)
+}
+
 export {
   openClientSettings,
   getChats,
@@ -237,4 +253,5 @@ export {
   getLayoutType,
   cleanCache,
   getAppVisibility,
+  getSmartAppList,
 }

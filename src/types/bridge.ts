@@ -38,6 +38,7 @@ export enum METHODS {
   GET_LAYOUT_TYPE = 'get_layout_type',
   CLEAN_CACHE = 'clean_cache',
   GET_APP_VISIBILITY = 'get_app_visibility',
+  GET_SMARTAPP_LIST = 'get_smartapp_list',
 }
 
 export enum STATUS {

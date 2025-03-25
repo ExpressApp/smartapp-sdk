@@ -43,10 +43,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@expressms/smartapp-bridge@1.4.0-alpha.2":
-  version "1.4.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/@expressms/smartapp-bridge/-/smartapp-bridge-1.4.0-alpha.2.tgz#990dc895f2e4e75b062418f7cb2e5bc8babe0a56"
-  integrity sha512-wupsNaNis+uTnsCjYaqCFSyCjzjqxBFz4wGfB2FhTIUDI5/IKANxTFwPGCNHZ86x/Q94YpFyRPjpuEWfVGrLXw==
+"@expressms/smartapp-bridge@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@expressms/smartapp-bridge/-/smartapp-bridge-1.4.0.tgz#09e64ece6f6ed68c6c715730a10cf90e5a1c4ba0"
+  integrity sha512-iKNOGhAtbwc7s3zh8zr/G69Y0AMwrq2OUW/vM/ias/qzHxOXSGSZ7uz+Yg+hnY87gdxN2NVOltmsQmSWOf4yZA==
   dependencies:
     eventemitter3 "^4.0.7"
     lodash-es "^4.17.21"

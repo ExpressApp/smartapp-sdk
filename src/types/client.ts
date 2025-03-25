@@ -80,3 +80,18 @@ export type GetAppVisibilityResponse = {
     visible: boolean
   }
 }
+
+export interface SmartAppListEntry {
+  appId: string
+  id: string
+  enabled: boolean
+  name: string
+}
+
+export interface GetSmartAppListResponse extends Omit<EmitterEventPayload, 'payload'> {
+  payload: {
+    status: STATUS
+    errorCode?: string | null
+    smartappList: SmartAppListEntry[],
+  }
+}
