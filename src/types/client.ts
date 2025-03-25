@@ -95,3 +95,7 @@ export interface GetSmartAppListResponse extends Omit<EmitterEventPayload, 'payl
     smartappList: SmartAppListEntry[],
   }
 }
+
+export interface CookieItem {
+  value: string
+}

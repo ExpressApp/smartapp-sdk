@@ -20,6 +20,7 @@ import {
   searchCorporatePhonebook,
   searchLocalPhonebook,
   sendBotCommand,
+  setWebResourceCookies,
   subscribeClientEvents,
   unsubscribeClientEvents,
 } from './lib/client'
@@ -88,4 +89,5 @@ export {
   getLayoutType,
   cleanCache,
   getSmartAppList,
+  setWebResourceCookies,
 }

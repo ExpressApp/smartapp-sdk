@@ -39,6 +39,7 @@ export enum METHODS {
   CLEAN_CACHE = 'clean_cache',
   GET_APP_VISIBILITY = 'get_app_visibility',
   GET_SMARTAPP_LIST = 'get_smartapp_list',
+  SET_WEB_RESOURCE_COOKIES = 'set_web_resource_cookies',
 }
 
 export enum STATUS {
