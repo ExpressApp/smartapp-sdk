@@ -40,6 +40,7 @@ export enum METHODS {
   GET_APP_VISIBILITY = 'get_app_visibility',
   GET_SMARTAPP_LIST = 'get_smartapp_list',
   SET_WEB_RESOURCE_COOKIES = 'set_web_resource_cookies',
+  SET_ALLOWED_NAVIGATION_DOMAINS = 'set_allowed_navigation_domains',
 }
 
 export enum STATUS {

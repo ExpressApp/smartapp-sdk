@@ -20,6 +20,7 @@ import {
   searchCorporatePhonebook,
   searchLocalPhonebook,
   sendBotCommand,
+  setAllowedNavigationDomains,
   setWebResourceCookies,
   subscribeClientEvents,
   unsubscribeClientEvents,
@@ -90,4 +91,5 @@ export {
   cleanCache,
   getSmartAppList,
   setWebResourceCookies,
+  setAllowedNavigationDomains,
 }
