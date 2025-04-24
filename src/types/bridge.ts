@@ -41,6 +41,9 @@ export enum METHODS {
   GET_SMARTAPP_LIST = 'get_smartapp_list',
   SET_WEB_RESOURCE_COOKIES = 'set_web_resource_cookies',
   SET_ALLOWED_NAVIGATION_DOMAINS = 'set_allowed_navigation_domains',
+  GET_CREDENTIALS = 'get_credentials',
+  SET_CREDENTIALS = 'set_credentials',
+  RUN_WEB_COMMANDS_PIPELINE = 'run_web_commands_pipeline',
 }
 
 export enum STATUS {
@@ -127,9 +130,41 @@ export interface InitialDataMenuAction extends InitialData {
       body: string
       timestamp: number
       mentions: Array<MentionDataType>
-    },
-    files?: File[],
+    }
+    files?: File[]
   }
+}
+
+export type RuleDownload = {
+  action: 'download'
+  ruleMeta: {
+    contentType: string | null
+    fileSize: number | null
+    fileExt: Array<string> | null
+  }
+}
+
+export type RuleUpload = {
+  action: 'upload'
+  ruleMeta: {
+    contentType: string | null
+    fileSize: number | null
+    fileExt: Array<string> | null
+  }
+}
+
+export type RuleShare = {
+  action: 'share'
+  ruleMeta: {
+    contentType: string | null
+    fileSize: number | null
+    fileExt: Array<string> | null
+  }
+}
+
+export type RuleCopy = {
+  action: 'copy'
+  ruleMeta: {}
 }
 
 export type ReadyEventResponse =
@@ -147,6 +182,7 @@ export type ReadyEventResponse =
           | InitialDataPush
           | InitialDataDeeplink
           | InitialDataMenuAction
+        rules?: Array<RuleDownload | RuleUpload | RuleShare | RuleCopy>
       }
     }
   | undefined
