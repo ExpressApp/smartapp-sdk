@@ -20,8 +20,6 @@ import {
   searchCorporatePhonebook,
   searchLocalPhonebook,
   sendBotCommand,
-  setAllowedNavigationDomains,
-  setWebResourceCookies,
   subscribeClientEvents,
   unsubscribeClientEvents,
 } from './lib/client'
@@ -38,6 +36,13 @@ import {
 import { useQuery } from './lib/helpers/helpers'
 import { ready } from './lib/logging'
 import { onNotification } from './lib/notification'
+import {
+  getCredentials,
+  runWebCommandsPipeline,
+  setAllowedNavigationDomains,
+  setCredentials,
+  setWebResourceCookies,
+} from './lib/proxy'
 import {
   closeSmartApp,
   exitSmartAppToCatalog,
@@ -92,4 +97,7 @@ export {
   getSmartAppList,
   setWebResourceCookies,
   setAllowedNavigationDomains,
+  runWebCommandsPipeline,
+  getCredentials,
+  setCredentials,
 }
