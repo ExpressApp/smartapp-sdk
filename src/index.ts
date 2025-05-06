@@ -1,103 +1,12 @@
-import Bridge from '@expressms/smartapp-bridge'
-import {
-  cleanCache,
-  clientStorageClear,
-  clientStorageGet,
-  clientStorageRemove,
-  clientStorageSet,
-  createDeeplink,
-  getAppVisibility,
-  getChats,
-  getConnectionStatus,
-  getLayoutType,
-  getSmartAppList,
-  getUnreadCounter,
-  handleDeeplink,
-  openChatMessage,
-  openClientSettings,
-  openGroupChat,
-  requestLocation,
-  searchCorporatePhonebook,
-  searchLocalPhonebook,
-  sendBotCommand,
-  subscribeClientEvents,
-  unsubscribeClientEvents,
-} from './lib/client'
-import { openFile, uploadFile, uploadFiles } from './lib/client/file'
-import {
-  addContact,
-  createPersonalChat,
-  getContact,
-  openContactCard,
-  openPersonalChat,
-  requestSelfProfile,
-  sendMessage,
-} from './lib/contacts'
-import { useQuery } from './lib/helpers/helpers'
-import { ready } from './lib/logging'
-import { onNotification } from './lib/notification'
-import {
-  getCredentials,
-  runWebCommandsPipeline,
-  setAllowedNavigationDomains,
-  setCredentials,
-  setWebResourceCookies,
-} from './lib/proxy'
-import {
-  closeSmartApp,
-  exitSmartAppToCatalog,
-  onBackPressed,
-  onMoveToRoot,
-  openSmartApp,
-  routingChanged,
-} from './lib/routing'
+export * from './lib/client'
+export * from './lib/client/file'
+export * from './lib/contacts'
+export * from './lib/helpers/helpers'
+export * from './lib/logging'
+export * from './lib/notification'
+export * from './lib/routing'
+export * from './lib/proxy'
+export * from './lib/devices'
 
-export {
-  Bridge,
-  ready,
-  routingChanged,
-  onBackPressed,
-  addContact,
-  getContact,
-  createPersonalChat,
-  onNotification,
-  sendMessage,
-  openSmartApp,
-  openFile,
-  uploadFile,
-  uploadFiles,
-  exitSmartAppToCatalog,
-  useQuery,
-  openClientSettings,
-  getChats,
-  searchCorporatePhonebook,
-  sendBotCommand,
-  openGroupChat,
-  onMoveToRoot,
-  requestLocation,
-  openContactCard,
-  requestSelfProfile,
-  closeSmartApp,
-  getAppVisibility,
-  getConnectionStatus,
-  subscribeClientEvents,
-  unsubscribeClientEvents,
-  createDeeplink,
-  openChatMessage,
-  clientStorageGet,
-  clientStorageSet,
-  clientStorageRemove,
-  clientStorageClear,
-  openPersonalChat,
-  handleDeeplink,
-  searchLocalPhonebook,
-  getUnreadCounter,
-  getLayoutType,
-  cleanCache,
-  getSmartAppList,
-  setWebResourceCookies,
-  setAllowedNavigationDomains,
-  runWebCommandsPipeline,
-  getCredentials,
-  setCredentials,
-}
+import Bridge from '@expressms/smartapp-bridge'
+export { Bridge }

@@ -44,6 +44,13 @@ export enum METHODS {
   GET_CREDENTIALS = 'get_credentials',
   SET_CREDENTIALS = 'set_credentials',
   RUN_WEB_COMMANDS_PIPELINE = 'run_web_commands_pipeline',
+  ENABLE_BLUETOOTH = 'enable_bluetooth',
+  SCAN_BLE_DEVICES = 'scan_ble_devices',
+  CONNECT_BLE_DEVICE = 'connect_ble_device',
+  DISCONNECT_BLE_DEVICE = 'disconnect_ble_device',
+  DISCOVER_BLE_GATT_SERVICES = 'discover_ble_gatt_services',
+  READ_BLE_GATT_CHARACTERISTIC = 'read_ble_gatt_characteristic',
+  READ_NFC_TAG = 'read_nfc_tag',
 }
 
 export enum STATUS {
