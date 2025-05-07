@@ -67,13 +67,6 @@ const sendBotCommand = ({
   })
 }
 
-const requestLocation = () => {
-  return bridge?.sendClientEvent({
-    method: METHODS.REQUEST_LOCATION,
-    params: {},
-  })
-}
-
 /**
  * Get client current connection status. It's based on client's WebSocket connection state.
  * @returns Promise that'll be fullfilled with status data on success, otherwise rejected with reason
@@ -243,7 +236,6 @@ export {
   searchCorporatePhonebook,
   openGroupChat,
   sendBotCommand,
-  requestLocation,
   getConnectionStatus,
   createDeeplink,
   openChatMessage,
