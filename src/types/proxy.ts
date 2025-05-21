@@ -1,14 +1,17 @@
 import { EmitterEventPayload } from '@expressms/smartapp-bridge/build/main/types/eventEmitter'
 import { STATUS } from './bridge'
 
+export type CredentialsType = 'login_password' | 'cookie'
+
 export interface GetCredentialsResponse extends Omit<EmitterEventPayload, 'payload'> {
   payload: {
     status: STATUS
     errorCode?: string | null
-    credentials: {
+    credentials: Array<{
+      type: CredentialsType
       login: string
       password: string
-    }
+    }>
   }
 }
 
@@ -40,9 +43,7 @@ export interface WebCommandsJob {
   interval: number
   retryCount: number
   onSuccess: Array<WebCommandsJob>
-  onError: {
-    command: WebCommand
-  } | null
+  onError: Array<WebCommandsJob>
 }
 
 export type WebCommandsPipeline = Array<WebCommandsJob>
