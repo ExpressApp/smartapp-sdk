@@ -1,7 +1,7 @@
 import bridge from "@expressms/smartapp-bridge"
 import { METHODS } from "../../types"
 
-const onNotification = async (handleNotification: Function) => {
+export const onNotification = async (handleNotification: Function) => {
   const response = await bridge?.sendClientEvent({
     method: METHODS.NOTIFICATION,
     params: {},
@@ -13,8 +13,4 @@ const onNotification = async (handleNotification: Function) => {
       handleNotification(response)
     }
   })
-}
-
-export {
-  onNotification,
 }
