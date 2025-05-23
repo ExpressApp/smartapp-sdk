@@ -1,6 +1,6 @@
 import bridge from '@expressms/smartapp-bridge'
 import { CookieItem, ERROR_CODES, METHODS, StatusResponse } from '../../types'
-import { GetCredentialsResponse, WebCommandsPipeline } from '../../types/proxy'
+import { CredentialsType, GetCredentialsResponse, WebCommandsPipeline } from '../../types/proxy'
 
 /**
  * Set cookies for web resouce. It's needed for SSO auth cases.
@@ -40,7 +40,7 @@ export const setAllowedNavigationDomains = (domains: string[]): Promise<StatusRe
 }
 
 /**
- * DRAFT: Get saved credentials of web resource
+ * Get saved web resource credentials
  * @returns Promise that'll be fullfilled with credentials on success, otherwise rejected with reason
  */
 export const getCredentials = (): Promise<GetCredentialsResponse> => {
@@ -51,27 +51,55 @@ export const getCredentials = (): Promise<GetCredentialsResponse> => {
       method: METHODS.GET_CREDENTIALS,
       params: {},
       timeout: 10_000,
+      hide_recv_event_data: true,
     })
     .then(event => event as GetCredentialsResponse)
 }
 
 /**
- * DRAFT: Save credentials of web resource
+ * Save web resource credentials
  * @param login User login
  * @param password User pass
  * @returns Promise that'll be fullfilled with credentials on success, otherwise rejected with reason
  */
-export const setCredentials = ({ login, password }: { login: string; password: string }): Promise<StatusResponse> => {
+export const setCredentials = ({
+  login,
+  password,
+  type,
+}: {
+  login: string
+  password: string
+  type: CredentialsType
+}): Promise<StatusResponse> => {
   if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
 
   return bridge
     .sendClientEvent({
       method: METHODS.SET_CREDENTIALS,
       params: {
-        login,
-        password,
+        credentials: {
+          login,
+          password,
+          type,
+        },
       },
       timeout: 10_000,
+      hide_send_event_data: true,
+    })
+    .then(event => event as StatusResponse)
+}
+
+/**
+ * Delete web resource credentials
+ * @returns Promise that'll be fullfilled with credentials on success, otherwise rejected with reason
+ */
+export const deleteCredentials = (): Promise<StatusResponse> => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  return bridge
+    .sendClientEvent({
+      method: METHODS.DELETE_CREDENTIALS,
+      params: {},
     })
     .then(event => event as StatusResponse)
 }
@@ -91,6 +119,7 @@ export const runWebCommandsPipeline = (pipeline: WebCommandsPipeline): Promise<S
         pipeline,
       },
       timeout: 1000,
+      hide_send_event_data: true,
     })
     .then(event => event as StatusResponse)
 }

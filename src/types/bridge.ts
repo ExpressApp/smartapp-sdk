@@ -43,6 +43,7 @@ export enum METHODS {
   SET_ALLOWED_NAVIGATION_DOMAINS = 'set_allowed_navigation_domains',
   GET_CREDENTIALS = 'get_credentials',
   SET_CREDENTIALS = 'set_credentials',
+  DELETE_CREDENTIALS = 'delete_credentials',
   RUN_WEB_COMMANDS_PIPELINE = 'run_web_commands_pipeline',
   ENABLE_BLUETOOTH = 'enable_bluetooth',
   SCAN_BLE_DEVICES = 'scan_ble_devices',
