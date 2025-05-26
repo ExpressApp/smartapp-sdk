@@ -8,6 +8,7 @@ export type BluetoothErrorCode =
   | 'ble_device_not_connected'
   | 'ble_gatt_service_not_found'
   | 'ble_gatt_characteristic_not_found'
+  | 'not_enough_memory'
   | 'io_error'
   | 'error'
 
@@ -63,17 +64,11 @@ export interface BluetoothReadBleGattCharacteristicResponse extends EmitterEvent
   }
 }
 
-
 export type BleDeviceCallback = (device: BleDevice) => {}
 
-export type NfcErrorCode =
-  | 'permission_denied'
-  | 'nfc_not_found'
-  | 'nfc_write_error'
-  | 'cancelled_by_user'
-  | 'error'
+export type NfcErrorCode = 'permission_denied' | 'nfc_not_found' | 'nfc_write_error' | 'cancelled_by_user' | 'error'
 
-export type NfcMessage = {
+export type NfcReadMessage = {
   bytes: Array<number>
 }
 
@@ -83,7 +78,12 @@ export interface NfcReadTagResponse extends EmitterEventPayload {
     errorCode?: NfcErrorCode
     nfcTag: {
       id: string
-      messages: Array<NfcMessage>
+      messages: Array<NfcReadMessage>
     }
   }
+}
+
+export interface NfcWriteMessage {
+  mimeType: string
+  bytes: number[]
 }
