@@ -1,6 +1,6 @@
 {
   "name": "@expressms/smartapp-sdk",
-  "version": "1.12.0-alpha.13",
+  "version": "1.12.0-alpha.15",
   "description": "Smartapp SDK",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",

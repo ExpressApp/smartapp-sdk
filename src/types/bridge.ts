@@ -52,6 +52,7 @@ export enum METHODS {
   DISCOVER_BLE_GATT_SERVICES = 'discover_ble_gatt_services',
   READ_BLE_GATT_CHARACTERISTIC = 'read_ble_gatt_characteristic',
   READ_NFC_TAG = 'read_nfc_tag',
+  WRITE_NFC_TAG = 'write_nfc_tag',
 }
 
 export enum STATUS {
