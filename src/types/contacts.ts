@@ -27,7 +27,7 @@ interface RequestSelfProfilePayload extends EmitterEventPayload {
     description: string | null,
     otherPhone: string | null,
     ip_phone: string | null,
-    otherIpPhone: string | null,
+    position: string | null,
   }
 }
 
