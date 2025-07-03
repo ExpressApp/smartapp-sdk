@@ -9,7 +9,6 @@ const noop = (event: Event): boolean => {
 }
 
 export const disableCopy = () => {
-  document.addEventListener('selectstart', noop);
   document.addEventListener('contextmenu', noop);
   document.addEventListener('copy', noop)
 }
