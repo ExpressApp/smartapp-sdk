@@ -1,5 +1,5 @@
-import bridge from "@expressms/smartapp-bridge"
-import { LOCATION, METHODS } from '../../types'
+import bridge from '@expressms/smartapp-bridge'
+import { ERROR_CODES, LOCATION, METHODS, StatusResponse } from '../../types'
 
 export const routingChanged = (isRoot: boolean) => {
   return bridge?.sendClientEvent({
@@ -41,4 +41,23 @@ export const exitSmartAppToCatalog = () => {
     method: METHODS.OPEN_SMART_APP,
     params: { appId: '' },
   })
+}
+
+/**
+ * Switch on/off swipe navigation in WkWebView
+ * @param allowed Enable/disable navigation
+ */
+const allowSwipeNavigation = (allowed: boolean): Promise<StatusResponse> => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  return bridge
+    .sendClientEvent({
+      method: METHODS.ALLOW_IOS_SWIPE_NAVIGATION,
+      params: { allowed },
+    })
+    .then(event => event as StatusResponse)
+}
+
+export const iOS = {
+  allowSwipeNavigation,
 }

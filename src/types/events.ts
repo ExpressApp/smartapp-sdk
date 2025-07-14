@@ -4,6 +4,7 @@ export enum SubscriptionEventType {
   LAYOUT_TYPE = 'layout_type',
   APP_VISIBILITY = 'app_visibility',
   SMARTAPP_LIST = 'smartapp_list',
+  IOS_SWIPE = 'ios_swipe',
 }
 
 export type SubscriptionPayload = {
