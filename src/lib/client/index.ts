@@ -230,6 +230,23 @@ const getSmartAppList = (): Promise<GetSmartAppListResponse> => {
     .then(event => event as GetSmartAppListResponse)
 }
 
+/**
+ * Hide recieved data in logs
+ * @returns Promise that'll be fullfilled
+ */
+const hideRecievedData = (): Promise<StatusResponse> => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  bridge.hideRecvData()
+
+  return bridge
+    .sendClientEvent({
+      method: METHODS.HIDE_RECV_DATA,
+      params: {},
+    })
+    .then(event => event as StatusResponse)
+}
+
 export {
   openClientSettings,
   getChats,
@@ -246,4 +263,5 @@ export {
   cleanCache,
   getAppVisibility,
   getSmartAppList,
+  hideRecievedData,
 }

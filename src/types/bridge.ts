@@ -53,6 +53,8 @@ export enum METHODS {
   READ_BLE_GATT_CHARACTERISTIC = 'read_ble_gatt_characteristic',
   READ_NFC_TAG = 'read_nfc_tag',
   WRITE_NFC_TAG = 'write_nfc_tag',
+  ALLOW_IOS_SWIPE_NAVIGATION = 'allow_ios_swipe_navigation',
+  HIDE_RECV_DATA = 'hide_recv_data',
 }
 
 export enum STATUS {
