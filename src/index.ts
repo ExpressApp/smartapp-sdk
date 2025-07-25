@@ -7,6 +7,7 @@ export * from './lib/notification'
 export * from './lib/routing'
 export * from './lib/proxy'
 export * from './lib/devices'
-
 import Bridge from '@expressms/smartapp-bridge'
-export { Bridge }
+import * as ExpressDisk from './lib/express-disk'
+
+export { Bridge, ExpressDisk }
