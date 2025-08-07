@@ -55,6 +55,7 @@ export enum METHODS {
   WRITE_NFC_TAG = 'write_nfc_tag',
   ALLOW_IOS_SWIPE_NAVIGATION = 'allow_ios_swipe_navigation',
   HIDE_RECV_DATA = 'hide_recv_data',
+  GET_EXPRESS_DISK_AUTH_CODE = 'get_express_disk_auth_code',
 }
 
 export enum STATUS {
