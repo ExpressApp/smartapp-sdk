@@ -47,7 +47,7 @@ const installBridgeEventListener = () => {
  * @param callback Optional function to be handled when event is coming
  * @returns Promise that'll be fullfilled on successful subscription, otherwise rejected with reason
  */
-const subscribeClientEvents = ({
+export const subscribeClientEvents = ({
   eventType,
   payload,
   callback,
@@ -94,7 +94,7 @@ const subscribeClientEvents = ({
  * @param callback Function to be unsibscribed
  * @returns Promise that'll be fullfilled on successful unsubscription, otherwise rejected with reason
  */
-const unsubscribeClientEvents = ({
+export const unsubscribeClientEvents = ({
   eventType,
   payload,
   callback,
@@ -124,5 +124,3 @@ const unsubscribeClientEvents = ({
     })
     .then((event) => event as StatusResponse)
 }
-
-export { subscribeClientEvents, unsubscribeClientEvents }
