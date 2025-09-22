@@ -7,7 +7,9 @@ export enum SubscriptionEventType {
   IOS_SWIPE = 'ios_swipe',
 }
 
+export type SubscriptionPayloadType = 'user' | 'chat' | 'smartapp'
+
 export type SubscriptionPayload = {
-  type: 'user' | 'chat' | 'smartapp'
+  type: SubscriptionPayloadType
   id: string
 }
