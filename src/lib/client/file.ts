@@ -2,6 +2,7 @@ import bridge from '@expressms/smartapp-bridge'
 import {
   ERROR_CODES,
   File,
+  FILE_MEDIA_QUALITY,
   METHODS,
   StatusResponse,
   UploadFilesTypeResponse,
@@ -31,14 +32,17 @@ const openFile = async (file: File): Promise<StatusResponse> => {
  * Upload single file with client
  * @param mimeType Mime type of allowed files
  * @param maxSize Max file size in bytes
+ * @param mediaQuality File media quality (For example: low mediaQuality - high compression ratio on client)
  * @returns Promise that'll be fullfilled with file metadata on success, otherwise rejected with reason
  */
 const uploadFile = async ({
   mimeType,
   maxSize,
+  mediaQuality,
 }: {
   mimeType: string
   maxSize?: number
+  mediaQuality?: FILE_MEDIA_QUALITY | null
 }): Promise<UploadFileTypeResponse> => {
   if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
 
@@ -47,6 +51,7 @@ const uploadFile = async ({
     params: {
       type: mimeType,
       maxSize,
+      mediaQuality,
     },
     timeout: FILE_LOAD_TIMEOUT,
   })
@@ -59,16 +64,19 @@ const uploadFile = async ({
  * @param mimeType Mime type of allowed files
  * @param maxSize Max file size in bytes
  * @param totalSize Total files size in bytes
+ * @param mediaQuality File media quality (For example: low mediaQuality - high compression ratio on client)
  * @returns Promise that'll be fullfilled with files metadata on success, otherwise rejected with reason
  */
 const uploadFiles = async ({
   mimeType,
   maxSize,
   totalSize,
+  mediaQuality,
 }: {
   mimeType: string
   maxSize?: number,
   totalSize?: number,
+  mediaQuality?: FILE_MEDIA_QUALITY | null
 }): Promise<UploadFilesTypeResponse> => {
   if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
 
@@ -78,6 +86,7 @@ const uploadFiles = async ({
       type: mimeType,
       maxSize,
       totalSize,
+      mediaQuality,
     },
     timeout: FILE_LOAD_TIMEOUT,
   })
