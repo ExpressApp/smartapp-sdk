@@ -195,6 +195,7 @@ export type ReadyEventResponse =
           | InitialDataDeeplink
           | InitialDataMenuAction
         rules?: Array<RuleDownload | RuleUpload | RuleShare | RuleCopy>
+        isPinned?: boolean
       }
     }
   | undefined
