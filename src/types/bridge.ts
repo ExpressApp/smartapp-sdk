@@ -56,6 +56,7 @@ export enum METHODS {
   ALLOW_IOS_SWIPE_NAVIGATION = 'allow_ios_swipe_navigation',
   HIDE_RECV_DATA = 'hide_recv_data',
   GET_EXPRESS_DISK_AUTH_CODE = 'get_express_disk_auth_code',
+  GET_NFC_STATUS = 'get_nfc_status',
 }
 
 export enum STATUS {

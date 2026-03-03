@@ -1,5 +1,5 @@
 import bridge from '@expressms/smartapp-bridge'
-import { ERROR_CODES, METHODS, NfcReadTagResponse, NfcWriteMessage, StatusResponse } from '../../types'
+import { ERROR_CODES, METHODS, NfcReadTagResponse, NfcStatusResponse, NfcWriteMessage, StatusResponse } from '../../types'
 
 /**
  * Read NFC tag
@@ -32,4 +32,19 @@ export const writeTag = (messages: Array<NfcWriteMessage>): Promise<StatusRespon
       },
     })
     .then(event => event as StatusResponse)
+}
+
+/**
+ * Check NFC reader status
+ * @returns Promise that'll be fullfilled on success, otherwise rejected with reason
+ */
+export const getStatus = (): Promise<NfcStatusResponse> => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  return bridge
+    .sendClientEvent({
+      method: METHODS.GET_NFC_STATUS,
+      params: {},
+    })
+    .then(event => event as NfcStatusResponse)
 }
