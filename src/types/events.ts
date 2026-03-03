@@ -13,3 +13,10 @@ export type SubscriptionPayload = {
   type: SubscriptionPayloadType
   id: string
 }
+
+export enum FILE_MEDIA_QUALITY {
+  LOW = 'low',
+  MEDIUM = 'medium',
+  HIGH = 'high',
+  ORIGINAL = 'original',
+}
