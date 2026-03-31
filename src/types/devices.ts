@@ -87,3 +87,12 @@ export interface NfcWriteMessage {
   mimeType: string
   bytes: number[]
 }
+
+export interface NfcStatusResponse extends Omit<EmitterEventPayload, 'payload'> {
+  payload: {
+    status: STATUS
+    errorCode?: NfcErrorCode
+    nfcEnabled: boolean
+    nfcAvailable: boolean
+  }
+}

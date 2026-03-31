@@ -66,4 +66,33 @@ describe('devices:nfc', () => {
       await expect(writeTag([] as never)).rejects.toBe(ERROR_CODES.NO_BRIDGE)
     })
   })
+
+  describe('getStatus', () => {
+    it('success response', async () => {
+      const response = { ref: 'nfc-status', payload: { status: STATUS.SUCCESS, nfcEnabled: true } }
+      const sendClientEventMock = vi.fn().mockResolvedValue(response)
+
+      vi.doMock('@expressms/smartapp-bridge', () => ({
+        default: { sendClientEvent: sendClientEventMock },
+      }))
+
+      const { getStatus } = await import('./nfc')
+
+      const result = await getStatus()
+
+      expect(sendClientEventMock).toHaveBeenCalledTimes(1)
+      expect(sendClientEventMock).toHaveBeenCalledWith({
+        method: METHODS.GET_NFC_STATUS,
+        params: {},
+      })
+      expect(result).toBe(response)
+    })
+
+    it('no bridge', async () => {
+      vi.doMock('@expressms/smartapp-bridge', () => ({ default: undefined }))
+
+      const { getStatus } = await import('./nfc')
+      await expect(getStatus()).rejects.toBe(ERROR_CODES.NO_BRIDGE)
+    })
+  })
 })
