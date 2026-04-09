@@ -148,6 +148,13 @@ export interface InitialDataMenuAction extends InitialData {
   }
 }
 
+export interface InitialDataLink extends InitialData {
+  initiator: 'link_regex'
+  meta: {
+    url: string
+  }
+}
+
 export type RuleDownload = {
   action: 'download'
   ruleMeta: {
@@ -195,6 +202,7 @@ export type ReadyEventResponse =
           | InitialDataPush
           | InitialDataDeeplink
           | InitialDataMenuAction
+          | InitialDataLink
         rules?: Array<RuleDownload | RuleUpload | RuleShare | RuleCopy>
         isPinned?: boolean
       }
