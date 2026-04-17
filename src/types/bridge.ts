@@ -205,6 +205,7 @@ export type ReadyEventResponse =
           | InitialDataLink
         rules?: Array<RuleDownload | RuleUpload | RuleShare | RuleCopy>
         isPinned?: boolean
+        toolbarVisible?: boolean
       }
     }
   | undefined
