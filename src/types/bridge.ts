@@ -57,6 +57,7 @@ export enum METHODS {
   HIDE_RECV_DATA = 'hide_recv_data',
   GET_EXPRESS_DISK_AUTH_CODE = 'get_express_disk_auth_code',
   GET_NFC_STATUS = 'get_nfc_status',
+  OPEN_CLIENT_CONTACTS = 'open_client_contacts',
 }
 
 export enum STATUS {
