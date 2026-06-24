@@ -156,6 +156,18 @@ export interface InitialDataLink extends InitialData {
   }
 }
 
+export interface InitialSupportRequest extends InitialData {
+  initiator: 'support_request'
+  meta: {
+    bot_huid: string
+    app_id: string
+    app_name: string
+    app_version: string
+    request_timestamp: string
+    files?: Array<File>
+  }
+}
+
 export type RuleDownload = {
   action: 'download'
   ruleMeta: {
@@ -204,6 +216,7 @@ export type ReadyEventResponse =
           | InitialDataDeeplink
           | InitialDataMenuAction
           | InitialDataLink
+          | InitialSupportRequest
         rules?: Array<RuleDownload | RuleUpload | RuleShare | RuleCopy>
         isPinned?: boolean
         toolbarVisible?: boolean
