@@ -15,6 +15,7 @@ import {
 } from '../../types'
 export * from './events'
 export * from './storage'
+export * from './file'
 
 const openClientSettings = () => {
   return bridge?.sendClientEvent({
@@ -247,6 +248,22 @@ const hideRecievedData = (): Promise<StatusResponse> => {
     .then(event => event as StatusResponse)
 }
 
+/**
+ * Open contacts page on client
+ * @returns Promise that'll be fullfilled
+ */
+const openClientContacts = (): Promise<StatusResponse> => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  return bridge
+    .sendClientEvent({
+      method: METHODS.OPEN_CLIENT_CONTACTS,
+      params: {},
+    })
+    .then(event => event as StatusResponse)
+}
+
+
 export {
   openClientSettings,
   getChats,
@@ -264,4 +281,5 @@ export {
   getAppVisibility,
   getSmartAppList,
   hideRecievedData,
+  openClientContacts,
 }

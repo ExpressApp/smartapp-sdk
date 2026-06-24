@@ -1,5 +1,4 @@
 export * from './lib/client'
-export * from './lib/client/file'
 export * from './lib/contacts'
 export * from './lib/helpers/helpers'
 export * from './lib/logging'
