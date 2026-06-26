@@ -58,6 +58,7 @@ export enum METHODS {
   GET_EXPRESS_DISK_AUTH_CODE = 'get_express_disk_auth_code',
   GET_NFC_STATUS = 'get_nfc_status',
   OPEN_CLIENT_CONTACTS = 'open_client_contacts',
+  ALLOW_IOS_PINCH_TO_ZOOM = 'allow_ios_pinch_to_zoom',
 }
 
 export enum STATUS {
@@ -87,21 +88,21 @@ export interface InitialDataProfileAction extends InitialData {
   meta: {
     action: string
     profile: {
-      user_huid: string
+      userHuid: string
       name: string
       avatar?: string
-      avatar_preview?: string
+      avatarPreview?: string
       company?: string
-      company_position?: string
+      companyPosition?: string
       department?: string
       office?: string
       manager?: string
-      manager_huid?: string
+      managerHuid?: string
       email?: string
       description?: string
-      other_phone?: string
-      ip_phone?: string
-      other_ip_phone?: string
+      otherPhone?: string
+      ipPhone?: string
+      otherIpPhone?: string
     }
   }
 }
@@ -132,12 +133,12 @@ export interface InitialDataMenuAction extends InitialData {
   meta: {
     action: string
     sender: {
-      user_huid: string
+      userHuid: string
       name: string
       avatar?: string
-      avatar_preview?: string
+      avatarPreview?: string
       company?: string
-      company_position?: string
+      companyPosition?: string
       email?: string
     }
     message: {
@@ -159,11 +160,11 @@ export interface InitialDataLink extends InitialData {
 export interface InitialSupportRequest extends InitialData {
   initiator: 'support_request'
   meta: {
-    bot_huid: string
-    app_id: string
-    app_name: string
-    app_version: string
-    request_timestamp: string
+    botHuid: string
+    appId: string
+    appName: string
+    appVersion: string
+    requestTimestamp?: string
     files?: Array<File>
   }
 }

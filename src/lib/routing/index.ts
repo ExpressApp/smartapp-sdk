@@ -58,6 +58,22 @@ const allowSwipeNavigation = (allowed: boolean): Promise<StatusResponse> => {
     .then(event => event as StatusResponse)
 }
 
+/**
+ * Switch on/off pinch-to-zoom in WkWebView
+ * @param allowed Enable/disable pinch-to-zoom
+ */
+const allowPinchToZoom = (allowed: boolean): Promise<StatusResponse> => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  return bridge
+    .sendClientEvent({
+      method: METHODS.ALLOW_IOS_PINCH_TO_ZOOM,
+      params: { allowed },
+    })
+    .then(event => event as StatusResponse)
+}
+
 export const iOS = {
   allowSwipeNavigation,
+  allowPinchToZoom,
 }
