@@ -31,10 +31,27 @@ const getChats = ({ filter = null }: { filter: string | null }) => {
   })
 }
 
-const searchCorporatePhonebook = ({ filter = null, exactMatch }: { filter: string | null; exactMatch?: boolean }) => {
-  return bridge?.sendClientEvent({
+/**
+ * Search corporate users on server and local cache.
+ * @param filter Query string
+ * @param exactMatch Determine fuzzyness of search results
+ * @param searchFields Fields to search, available: public_name, name, company, company_position, office, department, manager, description, ad_login, email
+ * @returns Promise that'll be fullfilled with search results, otherwise rejected with reason
+ */
+const searchCorporatePhonebook = ({
+  filter = null,
+  exactMatch,
+  searchFields = undefined,
+}: {
+  filter: string | null
+  exactMatch?: boolean
+  searchFields?: string[]
+}) => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  return bridge.sendClientEvent({
     method: METHODS.SEARCH_CORPORATE_PHONEBOOK,
-    params: { filter, exactMatch },
+    params: { filter, exactMatch, searchFields },
   })
 }
 
@@ -262,7 +279,6 @@ const openClientContacts = (): Promise<StatusResponse> => {
     })
     .then(event => event as StatusResponse)
 }
-
 
 export {
   openClientSettings,
