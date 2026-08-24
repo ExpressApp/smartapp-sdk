@@ -47,3 +47,17 @@ export interface WebCommandsJob {
 }
 
 export type WebCommandsPipeline = Array<WebCommandsJob>
+
+export enum ADMIN_SERVICE_AUTH_ERROR_CODES {
+  UNAUTHORIZED = 'admin_service_unauthorized',
+  UNAVAILABLE = 'admin_service_unavailable',
+  NETWORK_ERROR = 'network_error',
+  TIMEOUT = 'timeout',
+}
+
+export interface RequestAdminServiceAuthResponse extends Omit<EmitterEventPayload, 'payload'> {
+  payload: {
+    status: STATUS
+    errorCode?: ADMIN_SERVICE_AUTH_ERROR_CODES | null
+  }
+}

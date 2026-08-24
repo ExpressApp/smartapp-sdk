@@ -1,6 +1,11 @@
 import bridge from '@expressms/smartapp-bridge'
 import { CookieItem, ERROR_CODES, METHODS, StatusResponse } from '../../types'
-import { CredentialsType, GetCredentialsResponse, WebCommandsPipeline } from '../../types/proxy'
+import {
+  CredentialsType,
+  GetCredentialsResponse,
+  RequestAdminServiceAuthResponse,
+  WebCommandsPipeline,
+} from '../../types/proxy'
 
 /**
  * Set cookies for web resouce. It's needed for SSO auth cases.
@@ -102,6 +107,23 @@ export const deleteCredentials = (): Promise<StatusResponse> => {
       params: {},
     })
     .then(event => event as StatusResponse)
+}
+
+/**
+ * Request admin service auth for web resource
+ * @returns Promise that'll be fullfilled with `payload.status` on success, otherwise rejected with reason
+ */
+export const requestAdminServiceAuth = (): Promise<RequestAdminServiceAuthResponse> => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  return bridge
+    .sendClientEvent({
+      method: METHODS.REQUEST_ADMIN_SERVICE_AUTH,
+      params: {},
+      timeout: 10_000,
+      hide_recv_event_data: true,
+    })
+    .then(event => event as RequestAdminServiceAuthResponse)
 }
 
 /**
