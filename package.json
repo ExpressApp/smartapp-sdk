@@ -1,6 +1,6 @@
 {
   "name": "@expressms/smartapp-sdk",
-  "version": "1.14.0",
+  "version": "1.15.0-alpha.2",
   "description": "Smartapp SDK",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -16,13 +16,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:ExpressApp/smartapp-sdk.git"
+    "url": "git+https://github.com/ExpressApp/smartapp-sdk.git"
   },
   "engines": {
     "node": ">=10"
   },
   "author": "",
   "license": "ISC",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.1.0",
     "@rollup/plugin-json": "^4.1.0",

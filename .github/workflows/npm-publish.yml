@@ -5,20 +5,29 @@ on:
     types: [created]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  id-token: write  # Required for npm provenance (Trusted Publishing)
+
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 24
+          cache: 'yarn'
           registry-url: https://registry.npmjs.org/
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
       - name: Build package
-        run: yarn install && yarn build
-      - name: Publish package on NPM
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+        run: yarn build
+
+      - name: Publish package on NPM (Trusted Publishing)
+        run: npm publish --provenance --access public --tag $(node -p "const v=require('./package.json').version;v.includes('-')?v.match(/-(.+?)\./)[1]:'latest'")
