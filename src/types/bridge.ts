@@ -59,6 +59,7 @@ export enum METHODS {
   GET_NFC_STATUS = 'get_nfc_status',
   OPEN_CLIENT_CONTACTS = 'open_client_contacts',
   ALLOW_IOS_PINCH_TO_ZOOM = 'allow_ios_pinch_to_zoom',
+  REQUEST_ADMIN_SERVICE_AUTH = 'request_admin_service_auth',
 }
 
 export enum STATUS {
