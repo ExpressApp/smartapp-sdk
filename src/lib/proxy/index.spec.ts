@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { ERROR_CODES, METHODS, STATUS } from '../../types'
-import { WebCommandOpenUrl, WebCommandSearchElement } from '../../types/proxy'
+import { ADMIN_SERVICE_AUTH_ERROR_CODES, WebCommandOpenUrl, WebCommandSearchElement } from '../../types/proxy'
 
 describe('proxy', () => {
   beforeEach(() => {
@@ -200,6 +200,85 @@ describe('proxy', () => {
       vi.doMock('@expressms/smartapp-bridge', () => ({ default: undefined }))
       const { runWebCommandsPipeline } = await import('./index')
       await expect(runWebCommandsPipeline([])).rejects.toBe(ERROR_CODES.NO_BRIDGE)
+    })
+  })
+
+  describe('requestAdminServiceAuth', () => {
+    it('success response', async () => {
+      const response = { ref: 'proxy-admin-service-auth', payload: { status: STATUS.SUCCESS, host: 'cts.example.com' } }
+      const sendClientEventMock = vi.fn().mockResolvedValue(response)
+
+      vi.doMock('@expressms/smartapp-bridge', () => ({
+        default: { sendClientEvent: sendClientEventMock },
+      }))
+
+      const { requestAdminServiceAuth } = await import('./index')
+
+      const result = await requestAdminServiceAuth()
+
+      expect(sendClientEventMock).toHaveBeenCalledTimes(1)
+      expect(sendClientEventMock).toHaveBeenCalledWith({
+        method: METHODS.REQUEST_ADMIN_SERVICE_AUTH,
+        params: {},
+        timeout: 10_000,
+        hide_recv_event_data: true,
+      })
+      expect(result).toBe(response)
+      expect(result.payload.host).toBe('cts.example.com')
+    })
+
+    it('error response', async () => {
+      const response = {
+        ref: 'proxy-admin-service-auth-error',
+        payload: { status: STATUS.ERROR, errorCode: ADMIN_SERVICE_AUTH_ERROR_CODES.UNAUTHORIZED },
+      }
+      const sendClientEventMock = vi.fn().mockResolvedValue(response)
+
+      vi.doMock('@expressms/smartapp-bridge', () => ({
+        default: { sendClientEvent: sendClientEventMock },
+      }))
+
+      const { requestAdminServiceAuth } = await import('./index')
+
+      const result = await requestAdminServiceAuth()
+
+      expect(result.payload.errorCode).toBe(ADMIN_SERVICE_AUTH_ERROR_CODES.UNAUTHORIZED)
+    })
+
+    it('unsupported platform response', async () => {
+      const response = {
+        ref: 'proxy-admin-service-auth-web',
+        payload: { status: STATUS.ERROR, errorCode: ADMIN_SERVICE_AUTH_ERROR_CODES.UNSUPPORTED_PLATFORM },
+      }
+      const sendClientEventMock = vi.fn().mockResolvedValue(response)
+
+      vi.doMock('@expressms/smartapp-bridge', () => ({
+        default: { sendClientEvent: sendClientEventMock },
+      }))
+
+      const { requestAdminServiceAuth } = await import('./index')
+
+      const result = await requestAdminServiceAuth()
+
+      expect(result.payload.errorCode).toBe('unsupported_platform')
+    })
+
+    it('rejects when the client does not reply in time', async () => {
+      const sendClientEventMock = vi.fn().mockRejectedValue(undefined)
+
+      vi.doMock('@expressms/smartapp-bridge', () => ({
+        default: { sendClientEvent: sendClientEventMock },
+      }))
+
+      const { requestAdminServiceAuth } = await import('./index')
+
+      await expect(requestAdminServiceAuth()).rejects.toBeUndefined()
+    })
+
+    it('no bridge', async () => {
+      vi.doMock('@expressms/smartapp-bridge', () => ({ default: undefined }))
+      const { requestAdminServiceAuth } = await import('./index')
+      await expect(requestAdminServiceAuth()).rejects.toBe(ERROR_CODES.NO_BRIDGE)
     })
   })
 })
