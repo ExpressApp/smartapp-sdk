@@ -23,6 +23,8 @@ export enum METHODS {
   OPEN_FILE = 'open_file',
   UPLOAD_FILE = 'upload_file',
   UPLOAD_FILES = 'upload_files',
+  FILE_DOWNLOAD_START = 'file_download_start',
+  FILE_DOWNLOAD_STOP = 'file_download_stop',
   SUBSCRIBE_CLIENT_EVENTS = 'subscribe_client_events',
   UNSUBSCRIBE_CLIENT_EVENTS = 'unsubscribe_client_events',
   GET_CONNECTION_STATUS = 'get_connection_status',

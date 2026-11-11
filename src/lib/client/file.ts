@@ -3,6 +3,7 @@ import {
   ERROR_CODES,
   File,
   FILE_MEDIA_QUALITY,
+  FileDownloadTypeResponse,
   METHODS,
   StatusResponse,
   UploadFilesTypeResponse,
@@ -94,4 +95,46 @@ const uploadFiles = async ({
   return response as UploadFilesTypeResponse
 }
 
-export { openFile, uploadFile, uploadFiles }
+/**
+ * Download and save single file to the external storage (Downloads) in background.
+ * Unlike `openFile` there is no file component, the file isn't opened after download
+ * and the promise is fulfilled only when the download and the export to the storage are finished.
+ * Download progress (in bytes) can be received with `subscribeClientEvents`
+ * by `SubscriptionEventType.FILE_DOWNLOAD_PROGRESS`, events are distinguished by `fileId`.
+ * @param file File data to be downloaded
+ * @returns Promise that'll be fullfilled with success status on download completion,
+ * otherwise fulfilled with error status and one of `errorCode`
+ * (see `FILE_DOWNLOAD_ERROR_CODE`) or rejected with reason
+ */
+const fileDownloadStart = async (file: File): Promise<FileDownloadTypeResponse> => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  const response = await bridge.sendClientEvent({
+    method: METHODS.FILE_DOWNLOAD_START,
+    params: file,
+    timeout: FILE_LOAD_TIMEOUT,
+  })
+
+  return response as FileDownloadTypeResponse
+}
+
+/**
+ * Stop file download started by `fileDownloadStart`.
+ * Download progress is not affected: unsubscribe from `file_download_progress` to stop receiving it.
+ * @param fileId Identifier of the file which download should be stopped
+ * @returns Promise that'll be fullfilled with success status on successful stop,
+ * otherwise fulfilled with error status and `errorCode` (see `FILE_DOWNLOAD_ERROR_CODE`)
+ * or rejected with reason
+ */
+const fileDownloadStop = async ({ fileId }: { fileId: string }): Promise<FileDownloadTypeResponse> => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  const response = await bridge.sendClientEvent({
+    method: METHODS.FILE_DOWNLOAD_STOP,
+    params: { fileId },
+  })
+
+  return response as FileDownloadTypeResponse
+}
+
+export { openFile, uploadFile, uploadFiles, fileDownloadStart, fileDownloadStop }
