@@ -5,6 +5,7 @@ export enum SubscriptionEventType {
   APP_VISIBILITY = 'app_visibility',
   SMARTAPP_LIST = 'smartapp_list',
   IOS_SWIPE = 'ios_swipe',
+  FILE_DOWNLOAD_PROGRESS = 'file_download_progress',
 }
 
 export type SubscriptionPayloadType = 'user' | 'chat' | 'smartapp'
