@@ -1,6 +1,11 @@
 import bridge from '@expressms/smartapp-bridge'
 import { CookieItem, ERROR_CODES, METHODS, StatusResponse } from '../../types'
-import { CredentialsType, GetCredentialsResponse, WebCommandsPipeline } from '../../types/proxy'
+import {
+  CredentialsType,
+  GetCredentialsResponse,
+  RequestAdminServiceAuthResponse,
+  WebCommandsPipeline,
+} from '../../types/proxy'
 
 /**
  * Set cookies for web resouce. It's needed for SSO auth cases.
@@ -102,6 +107,28 @@ export const deleteCredentials = (): Promise<StatusResponse> => {
       params: {},
     })
     .then(event => event as StatusResponse)
+}
+
+/**
+ * Request a session for the server admin panel. The client sets the session cookie for the panel API
+ * of the CTS returned in `payload.host`. Supported by the desktop client only, the web client replies
+ * with `unsupported_platform`
+ * @returns Promise that'll be fullfilled with `payload.status` and `payload.host` on success, or with
+ * `payload.status` and `payload.errorCode` when the client could not issue the session. Rejected with
+ * `no_bridge` without the bridge and with no reason when the client does not reply within 10 seconds,
+ * e.g. a client without this method
+ */
+export const requestAdminServiceAuth = (): Promise<RequestAdminServiceAuthResponse> => {
+  if (!bridge) return Promise.reject(ERROR_CODES.NO_BRIDGE)
+
+  return bridge
+    .sendClientEvent({
+      method: METHODS.REQUEST_ADMIN_SERVICE_AUTH,
+      params: {},
+      timeout: 10_000,
+      hide_recv_event_data: true,
+    })
+    .then(event => event as RequestAdminServiceAuthResponse)
 }
 
 /**
